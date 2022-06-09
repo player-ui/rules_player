@@ -1,0 +1,102 @@
+version: 2.1
+
+executors:
+  base:
+    docker:
+      - image: docker.io/sugarmanz/bazel-common
+    working_directory: ~/rules_player
+    resource_class: large
+    environment:
+      TZ: "/usr/share/zoneinfo/America/Los_Angeles"
+
+jobs:
+  install:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            # Find a cache corresponding to this specific package.json checksum
+            # when this file is changed, this key will fail
+            - rules_player-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+            - rules_player-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - rules_player-{{ .Branch }}
+            # Find the most recent cache used from any branch
+            - rules_player-main
+            - rules_player-
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          key: rules_player-{{ .Branch }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+          paths:
+            - node_modules
+            - ~/.cache/yarn
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  checkLabels:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/rules_player
+      - run:
+          name: Check SemVer label
+          command: yarn auto pr-check --url $CIRCLE_BUILD_URL
+
+  build:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/rules_player
+      - run:
+          name: Build
+          command: bazel sync
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/rules_player
+      - run:
+          name: Test
+          command: ./scripts/test.sh
+
+  release:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/rules_player
+      - run: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+      - run:
+          name: Release
+          command: yarn auto shipit -vv
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - install
+
+      - checkLabels:
+          requires:
+            - install
+
+      - build:
+          requires:
+            - install
+
+      - test:
+          requires:
+            - build
+
+      - release:
+          requires:
+            - test
+            - lint
