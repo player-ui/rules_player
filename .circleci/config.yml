@@ -11,7 +11,7 @@ executors:
 
 jobs:
   install:
-    <<: *defaults
+    executor: base
     steps:
       - checkout
       - restore_cache:
@@ -38,7 +38,7 @@ jobs:
             - .
 
   checkLabels:
-    <<: *defaults
+    executor: base
     steps:
       - attach_workspace:
           at: ~/rules_player
@@ -47,7 +47,7 @@ jobs:
           command: yarn auto pr-check --url $CIRCLE_BUILD_URL
 
   build:
-    <<: *defaults
+    executor: base
     steps:
       - attach_workspace:
           at: ~/rules_player
@@ -60,7 +60,7 @@ jobs:
             - .
 
   test:
-    <<: *defaults
+    executor: base
     steps:
       - attach_workspace:
           at: ~/rules_player
@@ -69,7 +69,7 @@ jobs:
           command: ./scripts/test.sh
 
   release:
-    <<: *defaults
+    executor: base
     steps:
       - attach_workspace:
           at: ~/rules_player
