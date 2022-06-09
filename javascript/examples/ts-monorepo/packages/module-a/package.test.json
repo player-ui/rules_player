@@ -1,0 +1,10 @@
+{
+  "name": "@test/module-a",
+  "peerDependencies": {
+    "typescript": "^4.5.2"
+  },
+  "dependencies": {},
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts"
+}

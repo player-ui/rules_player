@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "@babel/eslint-parser": "^7.15.8",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-typescript": "^7.16.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "babel-jest": "^27.4.0",
+    "esbuild": "^0.14.0",
+    "eslint": "^8.3.0",
+    "eslint-plugin-jest": "^25.2.2",
+    "jest": "^27.4.0",
+    "rollup": "^2.60.1",
+    "rollup-plugin-dts": "^4.0.1",
+    "rollup-plugin-esbuild": "^4.7.2",
+    "rollup-plugin-styles": "^4.0.0",
+    "typescript": "^4.5.2"
+  },
+  "volta": {
+    "node": "14.18.3"
+  }
+}

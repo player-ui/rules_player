@@ -1,0 +1,11 @@
+{
+  "name": "@test/module-b",
+  "peerDependencies": {},
+  "dependencies": {
+    "@test/module-a": "0.0.0-PLACEHOLDER"
+  },
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
+  "bin": "dist/cli.js"
+}
