@@ -28,7 +28,7 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 git_repository(
     name = "player_common",
     branch = "main",
-    remote = "https://github.intuit.com/player/bazel-common",
+    remote = "https://github.com/player-ui/rules_player",
 )
 ```
 

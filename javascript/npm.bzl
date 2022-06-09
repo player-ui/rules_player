@@ -13,16 +13,3 @@ def publish_npm(name, version, bundle):
         },
         validate = False,
     )
-
-    # assemble_npm(
-    #     name = "assemble_npm",
-    #     target = "pkg_npm",
-    #     version_file = version,
-    # )
-
-    # deploy_npm(
-    #     name = "deploy_npm",
-    #     target = "assemble_npm",
-    #     release = "https://registry.npmjs.intuit.com",
-    #     snapshot = "https://registry.npmjs.intuit.com",
-    # )
