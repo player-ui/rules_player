@@ -100,3 +100,4 @@ workflows:
           requires:
             - test
             - build
+            - checkLabels

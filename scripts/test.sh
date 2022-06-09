@@ -6,7 +6,7 @@ function runtest(){
   ROOT=$(pwd)
   testDir=$1
   cd $testDir
-  bazel clean
+  bazel clean --async
   bazel test //...
   bazel clean
   cd $ROOT
