@@ -1,7 +1,7 @@
 {
   "name": "rules_player",
   "private": true,
-  "version": "1.2.0",
+  "version": "0.0.0",
   "description": "Common bazel rules for Player projects",
   "main": "index.js",
   "author": "Adam Dierkens <Adam_Dierkens@intuit.com>",

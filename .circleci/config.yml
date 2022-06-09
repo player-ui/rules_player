@@ -99,4 +99,4 @@ workflows:
       - release:
           requires:
             - test
-            - lint
+            - build
