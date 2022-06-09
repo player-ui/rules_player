@@ -11,6 +11,8 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@auto-it/git-tag": "^10.37.1",
+    "@auto-it/released": "^10.37.1",
     "auto": "^10.37.1"
   }
 }

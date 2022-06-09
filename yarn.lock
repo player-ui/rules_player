@@ -52,6 +52,15 @@
     typescript-memoize "^1.0.0-alpha.3"
     url-join "^4.0.0"
 
+"@auto-it/git-tag@^10.37.1":
+  version "10.37.1"
+  resolved "https://registry.yarnpkg.com/@auto-it/git-tag/-/git-tag-10.37.1.tgz#998c158ae98b5f5891ff905a134698ee7e80b27d"
+  integrity sha512-kVNtpPdl0i/8caMQM2uhYp099jsD6kDAmzCvB7ibjfQIJtYRB3tUV54EZsT6tYszKnYcqdMpRVOJKTNDdBmJug==
+  dependencies:
+    "@auto-it/core" "10.37.1"
+    semver "^7.0.0"
+    tslib "2.1.0"
+
 "@auto-it/npm@10.37.1":
   version "10.37.1"
   resolved "https://registry.yarnpkg.com/@auto-it/npm/-/npm-10.37.1.tgz#5996e212479a0fd5772329a54b6b500fde3615fc"
@@ -80,7 +89,7 @@
     parse-author "^2.0.0"
     parse-github-url "1.0.2"
 
-"@auto-it/released@10.37.1":
+"@auto-it/released@10.37.1", "@auto-it/released@^10.37.1":
   version "10.37.1"
   resolved "https://registry.yarnpkg.com/@auto-it/released/-/released-10.37.1.tgz#9f68e5debb001c67fccfdae6966c0806f82ec3c0"
   integrity sha512-2Ma+nd1FWIufPeP40mVJ6M7KlQPtI6M5sPKq4nyhBjiNUH0DbhhwnS4QOf7vrbrF3z94bcx2FnqKPP8+suwOLg==
