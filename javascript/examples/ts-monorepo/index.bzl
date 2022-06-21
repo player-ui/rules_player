@@ -1,4 +1,4 @@
-load("@player-ui_rules_player//:index.bzl", _js_library_pipeline = "js_library_pipeline")
+load("@rules_player//:index.bzl", _js_library_pipeline = "js_library_pipeline")
 
 DATA = []
 TEST_DATA = [

@@ -35,13 +35,13 @@ git_repository(
 Load the dependent libraries
 
 ```python
-load("@player-ui_rules_player//:workspace.bzl", "deps")
+load("@rules_player//:workspace.bzl", "deps")
 deps()
 ```
 Setup the libraries that we just loaded
 
 ```python
-load("@player-ui_rules_player//:conf.bzl", "javascript")
+load("@rules_player//:conf.bzl", "javascript")
 
 javascript()
 ```

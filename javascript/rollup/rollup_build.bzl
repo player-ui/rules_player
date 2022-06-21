@@ -1,7 +1,7 @@
 load("@bazel_skylib//lib:paths.bzl", "paths")
 load("@build_bazel_rules_nodejs//:providers.bzl", "JSModuleInfo", "node_modules_aspect", "run_node")
 load("@build_bazel_rules_nodejs//internal/linker:link_node_modules.bzl", "module_mappings_aspect")
-load("@player-ui_rules_player//javascript:utils.bzl", "get_dep_files", "get_path_mappings")
+load("@rules_player//javascript:utils.bzl", "get_dep_files", "get_path_mappings")
 
 ROLLUP_ATTRS = {
     # Dependencies needed to build the pkg

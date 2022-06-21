@@ -1,6 +1,6 @@
 load("@build_bazel_rules_nodejs//:providers.bzl", "node_modules_aspect", "run_node", "NODE_CONTEXT_ATTRS", "NodeContextInfo")
 load("@build_bazel_rules_nodejs//internal/linker:link_node_modules.bzl", "module_mappings_aspect")
-load("@player-ui_rules_player//javascript:utils.bzl", "get_dep_files")
+load("@rules_player//javascript:utils.bzl", "get_dep_files")
 
 NEXT_ATTRS = dict(NODE_CONTEXT_ATTRS, **{
     # Dependencies needed to build the pkg

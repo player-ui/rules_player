@@ -7,7 +7,7 @@ https://bazelbuild.github.io/rules_kotlin/kotlin.html
 ### Loading default rules
 
 ```python
-load("@player-ui_rules_player//:workspace.bzl", "deps")
+load("@rules_player//:workspace.bzl", "deps")
 deps()
 ```
 
@@ -18,7 +18,7 @@ By default, the workspace declaration is configured to work with Player modules.
 `$baseUrl/$tag/$name`
 
 ```python
-load("@player-ui_rules_player//kotlin:workspace.bzl", "kotlin")
+load("@rules_player//kotlin:workspace.bzl", "kotlin")
 kotlin(
     tag = "v1.5.0",
     sha256 = "12d22a3d9cbcf00f2e2d8f0683ba87d3823cb8c7f6837568dd7e48846e023307",
@@ -29,13 +29,13 @@ kotlin(
 ### Loading rules from GIT repository
 
 ```python
-load("@player-ui_rules_player//kotlin:workspace.bzl", "kotlin_repository")
+load("@rules_player//kotlin:workspace.bzl", "kotlin_repository")
 kotlin_repository(
     remote = "https://github.com/bazelbuild/rules_kotlin.git",
     branch = "master",
 )
 
-load("@player-ui_rules_player//kotlin:repository.bzl", "archive")
+load("@rules_player//kotlin:repository.bzl", "archive")
 archive()
 ```
 
@@ -47,7 +47,7 @@ https://github.com/bazelbuild/rules_kotlin#workspace
 ## Configure Kotlin repositories
 
 ```python
-load("@player-ui_rules_player//kotlin:conf.bzl", kotlin_conf = "kotlin")
+load("@rules_player//kotlin:conf.bzl", kotlin_conf = "kotlin")
 kotlin_conf()
 ```
 
@@ -63,6 +63,6 @@ kt_register_toolchains()
 ## Using JUnit 5
 
 ```python
-load("@player-ui_rules_player//junit5:conf.bzl", "junit5")
+load("@rules_player//junit5:conf.bzl", "junit5")
 junit5()
 ```

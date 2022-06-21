@@ -1,5 +1,5 @@
 workspace(
-    name = "player-ui_rules_player",
+    name = "rules_player",
     managed_directories = {
         "@npm": ["node_modules"],
     },
@@ -48,14 +48,14 @@ load("@io_bazel_rules_kotlin//kotlin:core.bzl", "kt_register_toolchains")
 
 kt_register_toolchains()
 
-load("@player-ui_rules_player//junit5:conf.bzl", "junit5")
+load("@rules_player//junit5:conf.bzl", "junit5")
 
 junit5()
 
 ######################
 # Maven Dependencies #
 ######################
-load("@player-ui_rules_player//distribution:deps.bzl", artifacts = "maven")
+load("@rules_player//distribution:deps.bzl", artifacts = "maven")
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
 maven_install(
