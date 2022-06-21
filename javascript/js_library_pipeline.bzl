@@ -4,7 +4,7 @@ load("@build_bazel_rules_nodejs//:index.bzl", "js_library")
 load("@npm//jest-cli:index.bzl", "jest_test")
 load("@npm//eslint:index.bzl", "eslint_test")
 load(":npm.bzl", "publish_npm")
-load(":utils.bzl", "filter_empty")
+load(":utils.bzl", "filter_empty", "without_tests", "remove_duplicates", "include_exts")
 
 BUILD_DATA = [
     "@npm//rollup-plugin-dts",
@@ -14,34 +14,6 @@ BUILD_DATA = [
 ]
 
 PLACEHOLDER_VERSION = "0.0.0-PLACEHOLDER"
-
-def is_test_file(file, test_file_pattern):
-    for p in test_file_pattern:
-        if p in file:
-            return True
-    return False
-
-def filter_false(arr):
-    filtered = []
-    for f in arr:
-        if f:
-            filtered.append(f)
-
-    return filtered
-
-def include_exts(files, file_patterns):
-    return filter_false([f if is_test_file(f, file_patterns) else None for f in files])
-
-def without_tests(files, test_file_pattern):
-    return filter_false([f if not is_test_file(f, test_file_pattern) else None for f in files])
-
-def remove_duplicates(data):
-    filtered = []
-    for d in data:
-        if d in filtered:
-            continue
-        filtered.append(d)
-    return filtered
 
 def js_library_pipeline(
         name,
@@ -89,7 +61,7 @@ def js_library_pipeline(
         root_package_json = root_package_json,
     )
 
-    all_build_data = filter_empty(data + BUILD_DATA + build_data + dependencies + peer_dependencies + [":%s" % create_package_json_name, ts_config] + typings)
+    all_build_data = remove_duplicates(filter_empty(data + BUILD_DATA + build_data + dependencies + peer_dependencies + [":%s" % create_package_json_name, ts_config] + typings))
 
     if not build_label:
         rollup_build(
@@ -122,11 +94,11 @@ def js_library_pipeline(
         name = name,
         srcs = without_tests(srcs, test_file_pattern),
         package_name = name,
-        deps = filter_empty([
+        deps = remove_duplicates(filter_empty([
             ":%s" % create_package_json_name,
             ":%s" % js_build_name,
             (":%s" % js_bin_build_name) if bin_entry else None,
-        ] + dependencies + peer_dependencies + js_library_data),
+        ] + dependencies + peer_dependencies + js_library_data)),
     )
 
     eslint_test(
@@ -150,7 +122,7 @@ def js_library_pipeline(
             "--ci",
             "--colors",
         ],
-        data = filter_empty([jest_config] + data + test_data + dependencies + peer_dependencies + srcs),
+        data = remove_duplicates(filter_empty([jest_config] + data + test_data + dependencies + peer_dependencies + srcs)),
     )
 
     publish_npm(
