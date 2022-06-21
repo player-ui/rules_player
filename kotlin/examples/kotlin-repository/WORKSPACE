@@ -1,22 +1,22 @@
 local_repository(
-    name = "player-ui_rules_player",
+    name = "rules_player",
     path = "../../..",
 )
 
-load("@player-ui_rules_player//kotlin:workspace.bzl", "kotlin_repository")
+load("@rules_player//kotlin:workspace.bzl", "kotlin_repository")
 kotlin_repository(
     remote = "https://github.com/bazelbuild/rules_kotlin.git",
     branch = "master",
 )
 
-load("@player-ui_rules_player//kotlin:repository.bzl", "archive")
+load("@rules_player//kotlin:repository.bzl", "archive")
 archive()
 
-load("@player-ui_rules_player//kotlin:conf.bzl", kotlin_conf = "kotlin")
+load("@rules_player//kotlin:conf.bzl", kotlin_conf = "kotlin")
 kotlin_conf()
 
 load("@io_bazel_rules_kotlin//kotlin:core.bzl", "kt_register_toolchains")
 kt_register_toolchains()
 
-load("@player-ui_rules_player//junit5:conf.bzl", junit5 = "junit5")
+load("@rules_player//junit5:conf.bzl", junit5 = "junit5")
 junit5()

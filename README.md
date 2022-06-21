@@ -1,6 +1,7 @@
 # rules_player
 
 This repository contains all of the common Bazel definitions for building Player polyglot repositories.
+While these rules are _mostly_ generic and may be suitable for other use-cases, our primary goal is to enable the Player repo and plugin builds — rules and implementations may change to support that. 
 
 > This repo takes inspiration from the following:
 >
@@ -16,7 +17,7 @@ Add the following to you `WORKSPACE` to setup `player_common` for consumption:
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 git_repository(
-    name = "player-ui_rules_player",
+    name = "rules_player",
     remote = "https://github.com/player-ui/rules_player",
     branch = "main",
 )
@@ -26,18 +27,18 @@ Then, for most cases, you can add all ruleset declarations by executing the `dep
 
 ```python
 # Load all Player common ruleset definitions
-load("@player-ui_rules_player//:workspace.bzl", "deps")
+load("@rules_player//:workspace.bzl", "deps")
 deps()
 
 # Configure specific toolchain with common properties
-load("@player-ui_rules_player//kotlin:conf.bzl", "kotlin")
+load("@rules_player//kotlin:conf.bzl", "kotlin")
 kotlin()
 ```
 
 If you don't want to add all common ruleset declarations, adding ruleset declarations can be done on a 1-by-1 basis:
 
 ```python
-load("@player-ui_rules_player//kotlin:workspace.bzl", kotlin_deps = "kotlin")
+load("@rules_player//kotlin:workspace.bzl", kotlin_deps = "kotlin")
 kotlin_deps()
 ```
 
