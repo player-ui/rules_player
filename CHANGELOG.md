@@ -1,3 +1,15 @@
+# v0.0.3 (Fri Jun 24 2022)
+
+#### ⚠️ Pushed to `main`
+
+- update kotlin rules sha checksum ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.0.2 (Tue Jun 21 2022)
 
 ### Release Notes
