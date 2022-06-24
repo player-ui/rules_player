@@ -6,7 +6,7 @@ load("//internal:maybe.bzl", "maybe")
 # Load Kotlin rules from remote artifact
 def kotlin(
     tag = "v1.5.0-sugarmanz", 
-    sha256 = "fa2e5f42e914369b31cfdf1e2d16485de131b7207a92c45bfcb43c68efd3be05",
+    sha256 = "2d73b4f4343f3dfe6658a25b5751f2f6330c39f4ec23182d266174fa6bbd3192",
     name = "rules_kotlin_release.tgz",
     baseUrl = "https://github.com/sugarmanz/rules_kotlin/releases/download",
 ):
