@@ -5,10 +5,10 @@ load("//internal:maybe.bzl", "maybe")
 
 # Load Kotlin rules from remote artifact
 def kotlin(
-    tag = "v1.5.0-sugarmanz", 
-    sha256 = "fa2e5f42e914369b31cfdf1e2d16485de131b7207a92c45bfcb43c68efd3be05",
+    tag = "v1.6.0", 
+    sha256 = "a57591404423a52bd6b18ebba7979e8cd2243534736c5c94d35c89718ea38f94",
     name = "rules_kotlin_release.tgz",
-    baseUrl = "https://github.com/sugarmanz/rules_kotlin/releases/download",
+    baseUrl = "https://github.com/bazelbuild/rules_kotlin/releases/download",
 ):
     maybe(
         http_archive,
