@@ -1,5 +1,6 @@
 load("@io_bazel_rules_kotlin//kotlin:jvm.bzl", "kt_jvm_library")
 load("@junit//junit5-jupiter-starter-bazel:junit5.bzl", "kt_jvm_junit5_test")
+load("//internal:scope_name.bzl", "scope_name")
 
 # No project specific defaults here
 def kt_jvm_library_and_test(
@@ -60,7 +61,7 @@ def kt_jvm_library_and_test(
 
     if len(test_srcs) != 0:
         kt_jvm_junit5_test(
-            name = "%s-test" % name,
+            name = scope_name(name, "test"),
             srcs = test_srcs,
             resources = test_resources,
             resource_jars = test_resource_jars,

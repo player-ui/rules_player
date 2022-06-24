@@ -1,4 +1,5 @@
 load("@io_bazel_rules_kotlin//kotlin:lint.bzl", "ktlint_fix", "ktlint_test")
+load("//internal:scope_name.bzl", "scope_name")
 
 def lint(
         *,
@@ -8,13 +9,13 @@ def lint(
         lint_config,
 ):
     ktlint_test(
-        name = "%s-lint" % name,
+        name = scope_name(name, "lint"),
         srcs = srcs,
         config = lint_config,
     )
 
     ktlint_fix(
-        name = "%s-lint-fix" % name,
+        name = scope_name(name, "lint-fix"),
         srcs = srcs,
         config = lint_config,
     )
