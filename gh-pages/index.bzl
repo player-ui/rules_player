@@ -2,7 +2,7 @@ load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary", "nodejs_test", "n
 
 def gh_pages(repo, gh_name = 'intuit-svc', gh_email = 'opensource-svc@intuit.com', source_dir="src", branch = "main", **kwargs):
   nodejs_binary(
-    entry_point = "//gh-pages:gh-pages.js",
+    entry_point = "@rules_player//gh-pages:gh-pages.js",
     data = [
       "@npm//gh-pages",
       "//:VERSION"
