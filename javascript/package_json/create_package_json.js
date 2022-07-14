@@ -50,6 +50,7 @@ const main = ([config]) => {
 
   fs.writeFileSync(output_file, JSON.stringify({
     name,
+    version: placeholder_version,
     peerDependencies: createDependencyObject(peer_dependencies),
     dependencies: createDependencyObject(dependencies),
     main: path.join(out_dir, 'index.cjs.js'),
