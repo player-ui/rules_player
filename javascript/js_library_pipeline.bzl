@@ -1,9 +1,8 @@
 load("//javascript/package_json:package_json.bzl", "create_package_json")
 load("//javascript/rollup:rollup_build.bzl", "rollup_bin_build", "rollup_build")
-load("@build_bazel_rules_nodejs//:index.bzl", "js_library")
+load("@build_bazel_rules_nodejs//:index.bzl", "js_library", "pkg_npm")
 load("@npm//jest-cli:index.bzl", "jest_test")
 load("@npm//eslint:index.bzl", "eslint_test")
-load(":npm.bzl", "publish_npm")
 load(":utils.bzl", "filter_empty", "without_tests", "remove_duplicates", "include_exts")
 
 BUILD_DATA = [
@@ -125,8 +124,14 @@ def js_library_pipeline(
         data = remove_duplicates(filter_empty([jest_config] + data + test_data + dependencies + peer_dependencies + srcs)),
     )
 
-    publish_npm(
-        name = "%s-publish",
-        version = version_file,
-        bundle = [":%s" % name],
+    pkg_npm(
+        name = "pkg_npm",
+        package_name = name,
+        deps = [":%s" % name],
+        substitutions = {
+            "__VERSION__": "{STABLE_VERSION}",
+            "0.0.0-PLACEHOLDER": "{STABLE_VERSION}",
+            "__GIT_COMMIT__": "{STABLE_GIT_COMMIT}",
+        },
+        validate = False,
     )
