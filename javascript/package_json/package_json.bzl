@@ -20,6 +20,9 @@ PACKGE_JSON_ATTRS = {
     # The name for a bin entry
     "bin_name": attr.string(),
 
+    # If the package should skipped being published to npm
+    "private": attr.bool(default = False),
+
     # A .json file to use to add additional properties to the generated package.
     # This can often be a 'package.json' and the entries/outputs/dependencies will be filled in later on
     "base_package_json": attr.label(allow_single_file = ["*.json"]),
@@ -96,6 +99,7 @@ def _create_package_json_impl(ctx):
             "peer_dependencies": [_get_pkg_name(dep) for dep in ctx.attr.peer_dependencies],
             "dependencies": [_get_pkg_name(dep) for dep in ctx.attr.dependencies],
             "local_deps": local_deps,
+            "private": ctx.attr.private,
         })],
         executable = "_create_pkg_json",
     )

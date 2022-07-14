@@ -36,6 +36,7 @@ def js_library_pipeline(
         version_file = "//:VERSION",
         root_package_json = "//:package.json",
         typings = [],
+        private = False,
         test_file_pattern = [
             "_tests_",
             ".test.",
@@ -51,6 +52,7 @@ def js_library_pipeline(
         name = create_package_json_name,
         package_name = name,
         entry = entry,
+        private = private,
         bin_entry = bin_entry,
         bin_name = bin_name,
         out_dir = out_dir,
@@ -128,6 +130,9 @@ def js_library_pipeline(
         name = "pkg_npm",
         package_name = name,
         deps = [":%s" % name],
+        tags = filter_empty([
+            "do-not-publish" if private else None
+        ]),
         substitutions = {
             "__VERSION__": "{STABLE_VERSION}",
             "0.0.0-PLACEHOLDER": "{STABLE_VERSION}",

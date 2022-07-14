@@ -15,7 +15,8 @@ const main = ([config]) => {
     root_package_json,
     base_package_json,
     additional_properties,
-    out_dir
+    out_dir,
+    private
   } = JSON.parse(config);
   
   const rootPackageJson = JSON.parse(fs.readFileSync(root_package_json, 'utf-8'));
@@ -51,6 +52,7 @@ const main = ([config]) => {
   fs.writeFileSync(output_file, JSON.stringify({
     name,
     version: placeholder_version,
+    private,
     peerDependencies: createDependencyObject(peer_dependencies),
     dependencies: createDependencyObject(dependencies),
     main: path.join(out_dir, 'index.cjs.js'),
