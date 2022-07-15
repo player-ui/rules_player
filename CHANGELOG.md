@@ -1,3 +1,25 @@
+# v0.2.0 (Fri Jul 15 2022)
+
+### Release Notes
+
+#### Add better support for publishing npm packages ([#6](https://github.com/player-ui/rules_player/pull/6))
+
+* Adds support for `registry` in the `js_pipeline`
+* Adds `private` flag to omit publishing a package to `npm`
+* Fixes version substitutions
+
+---
+
+#### 🚀 Enhancement
+
+- Add better support for publishing npm packages [#6](https://github.com/player-ui/rules_player/pull/6) ([@adierkens](https://github.com/adierkens))
+
+#### Authors: 1
+
+- Adam Dierkens ([@adierkens](https://github.com/adierkens))
+
+---
+
 # v0.1.0 (Wed Jul 13 2022)
 
 ### Release Notes
