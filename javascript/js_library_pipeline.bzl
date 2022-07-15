@@ -31,7 +31,6 @@ def js_library_pipeline(
         lint_data = [],
         lint_exts = [".ts", ".js", ".tsx", ".jsx"],
         js_library_data = [],
-        publish_data = [],
         test_env = {},
         placeholder_version = PLACEHOLDER_VERSION,
         registry = "https://registry.npmjs.org",
@@ -133,7 +132,6 @@ def js_library_pipeline(
         name = "pkg_npm",
         package_name = name,
         deps = [":%s" % name],
-        data = publish_data,
         tags = filter_empty([
             "do-not-publish" if private else None
         ]),
