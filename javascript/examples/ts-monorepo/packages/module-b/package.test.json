@@ -1,5 +1,10 @@
 {
   "name": "@test/module-b",
+  "version": "0.0.0-PLACEHOLDER",
+  "private": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "peerDependencies": {},
   "dependencies": {
     "@test/module-a": "0.0.0-PLACEHOLDER"

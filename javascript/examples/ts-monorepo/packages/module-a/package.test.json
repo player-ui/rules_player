@@ -1,5 +1,10 @@
 {
   "name": "@test/module-a",
+  "version": "0.0.0-PLACEHOLDER",
+  "private": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "peerDependencies": {
     "typescript": "^4.5.2"
   },
