@@ -16,6 +16,7 @@ const main = ([config]) => {
     base_package_json,
     additional_properties,
     out_dir,
+    registry,
     private
   } = JSON.parse(config);
   
@@ -49,10 +50,19 @@ const main = ([config]) => {
     }
   }
 
+  let publishConfig = undefined;
+
+  if (registry) {
+    publishConfig = {
+      "registry": registry,
+    }
+  }
+
   fs.writeFileSync(output_file, JSON.stringify({
     name,
     version: placeholder_version,
     private,
+    publishConfig,
     peerDependencies: createDependencyObject(peer_dependencies),
     dependencies: createDependencyObject(dependencies),
     main: path.join(out_dir, 'index.cjs.js'),
