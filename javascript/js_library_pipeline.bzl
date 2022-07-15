@@ -1,9 +1,8 @@
 load("//javascript/package_json:package_json.bzl", "create_package_json")
 load("//javascript/rollup:rollup_build.bzl", "rollup_bin_build", "rollup_build")
-load("@build_bazel_rules_nodejs//:index.bzl", "js_library")
+load("@build_bazel_rules_nodejs//:index.bzl", "js_library", "pkg_npm")
 load("@npm//jest-cli:index.bzl", "jest_test")
 load("@npm//eslint:index.bzl", "eslint_test")
-load(":npm.bzl", "publish_npm")
 load(":utils.bzl", "filter_empty", "without_tests", "remove_duplicates", "include_exts")
 
 BUILD_DATA = [
@@ -34,9 +33,11 @@ def js_library_pipeline(
         js_library_data = [],
         test_env = {},
         placeholder_version = PLACEHOLDER_VERSION,
+        registry = "https://registry.npmjs.org",
         version_file = "//:VERSION",
         root_package_json = "//:package.json",
         typings = [],
+        private = False,
         test_file_pattern = [
             "_tests_",
             ".test.",
@@ -52,9 +53,11 @@ def js_library_pipeline(
         name = create_package_json_name,
         package_name = name,
         entry = entry,
+        private = private,
         bin_entry = bin_entry,
         bin_name = bin_name,
         out_dir = out_dir,
+        registry = registry,
         placeholder_version = placeholder_version,
         dependencies = dependencies,
         peer_dependencies = peer_dependencies,
@@ -125,8 +128,17 @@ def js_library_pipeline(
         data = remove_duplicates(filter_empty([jest_config] + data + test_data + dependencies + peer_dependencies + srcs)),
     )
 
-    publish_npm(
-        name = "%s-publish",
-        version = version_file,
-        bundle = [":%s" % name],
+    pkg_npm(
+        name = "pkg_npm",
+        package_name = name,
+        deps = [":%s" % name],
+        tags = filter_empty([
+            "do-not-publish" if private else None
+        ]),
+        substitutions = {
+            "__VERSION__": "{STABLE_VERSION}",
+            "0.0.0-PLACEHOLDER": "{STABLE_VERSION}",
+            "__GIT_COMMIT__": "{STABLE_GIT_COMMIT}",
+        },
+        validate = False,
     )
