@@ -59,10 +59,11 @@ PACKGE_JSON_ATTRS = {
 
 def _get_pkg_name(dep):
     if LinkerPackageMappingInfo in dep:
-        for key, value in dep[LinkerPackageMappingInfo].mappings.items():
-            # key is of format "package_name:package_path"
-            package_name = key.split(":")[0]
+        mappings = dep[LinkerPackageMappingInfo].mappings.items()
+        if (len(mappings) > 0):
+            package_name = mappings[-1][0].split(":")[0]
             return package_name
+
     return dep.label.package
 
 def _create_package_json_impl(ctx):
