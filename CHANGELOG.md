@@ -1,3 +1,15 @@
+# v0.2.1 (Sun Jul 17 2022)
+
+#### 🐛 Bug Fix
+
+- Fix package name resolution for create_package_json [#8](https://github.com/player-ui/rules_player/pull/8) ([@adierkens](https://github.com/adierkens))
+
+#### Authors: 1
+
+- Adam Dierkens ([@adierkens](https://github.com/adierkens))
+
+---
+
 # v0.2.0 (Fri Jul 15 2022)
 
 ### Release Notes
