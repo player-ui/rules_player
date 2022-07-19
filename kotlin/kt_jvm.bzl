@@ -22,6 +22,7 @@ def kt_jvm(
         project_description = None,
         project_url = None,
         scm_url = None,
+        developers = None,
         workspace_refs = None,
 
         # Package level config
@@ -89,10 +90,11 @@ def kt_jvm(
         version_file: (optional) file containing version string
 
         # Distribution target config
-        project_name: (optional) project name
-        project_description: (optional) project description
-        project_url: (optional) project url
-        scm_url: (optional) project scm url
+        project_name: (optional) project name for POM
+        project_description: (optional) project description for POM
+        project_url: (optional) project url for POM
+        scm_url: (optional) project scm url for POM
+        developers: (optional) developers for POM
         workspace_refs: (optional) refs used to track dependencies
 
         # Package level config
@@ -176,5 +178,6 @@ def kt_jvm(
             project_description = project_description,
             project_url = project_url,
             scm_url = scm_url,
+            developers = developers,
             workspace_refs = workspace_refs,
         )
