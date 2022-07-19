@@ -6,6 +6,6 @@ def distribution():
         git_repository,
         name = "vaticle_bazel_distribution",
         remote = "https://github.com/sugarmanz/bazel-distribution",
-        commit = "bed14cb724933c3fe7a0480060be8c5020f43a26",
-        shallow_since = "1658265259 -0400"
+        commit = "79cc6c566b474e0a093fdbc4da2e79da17c7fdeb",
+        shallow_since = "1658273021 -0400"
     )
