@@ -32,7 +32,7 @@ done
 
 if [ -n "${STAGING-}" ]; then
   # Close and release staging repo
-  bazel run @rules_player//distribution:nexus-staging-cli -- --staging-id="${STAGING##*/}"
+  bazel run @rules_player//distribution:nexus-staging-cli -- "${@:2}" --staging-id="${STAGING##*/}"
 fi
 
 # Cleanup
