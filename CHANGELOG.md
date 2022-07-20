@@ -1,3 +1,33 @@
+# v0.4.0 (Wed Jul 20 2022)
+
+### Release Notes
+
+#### Scope naming for kt_jvm intermediate targets ([#3](https://github.com/player-ui/rules_player/pull/3))
+
+If the target name is the same as the local package name, the generated targets will omit the names. 
+
+### Regular scope naming strategy:
+```python
+
+#### broader maven publishing support ([#9](https://github.com/player-ui/rules_player/pull/9))
+
+- Maven Central compliant POM (`developers` tag)
+- Coordinate `deploy_maven` targets under a single staging repository
+- Allow for GPG passphrase
+
+---
+
+#### 🚀 Enhancement
+
+- Scope naming for kt_jvm intermediate targets [#3](https://github.com/player-ui/rules_player/pull/3) ([@sugarmanz](https://github.com/sugarmanz))
+- broader maven publishing support [#9](https://github.com/player-ui/rules_player/pull/9) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.3.0 (Wed Jul 20 2022)
 
 #### 🚀 Enhancement
