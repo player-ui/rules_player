@@ -4,6 +4,9 @@ set -u -e -o pipefail
 
 # First arg must be release type followed by any args to pass to the nexus-staging-cli, i.e. --package-group=com.example
 
+# Execute from the actual top level workspace
+cd $BUILD_WORKSPACE_DIRECTORY
+
 # Called by auto -- `release` for normal releases or `snapshot` for canary/next.
 readonly RELEASE_TYPE=${1}
 
