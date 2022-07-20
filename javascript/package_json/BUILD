@@ -6,3 +6,8 @@ nodejs_binary(
     name = "create_package_json",
     entry_point = "create_package_json.js",
 )
+
+nodejs_binary(
+    name = "merge_json",
+    entry_point = "merge_json.js",
+)

@@ -32,6 +32,7 @@ def js_library_pipeline(
         lint_exts = [".ts", ".js", ".tsx", ".jsx"],
         js_library_data = [],
         test_env = {},
+        create_package_json_opts = {},
         placeholder_version = PLACEHOLDER_VERSION,
         registry = "https://registry.npmjs.org",
         version_file = "//:VERSION",
@@ -62,6 +63,7 @@ def js_library_pipeline(
         dependencies = dependencies,
         peer_dependencies = peer_dependencies,
         root_package_json = root_package_json,
+        **create_package_json_opts
     )
 
     all_build_data = remove_duplicates(filter_empty(data + BUILD_DATA + build_data + dependencies + peer_dependencies + [":%s" % create_package_json_name, ts_config] + typings))
