@@ -1,4 +1,5 @@
 load("@vaticle_bazel_distribution//maven:rules.bzl", "assemble_maven", "deploy_maven")
+load("//internal:scope_name.bzl", "scope_name")
 
 def distribution(
         *,
@@ -17,7 +18,7 @@ def distribution(
 
         workspace_refs = None,
 ):
-    assemble_name = "%s-assemble" % name
+    assemble_name = scope_name(name, "assemble")
     assemble_maven(
         name = assemble_name,
         target = ":%s" % name,
@@ -31,7 +32,7 @@ def distribution(
     )
 
     deploy_maven(
-        name = "%s-deploy" % name,
+        name = scope_name(name, "deploy"),
         target = ":%s" % assemble_name,
         release = release_repo,
         snapshot = snapshot_repo,
