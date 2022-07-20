@@ -10,6 +10,7 @@ NEXT_ATTRS = dict(NODE_CONTEXT_ATTRS, **{
         allow_files = True,
     ),
     "env": attr.string_dict(),
+    "substitutions": attr.string_dict(),
     "srcs": attr.label_list(default = [], allow_files = True),
     "_next": attr.label(default = Label("//javascript/next:next_build"), executable = True, cfg = "host"),
 })
@@ -36,7 +37,9 @@ def _next_export(ctx):
             "--root-dir",
             ctx.label.package,
             "--out_dir",
-            next_dir.path
+            next_dir.path,
+            "--substitutions",
+            json.encode(ctx.attr.substitutions),
         ] + stamp_args,
         executable = "_next",
         mnemonic = "Next",
