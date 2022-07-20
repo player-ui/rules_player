@@ -10,8 +10,33 @@ main(process.argv.slice(2)).catch((err) => {
   process.exitCode = 1;
 });
 
+async function handleSubstitutions(folderOrFile, substitutions) {
+  if (Object.keys(substitutions).length === 0) {
+    return;
+  }
+
+  if (await fse.statSync(folderOrFile).isDirectory()) {
+    const files = await fse.readdir(folderOrFile);
+    for (const file of files) {
+      await handleSubstitutions(path.join(folderOrFile, file), substitutions);
+    }
+
+    return;
+  }
+
+  let contents = await fse.readFile(folderOrFile, 'utf-8');
+  for (const key in substitutions) {
+    const value = substitutions[key];
+    contents = contents.replace(new RegExp(key, 'g'), value);
+  }
+
+  await fse.writeFile(folderOrFile, contents);
+}
+
 async function main(argv) {
-  const [_1, srcDir, _2, outDir, _3, statusFile] = argv;
+  const [_1, srcDir, _2, outDir, _3, sub, _4, statusFile, ] = argv;
+
+  const substitutions = JSON.parse(sub);
 
   if (statusFile) {
     (await fse.readFile(statusFile, 'utf-8')).split('\n').forEach(line => {
@@ -19,6 +44,13 @@ async function main(argv) {
       const varName = line.substring(0, firstSpace);
       const varVal = line.substring(firstSpace + 1);
       process.env[varName] = varVal;
+
+      // Swap out anything referencing the stamped file with the actual value
+      Object.keys(substitutions).forEach(key => {
+        if (substitutions[key] === varName) {
+          substitutions[key] = varVal;
+        }
+      });
     })
   }
 
@@ -35,4 +67,6 @@ async function main(argv) {
   await fse.move(path.join(rootDir, 'out'), distDir, {
     overwrite: true
   });
+
+  await handleSubstitutions(distDir, substitutions);
 }
