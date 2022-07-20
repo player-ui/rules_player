@@ -1,3 +1,15 @@
+# v0.3.0 (Wed Jul 20 2022)
+
+#### 🚀 Enhancement
+
+- Add stamp substitution support for nextjs docs [#10](https://github.com/player-ui/rules_player/pull/10) ([@adierkens](https://github.com/adierkens))
+
+#### Authors: 1
+
+- Adam Dierkens ([@adierkens](https://github.com/adierkens))
+
+---
+
 # v0.2.1 (Sun Jul 17 2022)
 
 #### 🐛 Bug Fix
