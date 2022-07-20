@@ -1,3 +1,15 @@
+# v0.4.1 (Wed Jul 20 2022)
+
+#### ⚠️ Pushed to `main`
+
+- propagate args for closing staging repo ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.4.0 (Wed Jul 20 2022)
 
 ### Release Notes
