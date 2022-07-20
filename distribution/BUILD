@@ -9,3 +9,8 @@ kt_jvm_binary(
     main_class = "com.intuit.player.rules.distribution.NexusStagingCliKt",
     deps = parse_coordinates(staging_cli),
 )
+
+sh_binary(
+  name = "staged-maven-deploy",
+  srcs = [":staged-maven-deploy.sh"]
+)
