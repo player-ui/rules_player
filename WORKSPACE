@@ -64,6 +64,7 @@ maven_install(
     repositories = [
         "https://repo1.maven.org/maven2",
         "https://maven.google.com/",
+        "https://plugins.gradle.org/m2/",
     ],
 )
 

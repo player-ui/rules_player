@@ -13,6 +13,7 @@ def distribution(
         project_description = None,
         project_url = None,
         scm_url = None,
+        developers = None,
 
         workspace_refs = None,
 ):
@@ -24,6 +25,7 @@ def distribution(
         project_description = project_description,
         project_url = project_url,
         scm_url = scm_url,
+        developers = developers,
         version_file = version_file,
         workspace_refs = workspace_refs,
     )
