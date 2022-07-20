@@ -2,8 +2,10 @@
 
 set -u -e -o pipefail
 
+# First arg must be release type followed by any args to pass to the nexus-staging-cli, i.e. --package-group=com.example
+
 # Called by auto -- `release` for normal releases or `snapshot` for canary/next.
-readonly RELEASE_TYPE=${1:-snapshot}
+readonly RELEASE_TYPE=${1}
 
 # TODO: It'd be really nice to encapsulate this into a rule -- but requires touching the workspace and during wildcard queries
 if [ "$RELEASE_TYPE" == "snapshot" ]; then
@@ -12,7 +14,7 @@ if [ "$RELEASE_TYPE" == "snapshot" ]; then
   echo -n -SNAPSHOT >> VERSION
 elif [ "$RELEASE_TYPE" == "release" ]; then
   # Prep staging repo
-  readonly STAGING=$(bazel run @rules_player//rules/distribution:nexus-staging-cli -- --package-group=com.jeremiahzucker)
+  readonly STAGING=$(bazel run @rules_player//distribution:nexus-staging-cli -- "${@:2}")
 fi
 
 # Find all the maven packages in the repo
@@ -27,7 +29,7 @@ done
 
 if [ -n "${STAGING-}" ]; then
   # Close and release staging repo
-  bazel run rules_player//rules/distribution:nexus-staging-cli -- --staging-id="${STAGING##*/}"
+  bazel run @rules_player//distribution:nexus-staging-cli -- --staging-id="${STAGING##*/}"
 fi
 
 # Cleanup
