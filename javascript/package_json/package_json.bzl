@@ -4,6 +4,7 @@ Module for generating a package_json based on a BUILD invocation
 
 load("@build_bazel_rules_nodejs//:providers.bzl", "node_modules_aspect", "run_node")
 load("@build_bazel_rules_nodejs//internal/linker:link_node_modules.bzl", "LinkerPackageMappingInfo", "module_mappings_aspect")
+load("@rules_player//javascript:utils.bzl", "filter_empty")
 
 _CREATE_PKG_JSON = Label("//javascript/package_json:create_package_json")
 
@@ -28,7 +29,7 @@ PACKGE_JSON_ATTRS = {
 
     # A .json file to use to add additional properties to the generated package.
     # This can often be a 'package.json' and the entries/outputs/dependencies will be filled in later on
-    "base_package_json": attr.label(allow_single_file = ["*.json"]),
+    "base_package_json": attr.label(allow_single_file = [".json"]),
 
     # A JSON string of additional things to add to the generated package.json
     # For when you don't want/have a template file to pull from
@@ -88,14 +89,14 @@ def _create_package_json_impl(ctx):
 
     run_node(
         ctx,
-        inputs = [ctx.file.root_package_json],
+        inputs = filter_empty([ctx.file.root_package_json, ctx.file.base_package_json]),
         outputs = [pkg_json],
         arguments = [json.encode({
             "name": ctx.attr.package_name,
             "bin_entry": bin_file_name,
             "bin_name": ctx.attr.bin_name,
             "root_package_json": ctx.file.root_package_json.path,
-            "base_package_json": ctx.file.base_package_json,
+            "base_package_json": ctx.file.base_package_json.path if ctx.file.base_package_json else None,
             "placeholder_version": ctx.attr.placeholder_version,
             "additional_properties": ctx.attr.additional_properties,
             "output_file": pkg_json.path,

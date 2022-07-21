@@ -70,3 +70,32 @@ The generation and precedence can be though of as:
   ...additional_properties
 }
 ```
+
+### create_contributors
+
+The `create_contributors` rule generates the `package.json` formatted contributors list from an `.all-contributorsrc` file
+
+```python
+load("@rules_player//javascript/package_json:index.bzl", "create_contributors")
+
+create_contributors(
+    name = "pkg_json_contrib",
+    all_contributors = "//:.all-contributorsrc",
+)
+```
+
+### merge_json
+
+The `merge_json` rule will merge together properties from multiple JSON files into one. This can be used as an input to the `base_package_json` attribute.
+
+```python 
+load("@rules_player//javascript/package_json:index.bzl", "merge_json")
+
+merge_json(
+    name = "pkg_json_template",
+    srcs = [
+        "package-template.json",
+        ":pkg_json_contrib",
+    ]
+)
+```
