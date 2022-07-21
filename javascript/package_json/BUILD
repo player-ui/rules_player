@@ -11,3 +11,8 @@ nodejs_binary(
     name = "merge_json",
     entry_point = "merge_json.js",
 )
+
+nodejs_binary(
+    name = "contributors",
+    entry_point = "contributors.js",
+)

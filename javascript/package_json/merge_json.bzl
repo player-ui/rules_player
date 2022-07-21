@@ -23,14 +23,15 @@ def _merge_json_impl(ctx):
         inputs = ctx.files.srcs,
         outputs = [merged_json],
         arguments = [json.encode({
-          "files": [f.path for f in ctx.files.srcs],
+          "output_file": merged_json.path,
+          "input_files": [f.path for f in ctx.files.srcs],
         })],
         executable = "_merge_json",
     )
 
     return [
         DefaultInfo(
-            files = depset([merge_json]),
+            files = depset([merged_json]),
         ),
     ]
 
