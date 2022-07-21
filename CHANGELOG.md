@@ -1,3 +1,46 @@
+# v0.5.0 (Thu Jul 21 2022)
+
+### Release Notes
+
+#### Better support for additional package.json attributes ([#11](https://github.com/player-ui/rules_player/pull/11))
+
+Adds new rules to the `package.json` creation pipeline:
+
+Adds `merge_json` rule to flatten multiple `json` files into one. This can be combined with the `base_package_json` attribute to create more dynamic package attributes. 
+
+Adds a `create_contributors` rule for generating the `contributors` section of a `package.json` from an `.all-contributorsrc`
+
+
+Example: 
+```python
+load("@rules_player//javascript/package_json:index.bzl", "merge_json", "create_contributors")
+
+create_contributors(
+    name = "pkg_json_contrib",
+    all_contributors = "//:.all-contributorsrc",
+)
+
+merge_json(
+    name = "pkg_json_template",
+    srcs = [
+        "package-template.json",
+        ":pkg_json_contrib",
+    ]
+)
+```
+
+---
+
+#### 🚀 Enhancement
+
+- Better support for additional package.json attributes [#11](https://github.com/player-ui/rules_player/pull/11) ([@adierkens](https://github.com/adierkens))
+
+#### Authors: 1
+
+- Adam Dierkens ([@adierkens](https://github.com/adierkens))
+
+---
+
 # v0.4.1 (Wed Jul 20 2022)
 
 #### ⚠️ Pushed to `main`
