@@ -1,3 +1,15 @@
+# v0.5.1 (Fri Jul 29 2022)
+
+#### 🐛 Bug Fix
+
+- flip ternary logic for templates [#12](https://github.com/player-ui/rules_player/pull/12) ([@hborawski](https://github.com/hborawski))
+
+#### Authors: 1
+
+- Harris Borawski ([@hborawski](https://github.com/hborawski))
+
+---
+
 # v0.5.0 (Thu Jul 21 2022)
 
 ### Release Notes
