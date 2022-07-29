@@ -140,7 +140,7 @@ def _pod_push_impl(ctx):
   commands = ctx.attr.executable.split(' ')
 
   ctx.actions.expand_template(
-    template = ctx.file._templateTrunk if ctx.attr.repository == None else ctx.file._templatePrivateRepo,
+    template = ctx.file._templatePrivateRepo if ctx.attr.repository else ctx.file._templateTrunk,
     output = output,
     is_executable = True,
     substitutions = {
