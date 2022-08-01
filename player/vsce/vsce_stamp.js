@@ -18,12 +18,15 @@ async function handleSubstitutions(folderOrFile, substitutions) {
   }
 
   let contents = await fs.promises.readFile(folderOrFile, "utf-8");
+  const originalContents = contents;
   for (const key in substitutions) {
     const value = substitutions[key];
     contents = contents.replace(new RegExp(key, "g"), value);
   }
-
-  await fs.promises.writeFile(folderOrFile, contents);
+  
+  if (contents !== originalContents) {
+    await fs.promises.writeFile(folderOrFile, contents);
+  }
 }
 
 const repackageVSIX = async (input_file, output_file, substitutions) => {
