@@ -25,12 +25,17 @@ async function handleSubstitutions(folderOrFile, substitutions) {
   }
 
   let contents = await fse.readFile(folderOrFile, 'utf-8');
+  const originalContents = contents;
   for (const key in substitutions) {
     const value = substitutions[key];
     contents = contents.replace(new RegExp(key, 'g'), value);
   }
 
-  await fse.writeFile(folderOrFile, contents);
+  // If the contents didn't change (i.e. no substitutions were made), don't write it out
+  // This will also fix non-utf8 files from changing
+  if (contents !== originalContents) {
+    await fse.writeFile(folderOrFile, contents);
+  }
 }
 
 async function main(argv) {
