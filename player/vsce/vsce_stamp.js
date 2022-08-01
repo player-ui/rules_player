@@ -47,7 +47,7 @@ const repackageVSIX = async (input_file, output_file, substitutions) => {
 };
 
 const main = async ([config]) => {
-  const { input_file, output_file, stamp, substitutions } = JSON.parse(config);
+  const { input_file, output_file, stamp, substitutions, version_key } = JSON.parse(config);
 
   // Don't do much if we don't have to stamp, just copy it over as is
   if (!stamp) {
@@ -66,7 +66,13 @@ const main = async ([config]) => {
   stampFile.split("\n").forEach((line) => {
     const firstSpace = line.indexOf(" ");
     const varName = line.substring(0, firstSpace);
-    const varVal = line.substring(firstSpace + 1);
+    let varVal = line.substring(firstSpace + 1);
+
+    // Using the same match as https://github.com/bazelbuild/rules_nodejs/blob/stable/internal/pkg_npm/packager.js#L139
+    if (varName.endsWith('_VERSION')) {
+      // vscode doesn't let you have `-canary` suffixes
+      varVal = varVal.replace(/[^\d.]/g, '');
+    }
 
     // Swap out anything referencing the stamped file with the actual value
     Object.keys(substitutions).forEach((key) => {
