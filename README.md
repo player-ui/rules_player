@@ -1,5 +1,7 @@
 # rules_player
 
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/player-ui/rules_player/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/player-ui/rules_player/tree/main)
+
 This repository contains all of the common Bazel definitions for building Player polyglot repositories.
 While these rules are _mostly_ generic and may be suitable for other use-cases, our primary goal is to enable the Player repo and plugin builds — rules and implementations may change to support that. 
 
