@@ -1,3 +1,15 @@
+# v0.6.0 (Mon Aug 01 2022)
+
+#### 🚀 Enhancement
+
+- Add publish and stamping support to VSCE rule [#13](https://github.com/player-ui/rules_player/pull/13) ([@adierkens](https://github.com/adierkens))
+
+#### Authors: 1
+
+- Adam Dierkens ([@adierkens](https://github.com/adierkens))
+
+---
+
 # v0.5.1 (Fri Jul 29 2022)
 
 #### 🐛 Bug Fix
