@@ -1,3 +1,19 @@
+# v0.6.1 (Mon Aug 01 2022)
+
+#### 🐛 Bug Fix
+
+- Fix non-utf8 files from being changed during nextjs stamping [#16](https://github.com/player-ui/rules_player/pull/16) ([@adierkens](https://github.com/adierkens))
+
+#### 📝 Documentation
+
+- Add build badge to README [#15](https://github.com/player-ui/rules_player/pull/15) ([@adierkens](https://github.com/adierkens))
+
+#### Authors: 1
+
+- Adam Dierkens ([@adierkens](https://github.com/adierkens))
+
+---
+
 # v0.6.0 (Mon Aug 01 2022)
 
 #### 🚀 Enhancement
