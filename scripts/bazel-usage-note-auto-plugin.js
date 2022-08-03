@@ -48,7 +48,7 @@ class BazelRuleUsagePlugin {
 
       const notes = `
 
-\`\`\`
+\`\`\`starlark
 http_archive(
   name = "rules_player",
   strip_prefix = "rules_player-${versionWithoutPrefix}",
