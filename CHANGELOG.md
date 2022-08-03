@@ -1,3 +1,15 @@
+# v0.6.2 (Wed Aug 03 2022)
+
+#### 🐛 Bug Fix
+
+- Add auto plugin to add usage notes to release [#17](https://github.com/player-ui/rules_player/pull/17) ([@adierkens](https://github.com/adierkens))
+
+#### Authors: 1
+
+- Adam Dierkens ([@adierkens](https://github.com/adierkens))
+
+---
+
 # v0.6.1 (Mon Aug 01 2022)
 
 #### 🐛 Bug Fix
