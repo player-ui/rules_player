@@ -1,3 +1,19 @@
+# v0.6.4 (Wed Aug 03 2022)
+
+#### 🐛 Bug Fix
+
+- Don't include v in strip_prefix [#18](https://github.com/player-ui/rules_player/pull/18) ([@adierkens](https://github.com/adierkens))
+
+#### ⚠️ Pushed to `main`
+
+- Add syntax highlight ([@adierkens](https://github.com/adierkens))
+
+#### Authors: 1
+
+- Adam Dierkens ([@adierkens](https://github.com/adierkens))
+
+---
+
 # v0.6.3 (Wed Aug 03 2022)
 
 #### ⚠️ Pushed to `main`
