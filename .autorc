@@ -3,6 +3,6 @@
   "plugins": [
     "git-tag",
     "released",
-    "./scripts/bazel-usage-not-auto-plugin.js"
+    "./scripts/bazel-usage-note-auto-plugin.js"
   ]
 }
