@@ -1,3 +1,15 @@
+# v0.6.3 (Wed Aug 03 2022)
+
+#### ⚠️ Pushed to `main`
+
+- Update .autorc ([@adierkens](https://github.com/adierkens))
+
+#### Authors: 1
+
+- Adam Dierkens ([@adierkens](https://github.com/adierkens))
+
+---
+
 # v0.6.2 (Wed Aug 03 2022)
 
 #### 🐛 Bug Fix
