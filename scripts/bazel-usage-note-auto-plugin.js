@@ -60,7 +60,7 @@ http_archive(
 ${response.data.body}
 `
 
-      await await auto.git.github.repos.updateRelease({
+      await auto.git.github.repos.updateRelease({
         owner: auto.git.options.owner,
         repo: auto.git.options.repo,
         release_id: response.data.id,
