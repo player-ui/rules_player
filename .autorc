@@ -2,6 +2,7 @@
   "author": "Intuit SVC <intuit-svc@intuit.com>",
   "plugins": [
     "git-tag",
-    "released"
+    "released",
+    "./scripts/bazel-usage-not-auto-plugin.js"
   ]
 }
