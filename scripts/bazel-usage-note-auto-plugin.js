@@ -44,13 +44,14 @@ class BazelRuleUsagePlugin {
     }) => {
       const tarball_url = `https://github.com/${auto.git.options.owner}/${auto.git.options.repo}/archive/refs/tags/${response.data.tag_name}.tar.gz`;
       const ruleHash = await getShaForTarFile(tarball_url);
+      const versionWithoutPrefix = newVersion.replace(/^v/, '');
 
       const notes = `
 
 \`\`\`
 http_archive(
   name = "rules_player",
-  strip_prefix = "rules_player-${newVersion}",
+  strip_prefix = "rules_player-${versionWithoutPrefix}",
   urls = ["${tarball_url}"],
   sha256 = "${ruleHash}"
 )
