@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const os = require('os');
 const tar = require('tar');
 
 async function handleSubstitutions(folderOrFile, substitutions) {
@@ -29,24 +30,29 @@ async function handleSubstitutions(folderOrFile, substitutions) {
 }
 
 const repackageTar = async (input_file, output_file, substitutions) => {
-  const tempDir = path.join(__dirname, "temp");
-  await fs.promises.mkdir(tempDir, { recursive: true });
-
-  // await extract(input_file, { dir: tempDir });
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'stamping-'));
+  const tempTar = path.join(tempDir, "temp.tar");
+  const tempOutputDir = path.join(tempDir, "output");
+  await fs.promises.mkdir(tempOutputDir, { recursive: true });
 
   await tar.extract({
-    cwd: tempDir,
+    cwd: tempOutputDir,
     file: input_file,
   });
 
-  await handleSubstitutions(tempDir, substitutions);
+  await handleSubstitutions(tempOutputDir, substitutions);
 
   await tar.create({
     file: output_file,
-    cwd: tempDir
-  }, [tempDir]);
+    cwd: tempOutputDir,
+  }, ['.']);
 
-  await fs.promises.rm(tempDir, { recursive: true });
+  console.log({
+    tempTar,
+    tempOutputDir,
+    input_file,
+    tempDir,
+  })
 };
 
 const main = async ([config]) => {
@@ -83,6 +89,8 @@ const main = async ([config]) => {
       }
     });
   });
+
+  console.log({ substitutions })
 
   await repackageTar(input_file, output_file, substitutions);
 };
