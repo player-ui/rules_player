@@ -43,6 +43,8 @@ async function main(args) {
     dest_dir,
   } = args;
 
+  const normalized_dest_dir = String(dest_dir);
+
   const version = await fs.promises.readFile(version_file, "utf8");
   let cleanup = false;
   let upload_root = srcDir;
@@ -52,14 +54,14 @@ async function main(args) {
     upload_root = await expandTarball(srcDir);
   }
 
-  if (!dest_dir) {
+  if (!normalized_dest_dir) {
     throw new Error("Unable to upload without a destination directory");
   }
 
   const config = {
     branch,
     repo: `https://${process.env.GH_TOKEN}@github.com/${repo}.git`,
-    dest: dest_dir,
+    dest: normalized_dest_dir,
     dotFiles: true,
     add: false,
     verbose: false,
