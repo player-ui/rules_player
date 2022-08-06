@@ -16,7 +16,7 @@ def _stamp_tar_impl(ctx):
   """
   Untar it, stamp the items, and repack
   """
-  stamped_tar = ctx.actions.declare_file(paths.basename(ctx.attr.name + '.tar'))
+  stamped_tar = ctx.actions.declare_file(paths.basename(ctx.attr.name + '.tar.gz'))
   
   stamp_inputs = []
   stamp = ctx.attr.node_context_data[NodeContextInfo].stamp

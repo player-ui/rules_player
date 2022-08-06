@@ -45,14 +45,8 @@ const repackageTar = async (input_file, output_file, substitutions) => {
   await tar.create({
     file: output_file,
     cwd: tempOutputDir,
+    gzip: true,
   }, ['.']);
-
-  console.log({
-    tempTar,
-    tempOutputDir,
-    input_file,
-    tempDir,
-  })
 };
 
 const main = async ([config]) => {
@@ -89,8 +83,6 @@ const main = async ([config]) => {
       }
     });
   });
-
-  console.log({ substitutions })
 
   await repackageTar(input_file, output_file, substitutions);
 };
