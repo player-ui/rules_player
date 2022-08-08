@@ -1,9 +1,12 @@
-const fse = require('fs-extra');
-const ghPages = require('gh-pages');
-const { execSync } = require('child_process');
+const yargs = require("yargs/yargs");
+const { hideBin } = require("yargs/helpers");
+const fs = require("fs");
+const ghPages = require("gh-pages");
+const path = require("path");
+const tar = require("tar");
 
 async function deployPages(dir, config) {
-  return new Promise((resolve, reject) => { 
+  return new Promise((resolve, reject) => {
     ghPages.publish(dir, config, (err) => {
       if (err) {
         reject(err);
@@ -11,51 +14,74 @@ async function deployPages(dir, config) {
         resolve();
       }
     });
-  })
+  });
 }
 
-async function main(argv) { 
-  const [_0, srcDir, _1, repo, _2, branch, _3, versionFile, _4, ghUser, _5, ghEmail] = argv;
-  const version = await fse.readFile(versionFile, 'utf8');
-  console.log(`Deploying version ${version} to gh-pages`);
+async function expandTarball(tarball) {
+  const tempDir = path.join(__dirname, "temp");
+  await fs.promises.mkdir(tempDir, { recursive: true });
 
-  let mainVersion = `${version.split('.')[0]}`
+  await tar.extract({
+    cwd: tempDir,
+    file: tarball,
+  });
 
-  const currentBranch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
+  return tempDir;
+}
 
-  if (version.includes('-next')) {
-    mainVersion = 'next';
+const isTarball = (file) =>
+  file.endsWith(".tar.gz") || file.endsWith(".tar") || file.endsWith(".tar.xz");
+
+async function main(args) {
+  const {
+    srcDir,
+    repo,
+    branch,
+    version: version_file,
+    gh_user,
+    gh_email,
+    dest_dir,
+  } = args;
+
+  const normalized_dest_dir = String(dest_dir);
+
+  const version = await fs.promises.readFile(version_file, "utf8");
+  let cleanup = false;
+  let upload_root = srcDir;
+
+  if (isTarball(srcDir)) {
+    cleanup = true;
+    upload_root = await expandTarball(srcDir);
   }
 
-  console.log(`Deploying GH pages to subdirectory: ${mainVersion}`);
-  const isLatestVersion = currentBranch === 'main' && mainVersion !== 'next';
+  if (!normalized_dest_dir) {
+    throw new Error("Unable to upload without a destination directory");
+  }
 
   const config = {
     branch,
-    repo:  `https://${process.env.GH_TOKEN}@github.com/${repo}.git`,
-    dest: mainVersion,
+    repo: `https://${process.env.GH_TOKEN}@github.com/${repo}.git`,
+    dest: normalized_dest_dir,
     dotFiles: true,
     add: false,
     verbose: false,
     message: `Deploying docs for ${version}`,
     user: {
-      name: ghUser,
-      email: ghEmail
-    }
-  }
+      name: gh_user,
+      email: gh_email,
+    },
+  };
 
-  await deployPages(srcDir, config);
+  await deployPages(upload_root, config);
 
-  if (isLatestVersion) {
-    console.log(`Deploying latest version to gh-pages`);
-    await deployPages(srcDir, {
-      ...config,
-      dest: 'latest'
-    });
+  if (cleanup) {
+    await fs.promises.rm(upload_root, { recursive: true });
   }
 }
 
-main(process.argv.slice(2)).catch((err) => {
+const parsed = yargs(hideBin(process.argv)).version(false).parse();
+
+main(parsed).catch((err) => {
   console.error(err);
   process.exitCode = 1;
 });
