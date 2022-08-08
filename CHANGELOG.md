@@ -1,3 +1,15 @@
+# v0.7.0 (Mon Aug 08 2022)
+
+#### 🚀 Enhancement
+
+- Update gh_pages and enable tarball stamping [#19](https://github.com/player-ui/rules_player/pull/19) ([@adierkens](https://github.com/adierkens))
+
+#### Authors: 1
+
+- Adam Dierkens ([@adierkens](https://github.com/adierkens))
+
+---
+
 # v0.6.4 (Wed Aug 03 2022)
 
 #### 🐛 Bug Fix
