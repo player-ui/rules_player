@@ -1,3 +1,15 @@
+# v0.8.0 (Thu Aug 18 2022)
+
+#### 🚀 Enhancement
+
+- update swift rules to work with xcode 13.3+ [#20](https://github.com/player-ui/rules_player/pull/20) ([@hborawski](https://github.com/hborawski))
+
+#### Authors: 1
+
+- Harris Borawski ([@hborawski](https://github.com/hborawski))
+
+---
+
 # v0.7.0 (Mon Aug 08 2022)
 
 #### 🚀 Enhancement
