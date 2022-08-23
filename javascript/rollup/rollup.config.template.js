@@ -3,6 +3,7 @@ import dts from 'rollup-plugin-dts'
 import esbuild from 'rollup-plugin-esbuild'
 import styles from "rollup-plugin-styles";
 import json from '@rollup/plugin-json';
+import image from '@rollup/plugin-image';
 
 const isBinBuild = "TMPL_build_target_type" === 'CLI';
 
@@ -32,7 +33,7 @@ if (isBinBuild) {
     bundle({
       plugins: [esbuild(), styles({
         modules: true,
-      }), json()],
+      }), json(), image()],
       output: [
         {
           file: path.join('TMPL_out_dir', 'index.cjs.js'),
