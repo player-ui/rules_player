@@ -85,6 +85,8 @@ workflows:
       - install
 
       - checkLabels:
+          context:
+            - Publish
           requires:
             - install
 
@@ -97,6 +99,8 @@ workflows:
             - build
 
       - release:
+          context:
+            - Publish
           requires:
             - test
             - build

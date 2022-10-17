@@ -3,13 +3,14 @@ load("//javascript/rollup:rollup_build.bzl", "rollup_bin_build", "rollup_build")
 load("@build_bazel_rules_nodejs//:index.bzl", "js_library", "pkg_npm")
 load("@npm//jest-cli:index.bzl", "jest_test")
 load("@npm//eslint:index.bzl", "eslint_test")
-load(":utils.bzl", "filter_empty", "without_tests", "remove_duplicates", "include_exts")
+load(":utils.bzl", "filter_empty", "include_exts", "remove_duplicates", "without_tests")
 
 BUILD_DATA = [
     "@npm//rollup-plugin-dts",
     "@npm//rollup-plugin-esbuild",
     "@npm//rollup-plugin-styles",
     "@npm//@rollup/plugin-json",
+    "@npm//@rollup/plugin-image",
 ]
 
 PLACEHOLDER_VERSION = "0.0.0-PLACEHOLDER"
@@ -135,7 +136,7 @@ def js_library_pipeline(
         package_name = name,
         deps = [":%s" % name],
         tags = filter_empty([
-            "do-not-publish" if private else None
+            "do-not-publish" if private else None,
         ]),
         substitutions = {
             "__VERSION__": "{STABLE_VERSION}",
