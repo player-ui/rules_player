@@ -99,6 +99,8 @@ workflows:
             - build
 
       - release:
+          context:
+            - Publish
           requires:
             - test
             - build
