@@ -1,3 +1,15 @@
+# v0.9.0 (Mon Oct 17 2022)
+
+#### 🚀 Enhancement
+
+- [js_pipeline] add rollup image plugin [#22](https://github.com/player-ui/rules_player/pull/22) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.8.0 (Thu Aug 18 2022)
 
 #### 🚀 Enhancement
