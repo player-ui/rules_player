@@ -1,3 +1,15 @@
+# v0.10.0 (Wed Oct 26 2022)
+
+#### 🚀 Enhancement
+
+- Add rule for using the Player CLI to compile XLRs [#21](https://github.com/player-ui/rules_player/pull/21) ([@KetanReddy](https://github.com/KetanReddy))
+
+#### Authors: 1
+
+- Ketan Reddy ([@KetanReddy](https://github.com/KetanReddy))
+
+---
+
 # v0.9.0 (Mon Oct 17 2022)
 
 #### 🚀 Enhancement
