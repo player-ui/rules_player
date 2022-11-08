@@ -27,6 +27,8 @@ PACKGE_JSON_ATTRS = {
     # The npm registry to publish to
     "registry": attr.string(),
 
+    "esm_only": attr.bool(default = False),
+
     # A .json file to use to add additional properties to the generated package.
     # This can often be a 'package.json' and the entries/outputs/dependencies will be filled in later on
     "base_package_json": attr.label(allow_single_file = [".json"]),
@@ -95,6 +97,7 @@ def _create_package_json_impl(ctx):
             "name": ctx.attr.package_name,
             "bin_entry": bin_file_name,
             "bin_name": ctx.attr.bin_name,
+            "esm_only": ctx.attr.esm_only,
             "root_package_json": ctx.file.root_package_json.path,
             "base_package_json": ctx.file.base_package_json.path if ctx.file.base_package_json else None,
             "placeholder_version": ctx.attr.placeholder_version,

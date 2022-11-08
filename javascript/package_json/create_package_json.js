@@ -1,6 +1,6 @@
 const fs = require("fs");
 const process = require("process");
-const path = require('path')
+const path = require("path");
 
 const main = ([config]) => {
   const {
@@ -10,6 +10,7 @@ const main = ([config]) => {
     local_deps,
     output_file,
     bin_name,
+    esm_only,
     bin_entry,
     placeholder_version,
     root_package_json,
@@ -17,27 +18,33 @@ const main = ([config]) => {
     additional_properties,
     out_dir,
     registry,
-    private
+    private,
   } = JSON.parse(config);
-  
-  const rootPackageJson = JSON.parse(fs.readFileSync(root_package_json, 'utf-8'));
-  const createDependencyObject = deps => {
-    return Object.fromEntries(deps.map(depName => {
-      if (local_deps.includes(depName)) {
-          return [depName, placeholder_version]
-      }
 
-      if (rootPackageJson.dependencies[depName]) {
-        return [depName, rootPackageJson.dependencies[depName]]
-      }
+  const rootPackageJson = JSON.parse(
+    fs.readFileSync(root_package_json, "utf-8")
+  );
+  const createDependencyObject = (deps) => {
+    return Object.fromEntries(
+      deps.map((depName) => {
+        if (local_deps.includes(depName)) {
+          return [depName, placeholder_version];
+        }
 
-      throw new Error(`Unable to resolve version for ${depName}`);
-    }))
-  }
+        if (rootPackageJson.dependencies[depName]) {
+          return [depName, rootPackageJson.dependencies[depName]];
+        }
+
+        throw new Error(`Unable to resolve version for ${depName}`);
+      })
+    );
+  };
 
   let base_package_json_props = {};
   if (base_package_json) {
-    base_package_json_props = JSON.parse(fs.readFileSync(base_package_json, 'utf-8'));
+    base_package_json_props = JSON.parse(
+      fs.readFileSync(base_package_json, "utf-8")
+    );
   }
 
   let bin_props = {};
@@ -46,34 +53,52 @@ const main = ([config]) => {
     const bin_path = path.join(out_dir, bin_entry);
 
     bin_props = {
-      "bin": bin_name ? { [bin_name]: bin_path } : bin_path
-    }
+      bin: bin_name ? { [bin_name]: bin_path } : bin_path,
+    };
   }
 
   let publishConfig = undefined;
 
   if (registry) {
     publishConfig = {
-      "registry": registry,
-    }
+      registry: registry,
+    };
   }
 
-  fs.writeFileSync(output_file, JSON.stringify({
-    name,
-    version: placeholder_version,
-    private,
-    publishConfig,
-    peerDependencies: createDependencyObject(peer_dependencies),
-    dependencies: createDependencyObject(dependencies),
-    main: path.join(out_dir, 'index.cjs.js'),
-    module: path.join(out_dir, 'index.esm.js'),
-    typings: path.join(out_dir, 'index.d.ts'),
-    ...bin_props,
-    ...base_package_json_props,
-    ...JSON.parse(additional_properties),
-  }, null, 2))
+  const cjsEntry = path.join(out_dir, "index.cjs.js");
+  const esmEntry = path.join(out_dir, "index.esm.js");
 
-}
+  const entries = esm_only
+    ? {
+      main: esmEntry,
+      type: 'module'
+      }
+    : {
+        main: cjsEntry,
+        module: esmEntry,
+      };
+
+  fs.writeFileSync(
+    output_file,
+    JSON.stringify(
+      {
+        name,
+        version: placeholder_version,
+        private,
+        publishConfig,
+        peerDependencies: createDependencyObject(peer_dependencies),
+        dependencies: createDependencyObject(dependencies),
+        ...entries,
+        typings: path.join(out_dir, "index.d.ts"),
+        ...bin_props,
+        ...base_package_json_props,
+        ...JSON.parse(additional_properties),
+      },
+      null,
+      2
+    )
+  );
+};
 
 if (require.main === module) {
   try {

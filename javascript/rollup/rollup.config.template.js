@@ -35,7 +35,7 @@ if (isBinBuild) {
         modules: true,
       }), json(), image()],
       output: [
-        {
+        !TMPL_esm_only && {
           file: path.join('TMPL_out_dir', 'index.cjs.js'),
           format: 'cjs',
           sourcemap: true,
@@ -47,7 +47,7 @@ if (isBinBuild) {
           sourcemap: true,
           assetFileNames: "[name]-[hash][extname]",
         },
-      ],
+      ].filter(Boolean),
     }),
     bundle({
       plugins: [dts({

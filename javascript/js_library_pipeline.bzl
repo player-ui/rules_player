@@ -33,6 +33,7 @@ def js_library_pipeline(
         lint_exts = [".ts", ".js", ".tsx", ".jsx"],
         js_library_data = [],
         test_env = {},
+        esm_only = False,
         create_package_json_opts = {},
         placeholder_version = PLACEHOLDER_VERSION,
         registry = "https://registry.npmjs.org",
@@ -59,6 +60,7 @@ def js_library_pipeline(
         bin_entry = bin_entry,
         bin_name = bin_name,
         out_dir = out_dir,
+        esm_only = esm_only,
         registry = registry,
         placeholder_version = placeholder_version,
         dependencies = dependencies,
@@ -74,11 +76,12 @@ def js_library_pipeline(
             name = js_build_name,
             entry = entry,
             out_dir = out_dir,
+            esm_only = esm_only,
             srcs = srcs,
             data = all_build_data,
         )
 
-        for t in ["cjs", "esm", "types"]:
+        for t in filter_empty([None if esm_only else "cjs", "esm", "types"]):
             native.filegroup(
                 name = "%s-%s" % (name, t),
                 srcs = [":%s" % js_build_name],
