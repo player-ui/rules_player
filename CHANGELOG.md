@@ -1,3 +1,23 @@
+# v0.10.1 (Wed Dec 07 2022)
+
+### Release Notes
+
+#### Externalize entrypoint for webpack bundle ([#24](https://github.com/player-ui/rules_player/pull/24))
+
+Webpack bundle macro now requires an entrypoint to be supplied.
+
+---
+
+#### 🐛 Bug Fix
+
+- Externalize entrypoint for webpack bundle [#24](https://github.com/player-ui/rules_player/pull/24) ([@KetanReddy](https://github.com/KetanReddy))
+
+#### Authors: 1
+
+- Ketan Reddy ([@KetanReddy](https://github.com/KetanReddy))
+
+---
+
 # v0.10.0 (Wed Oct 26 2022)
 
 #### 🚀 Enhancement
