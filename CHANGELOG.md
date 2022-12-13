@@ -1,3 +1,15 @@
+# v0.10.2 (Mon Dec 12 2022)
+
+#### 🐛 Bug Fix
+
+- upgrade bazel distribution to branch that includes curl fix [#25](https://github.com/player-ui/rules_player/pull/25) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.10.1 (Wed Dec 07 2022)
 
 ### Release Notes
