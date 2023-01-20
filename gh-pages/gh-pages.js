@@ -60,7 +60,7 @@ async function main(args) {
 
   const config = {
     branch,
-    repo: `https://${process.env.GH_TOKEN}@github.com/${repo}.git`,
+    repo: `https://x-access-token:${process.env.GH_TOKEN}@github.com/${repo}.git`,
     dest: normalized_dest_dir,
     dotFiles: true,
     add: false,
