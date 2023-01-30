@@ -51,3 +51,4 @@ Each tool defined in this repo has it's own folder that contains two main `.bzl`
 For instance, the `kotlin/workspace.bzl` defines the `http_archive` where to load Kotlin rules from and the `kotlin/conf.bzl` loads the rules from the `http_archive` to regsiter the default Kotlin toolchains.
 
 The top-level `workspace.bzl` exposes a macro that will define all the common rulesets necessary for Player build system. Consumers can then explicitly configure these rulesets, or use the corresponding `conf.bzl` files if the common configurations work for them.
+
