@@ -6,9 +6,11 @@ function runtest(){
   ROOT=$(pwd)
   testDir=$1
   cd $testDir
+  cp $ROOT/.bazelversion .
   bazel clean --async
   bazel test //...
   bazel clean
+  rm .bazelversion
   cd $ROOT
 }
 

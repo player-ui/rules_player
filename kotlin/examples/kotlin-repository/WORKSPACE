@@ -6,7 +6,9 @@ local_repository(
 load("@rules_player//kotlin:workspace.bzl", "kotlin_repository")
 kotlin_repository(
     remote = "https://github.com/bazelbuild/rules_kotlin.git",
-    branch = "master",
+    # pre bzlmod flag in their .bazelrc
+    commit = "6e3339770551881f63d657c1f7b8bbdcd3d23c2c",
+    shallow_since = "1654891732 -0400"
 )
 
 load("@rules_player//kotlin:repository.bzl", "archive")

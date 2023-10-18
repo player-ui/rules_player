@@ -25,7 +25,7 @@ def apple():
     maybe(
         git_repository,
         name = "build_bazel_rules_ios",
-        shallow_since = "1660073401 +0000",
-        remote = "https://github.com/bazel-ios/rules_ios.git",
-        commit = "29b53b0a96a48df28cc50980745d8c1259c3a9ee"
+        remote = "https://github.com/hborawski/rules_ios.git",
+        commit = "618bb1cc11614a858b97e0baf099449f379cc541",
+        shallow_since = "1697658491 -0700"
     )
