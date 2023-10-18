@@ -1,3 +1,15 @@
+# v0.10.3 (Wed Oct 18 2023)
+
+#### 🐛 Bug Fix
+
+- Point to fork of rules_ios [#33](https://github.com/player-ui/rules_player/pull/33) ([@hborawski](https://github.com/hborawski))
+
+#### Authors: 1
+
+- Harris Borawski ([@hborawski](https://github.com/hborawski))
+
+---
+
 # v0.10.2 (Mon Dec 12 2022)
 
 #### 🐛 Bug Fix
