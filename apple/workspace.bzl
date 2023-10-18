@@ -23,8 +23,9 @@ def apple():
         urls = ["https://github.com/protocolbuffers/protobuf/archive/refs/tags/v3.18.0.zip"]
     )
     maybe(
-        http_archive,
+        git_repository,
         name = "build_bazel_rules_ios",
-        sha256 = "e2b81bfba10988ce9803b8bdf94f774144949ba7ebd248d5a1d2cb90d7fc72a2",
-        url = "https://github.com/bazel-ios/rules_ios/releases/download/1.0.0/rules_ios.1.0.0.tar.gz",
+        remote = "https://github.com/hborawski/rules_ios.git",
+        commit = "618bb1cc11614a858b97e0baf099449f379cc541",
+        shallow_since = "1697658491 -0700"
     )
