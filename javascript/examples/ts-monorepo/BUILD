@@ -1,8 +1,40 @@
+load("@npm//:defs.bzl", "npm_link_all_packages")
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+
+package(default_visibility = ["//visibility:public"])
+
+npm_link_all_packages(
+    name = "node_modules",
+)
+
 exports_files([
     "package.json",
-    "tsconfig.json",
-    "jest.config.js",
-    "babel.config.js",
-    ".eslintrc.js",
     "VERSION",
 ])
+
+
+js_library(
+    name = "vitest_config",
+    testonly = True,
+    srcs = [
+        "vitest.config.ts",
+    ],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//:node_modules/vitest"
+    ],
+)
+
+js_library(
+    name = "eslint_config",
+    testonly = True,
+    srcs = [
+        ".eslintrc.js"
+    ],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":node_modules/eslint",
+        ":node_modules/@typescript-eslint/parser",
+        ":node_modules/@typescript-eslint/eslint-plugin"
+    ]
+)

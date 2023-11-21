@@ -1,2 +1,4 @@
 .cache
 node_modules
+packages/module-a/node_modules
+packages/module-b/node_modules

@@ -1,0 +1,7 @@
+{
+  "name": "@test/module-b",
+  "version": "0.0.0-PLACEHOLDER",
+  "dependencies": {
+    "@test/module-a": "workspace:*"
+  }
+}
