@@ -38,3 +38,15 @@ js_library(
         ":node_modules/@typescript-eslint/eslint-plugin"
     ]
 )
+
+js_library(
+    name = "tsup_config",
+    srcs = [
+        "tsup.config.ts"
+    ],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":node_modules/typescript",
+        ":node_modules/tsup",
+    ]
+)

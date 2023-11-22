@@ -1,8 +1,15 @@
 load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
+load("@aspect_rules_js//js:defs.bzl", "js_binary")
 
 exports_files(
     glob(["*.bzl"]),
     visibility = ["//docs:__pkg__"],
+)
+
+js_binary(
+  name = "create_package_json",
+  entry_point = "create_package_json.mjs",
+  visibility = ["//visibility:public"],
 )
 
 bzl_library(

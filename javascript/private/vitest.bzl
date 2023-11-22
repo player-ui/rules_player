@@ -29,7 +29,7 @@ def vitest_test(
         name = name,
         size = "small",
         entry_point = ":{}".format(vitest_cli_entry),
-        args = ["run", "--color", "--config=$(location :%s)" % config,],
+        args = ["run", "--color",],
         data = data + [config],
         **kwargs
     )
