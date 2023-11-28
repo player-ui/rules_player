@@ -5,3 +5,14 @@ bazel_dep(name = "aspect_rules_js", version = "1.33.1")
 bazel_dep(name = "aspect_rules_rollup", version = "1.0.0")
 bazel_dep(name = "bazel_skylib", version = "1.4.1")
 bazel_dep(name = "rules_pkg", version = "0.9.1")
+bazel_dep(name = "aspect_rules_ts", version = "2.1.0")
+
+rules_ts_ext = use_extension(
+    "@aspect_rules_ts//ts:extensions.bzl",
+    "ext",
+    dev_dependency = True,
+)
+
+rules_ts_ext.deps()
+
+use_repo(rules_ts_ext, "npm_typescript")

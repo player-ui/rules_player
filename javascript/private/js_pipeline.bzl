@@ -1,13 +1,21 @@
 load("@aspect_rules_js//npm:defs.bzl", "npm_package")
 load("@aspect_rules_js//js:defs.bzl", "js_library")
+load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
+load("@bazel_skylib//rules:expand_template.bzl", "expand_template")
 load(":vitest.bzl", "vitest_test")
 load(":eslint.bzl", "eslint_test")
 load(":tsup.bzl", "tsup_build")
 load(":package_json.bzl", "create_package_json")
-load(":utils.bzl", "filter_empty")
+load(":utils.bzl", "filter_empty", "without_tests")
+
+test_file_pattern = [
+    "_tests_",
+    ".test.",
+]
 
 def js_pipeline(
         package_name,
+        name = None,
         srcs = None,
         package_json = "package.json",
         root_package_json = "//:package.json",
@@ -26,6 +34,7 @@ def js_pipeline(
     Args:
       package_name: The name of the package including the scope (@test/bar).
       srcs: The source files for the package (defaults to src/*).
+      name: The name of the package (defaults to the last part of the package_name).
       package_json: The package.json file for the package (defaults to package.json).
       root_package_json: The root package.json file for the package (defaults to //:package.json).
       vitest_config: The vitest config for the package (defaults to None).
@@ -39,10 +48,17 @@ def js_pipeline(
       build_deps: The build dependencies for the package.
     """
 
+    tslib_ref = "{}/tslib".format(node_modules)
+
+    if tslib_ref not in deps:
+        deps = deps + [tslib_ref]
+
     if srcs == None:
         srcs = native.glob(["src/**/*"])
 
-    name = package_name.split("/")[-1]
+    if name == None:
+        # name = package_name.split("/")[-1]
+        name = native.package_name().split("/")[-1]
 
     tsup_build_name = name + "_tsup_build"
     tsup_build_target = ":" + tsup_build_name
@@ -51,15 +67,40 @@ def js_pipeline(
         name = tsup_build_name,
         srcs = srcs,
         config = tsup_config,
-        data = deps + build_deps,
+        data = deps + build_deps + peer_deps + [package_json],
         node_modules = node_modules,
+    )
+
+    tsconfig = "{}_tsconfig".format(name)
+    prefix = "../" * len(native.package_name().split("/"))
+
+    expand_template(
+        name = tsconfig,
+        out = "tsconfig.json",
+        substitutions = {
+            "%PREFIX%": prefix,
+        },
+        template = "@rules_player//javascript/private:tsconfig.json.tmpl",
+    )
+
+    ts_types = "{}_ts_types".format(name)
+    ts_types_target = ":" + ts_types
+    ts_project(
+        name = ts_types,
+        srcs = without_tests(srcs + [package_json], test_file_pattern),
+        deps = deps + build_deps + peer_deps,
+        validate = False,
+        declaration = True,
+        declaration_dir = ts_types,
+        emit_declaration_only = True,
+        tsconfig = ":{}".format(tsconfig),
     )
 
     vitest_test(
         name = name + "_vitest",
         config = vitest_config,
         node_modules = node_modules,
-        data = srcs + deps + test_deps,
+        data = srcs + deps + test_deps + peer_deps,
     )
 
     eslint_test(
@@ -85,9 +126,13 @@ def js_pipeline(
 
     js_library(
         name = js_library_name,
-        srcs = srcs + [tsup_build_target, package_json_target],
+        srcs = srcs + [tsup_build_target, package_json_target, ts_types_target],
         deps = deps,
     )
+
+    replacements = {}
+    replacements[package_json_name] = "package"
+    replacements[ts_types + "/src"] = "types"
 
     npm_package(
         name = name,
@@ -97,4 +142,5 @@ def js_pipeline(
         tags = filter_empty([
             "do-not-publish" if private else None,
         ]),
+        replace_prefixes = replacements,
     )

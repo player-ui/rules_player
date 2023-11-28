@@ -80,17 +80,17 @@ async function main(args) {
     ...parsedBasePackageJson,
     main: "dist/cjs/index.cjs",
     module: "dist/index.legacy-esm.js",
-    types: "dist/index.d.ts",
+    types: "types/index.d.ts",
     sideEffects: false,
     exports: {
       "./package.json": "./package.json",
       ".": {
-        types: "./dist/index.d.ts",
+        types: "./types/index.d.ts",
         import: "./dist/index.mjs",
         default: "./dist/cjs/index.cjs",
       },
     },
-    files: ["dist", "src"],
+    files: ["dist", "src", "types"],
     dependencies: replaceWorkspaceReferenceWithVersion(versionedDependencies, '0.0.0-PLACEHOLDER'),
     peerDependencies: replaceWorkspaceReferenceWithVersion(versionedPeerDependencies, '0.0.0-PLACEHOLDER'),
   };

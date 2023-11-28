@@ -37,7 +37,7 @@ _PACKAGE_JSON_ATTRS = {
 
 def _package_json_impl(ctx):
     """Implementation of package_json."""
-    output_file = ctx.actions.declare_file("package.json")
+    output_file = ctx.actions.declare_file("%s.json" % ctx.label.name)
 
     args = {
         "output_file": output_file.short_path,

@@ -2,11 +2,11 @@ load("@aspect_bazel_lib//lib:directory_path.bzl", "directory_path")
 load("@aspect_rules_js//js:defs.bzl", "js_test")
 
 def vitest_test(
-  name, 
-  config,
-  data = [], 
-  node_modules = "//:node_modules", 
-  **kwargs):
+        name,
+        config,
+        data = [],
+        node_modules = "//:node_modules",
+        **kwargs):
     """Run a vite test.
 
     Args:
@@ -29,7 +29,7 @@ def vitest_test(
         name = name,
         size = "small",
         entry_point = ":{}".format(vitest_cli_entry),
-        args = ["run", "--color",],
+        args = ["run", "--color"],
         data = data + [config],
         **kwargs
     )

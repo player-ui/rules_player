@@ -6,48 +6,53 @@ exports_files(
     visibility = ["//docs:__pkg__"],
 )
 
+exports_files(
+    ["tsconfig.json.tmpl"],
+    visibility = ["//visibility:public"],
+)
+
 js_binary(
-  name = "create_package_json",
-  entry_point = "create_package_json.mjs",
-  visibility = ["//visibility:public"],
+    name = "create_package_json",
+    entry_point = "create_package_json.mjs",
+    visibility = ["//visibility:public"],
 )
 
 bzl_library(
-  name = "js_pipeline",
-  srcs = ["js_pipeline.bzl"],
-  visibility = [
-    "//docs:__subpackages__",
-    "//javascript:__subpackages__",
-  ],
-  deps = []
+    name = "js_pipeline",
+    srcs = ["js_pipeline.bzl"],
+    visibility = [
+        "//docs:__subpackages__",
+        "//javascript:__subpackages__",
+    ],
+    deps = [],
 )
 
 bzl_library(
-  name = "vitest",
-  srcs = ["vitest.bzl"],
-  visibility = [
-    "//docs:__subpackages__",
-    "//javascript:__subpackages__",
-  ],
-  deps = []
+    name = "vitest",
+    srcs = ["vitest.bzl"],
+    visibility = [
+        "//docs:__subpackages__",
+        "//javascript:__subpackages__",
+    ],
+    deps = [],
 )
 
 bzl_library(
-  name = "eslint",
-  srcs = ["eslint.bzl"],
-  visibility = [
-    "//docs:__subpackages__",
-    "//javascript:__subpackages__",
-  ],
-  deps = []
+    name = "eslint",
+    srcs = ["eslint.bzl"],
+    visibility = [
+        "//docs:__subpackages__",
+        "//javascript:__subpackages__",
+    ],
+    deps = [],
 )
 
 bzl_library(
-  name = "utils",
-  srcs = ["utils.bzl"],
-  visibility = [
-    "//docs:__subpackages__",
-    "//javascript:__subpackages__",
-  ],
-  deps = []
+    name = "utils",
+    srcs = ["utils.bzl"],
+    visibility = [
+        "//docs:__subpackages__",
+        "//javascript:__subpackages__",
+    ],
+    deps = [],
 )

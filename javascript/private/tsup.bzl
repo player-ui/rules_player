@@ -1,13 +1,13 @@
 load("@aspect_bazel_lib//lib:directory_path.bzl", "directory_path")
-load("@aspect_rules_js//js:defs.bzl", "js_run_binary", "js_binary")
+load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_run_binary")
 
 def tsup_build(
-  name, 
-  srcs = [],
-  config = "tsup.config.ts",
-  data = ["//:tsup_config"], 
-  node_modules = "//:node_modules", 
-  **kwargs):
+        name,
+        srcs = [],
+        config = "tsup.config.ts",
+        data = ["//:tsup_config"],
+        node_modules = "//:node_modules",
+        **kwargs):
     """Run a vite test.
 
     Args:
