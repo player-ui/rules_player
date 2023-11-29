@@ -24,7 +24,17 @@ bzl_library(
         "//docs:__subpackages__",
         "//javascript:__subpackages__",
     ],
-    deps = [],
+    deps = [
+        ":eslint",
+        ":package_json",
+        ":tsup",
+        ":utils",
+        ":vitest",
+        "@aspect_rules_js//js:defs",
+        "@aspect_rules_js//npm:defs",
+        "@aspect_rules_ts//ts:defs",
+        "@bazel_skylib//rules:expand_template",
+    ],
 )
 
 bzl_library(
@@ -34,7 +44,10 @@ bzl_library(
         "//docs:__subpackages__",
         "//javascript:__subpackages__",
     ],
-    deps = [],
+    deps = [
+        "@aspect_bazel_lib//lib:directory_path",
+        "@aspect_rules_js//js:defs",
+    ],
 )
 
 bzl_library(
@@ -44,7 +57,11 @@ bzl_library(
         "//docs:__subpackages__",
         "//javascript:__subpackages__",
     ],
-    deps = [],
+    deps = [
+        ":utils",
+        "@aspect_bazel_lib//lib:directory_path",
+        "@aspect_rules_js//js:defs",
+    ],
 )
 
 bzl_library(
@@ -54,5 +71,33 @@ bzl_library(
         "//docs:__subpackages__",
         "//javascript:__subpackages__",
     ],
-    deps = [],
+    deps = [
+        "@aspect_rules_js//js:providers",
+    ],
+)
+
+bzl_library(
+    name = "package_json",
+    srcs = ["package_json.bzl"],
+    visibility = [
+        "//docs:__subpackages__",
+        "//javascript:__subpackages__",
+    ],
+    deps = [
+        ":utils",
+        "@aspect_rules_js//js:defs",
+    ],
+)
+
+bzl_library(
+    name = "tsup",
+    srcs = ["tsup.bzl"],
+    visibility = [
+        "//docs:__subpackages__",
+        "//javascript:__subpackages__",
+    ],
+    deps = [
+        "@aspect_bazel_lib//lib:directory_path",
+        "@aspect_rules_js//js:defs",
+    ],
 )
