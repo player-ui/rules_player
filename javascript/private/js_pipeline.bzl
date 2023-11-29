@@ -29,6 +29,8 @@ def js_pipeline(
         lint_deps = ["//:eslint_config"],
         build_deps = ["//:tsup_config", "//:typings"]):
     """
+    The main entry point for any JS/TS project. `js_pipeline` should be the only thing you need in your BUILD file.
+
     Creates a js_library, npm_package, and test targets for a given package.
 
     Args:

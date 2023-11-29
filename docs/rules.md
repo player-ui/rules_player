@@ -60,7 +60,10 @@ js_pipeline(<a href="#js_pipeline-package_name">package_name</a>, <a href="#js_p
             <a href="#js_pipeline-node_modules">node_modules</a>, <a href="#js_pipeline-deps">deps</a>, <a href="#js_pipeline-private">private</a>, <a href="#js_pipeline-peer_deps">peer_deps</a>, <a href="#js_pipeline-test_deps">test_deps</a>, <a href="#js_pipeline-lint_deps">lint_deps</a>, <a href="#js_pipeline-build_deps">build_deps</a>)
 </pre>
 
-    Creates a js_library, npm_package, and test targets for a given package.
+    The main entry point for any JS/TS project. `js_pipeline` should be the only thing you need in your BUILD file.
+
+Creates a js_library, npm_package, and test targets for a given package.
+
 
 **PARAMETERS**
 
