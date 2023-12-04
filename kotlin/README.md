@@ -20,8 +20,9 @@ By default, the workspace declaration is configured to work with Player modules.
 ```python
 load("@rules_player//kotlin:workspace.bzl", "kotlin")
 kotlin(
-    tag = "v1.5.0",
-    sha256 = "12d22a3d9cbcf00f2e2d8f0683ba87d3823cb8c7f6837568dd7e48846e023307",
+    # Defaults
+    tag = "v1.7.1", 
+    sha256 = "fd92a98bd8a8f0e1cdcb490b93f5acef1f1727ed992571232d33de42395ca9b3",
     baseUrl = "https://github.com/bazelbuild/rules_kotlin/releases/download",
 )
 ```
