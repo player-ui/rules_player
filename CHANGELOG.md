@@ -1,3 +1,15 @@
+# v0.10.4 (Mon Dec 04 2023)
+
+#### 🐛 Bug Fix
+
+- Kotlin rules v1.7.1 [#35](https://github.com/player-ui/rules_player/pull/35) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.10.3 (Wed Oct 18 2023)
 
 #### 🐛 Bug Fix
