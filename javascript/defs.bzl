@@ -6,6 +6,7 @@ load("//javascript/private:js_pipeline.bzl", _js_pipeline = "js_pipeline")
 load("//javascript/private:eslint.bzl", _eslint_test = "eslint_test")
 load("//javascript/private:vitest.bzl", _vitest_test = "vitest_test")
 load("//javascript/private:package_json.bzl", _create_package_json = "create_package_json")
+load("//javascript/private:tsup.bzl", _tsup_build = "tsup_build")
 
 js_pipeline = _js_pipeline
 eslint_test = _eslint_test

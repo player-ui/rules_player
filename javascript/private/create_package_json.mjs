@@ -20,6 +20,7 @@ async function main(args) {
     base_package_json,
     dependencies,
     peer_dependencies,
+    native_bundle,
   } = args;
 
   const parsedBasePackageJson = JSON.parse(
@@ -44,43 +45,40 @@ async function main(args) {
     dependenciesMap.set(key, value);
   });
 
-  const versionedDependencies = dependencies.reduce(
-    (acc, key) => {
-      if (!dependenciesMap.has(key)) {
-
-        if (parsedBasePackageJson.dependencies[key] !== undefined) {
-          return acc;
-        }
-
-        throw new Error(`Unable to determine version for dependency: ${key}`);
+  const versionedDependencies = dependencies.reduce((acc, key) => {
+    if (!dependenciesMap.has(key)) {
+      if (parsedBasePackageJson.dependencies[key] !== undefined) {
+        return acc;
       }
-      acc[key] = dependenciesMap.get(key);
-      return acc;
-    },
-    parsedBasePackageJson.dependencies ?? {}
-  );
 
-  const versionedPeerDependencies = peer_dependencies.reduce(
-    (acc, key) => {
-      if (!dependenciesMap.has(key)) {
+      throw new Error(`Unable to determine version for dependency: ${key}`);
+    }
+    acc[key] = dependenciesMap.get(key);
+    return acc;
+  }, parsedBasePackageJson.dependencies ?? {});
 
-        if (parsedBasePackageJson.peerDependencies[key] !== undefined) {
-          return acc;
-        }
-
-        throw new Error(`Unable to determine version for dependency: ${key}`);
+  const versionedPeerDependencies = peer_dependencies.reduce((acc, key) => {
+    if (!dependenciesMap.has(key)) {
+      if (parsedBasePackageJson.peerDependencies[key] !== undefined) {
+        return acc;
       }
-      acc[key] = dependenciesMap.get(key);
-      return acc;
-    },
-    parsedBasePackageJson.peerDependencies ?? {}
-  );
+
+      throw new Error(`Unable to determine version for dependency: ${key}`);
+    }
+    acc[key] = dependenciesMap.get(key);
+    return acc;
+  }, parsedBasePackageJson.peerDependencies ?? {});
 
   const packageJson = {
     ...parsedBasePackageJson,
     main: "dist/cjs/index.cjs",
     module: "dist/index.legacy-esm.js",
     types: "types/index.d.ts",
+    ...(native_bundle
+      ? {
+          bundle: `dist/${native_bundle}.native.js`,
+        }
+      : {}),
     sideEffects: false,
     exports: {
       "./package.json": "./package.json",
@@ -91,8 +89,14 @@ async function main(args) {
       },
     },
     files: ["dist", "src", "types"],
-    dependencies: replaceWorkspaceReferenceWithVersion(versionedDependencies, '0.0.0-PLACEHOLDER'),
-    peerDependencies: replaceWorkspaceReferenceWithVersion(versionedPeerDependencies, '0.0.0-PLACEHOLDER'),
+    dependencies: replaceWorkspaceReferenceWithVersion(
+      versionedDependencies,
+      "0.0.0-PLACEHOLDER"
+    ),
+    peerDependencies: replaceWorkspaceReferenceWithVersion(
+      versionedPeerDependencies,
+      "0.0.0-PLACEHOLDER"
+    ),
   };
 
   await fs.mkdir(path.dirname(output_file), { recursive: true });

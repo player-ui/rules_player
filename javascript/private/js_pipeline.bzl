@@ -4,7 +4,7 @@ load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
 load("@bazel_skylib//rules:expand_template.bzl", "expand_template")
 load(":vitest.bzl", "vitest_test")
 load(":eslint.bzl", "eslint_test")
-load(":tsup.bzl", "tsup_build")
+load(":tsup.bzl", "tsup_build", "tsup_native_build")
 load(":package_json.bzl", "create_package_json")
 load(":utils.bzl", "filter_empty", "without_tests")
 
@@ -23,6 +23,7 @@ def js_pipeline(
         tsup_config = ":tsup_config",
         node_modules = "//:node_modules",
         deps = [],
+        native_bundle = None,
         private = False,
         peer_deps = [],
         test_deps = ["//:vitest_config"],
@@ -43,6 +44,7 @@ def js_pipeline(
       tsup_config: The tsup config for the package (defaults to None).
       node_modules: The base node_modules to pull dependencies from (defaults to //:node_modules).
       deps: The dependencies for the package.
+      native_bundle: The name for the native bundle global if defined.
       private: Whether or not the package should be private (skipping an npm release).
       peer_deps: The peer dependencies for the package.
       test_deps: The test dependencies for the package.
@@ -72,6 +74,22 @@ def js_pipeline(
         data = deps + build_deps + peer_deps + [package_json],
         node_modules = node_modules,
     )
+
+    native_bundle_target_dep = []
+
+    if native_bundle != None:
+        native_bundle_name = name + "_native_bundle"
+        native_bundle_target = ":" + native_bundle_name
+        native_bundle_target_dep = [native_bundle_target]
+
+        tsup_native_build(
+            name = native_bundle_name,
+            native_bundle = native_bundle,
+            srcs = srcs,
+            config = tsup_config,
+            data = deps + build_deps + peer_deps + [package_json],
+            node_modules = node_modules,
+        )
 
     tsconfig = "{}_tsconfig".format(name)
     prefix = "../" * len(native.package_name().split("/"))
@@ -121,6 +139,7 @@ def js_pipeline(
         base_package_json = package_json,
         dependencies = deps,
         peer_dependencies = peer_deps,
+        native_bundle = native_bundle,
     )
 
     js_library_name = name + "_js_library"
@@ -128,7 +147,7 @@ def js_pipeline(
 
     js_library(
         name = js_library_name,
-        srcs = srcs + [tsup_build_target, package_json_target, ts_types_target],
+        srcs = srcs + [tsup_build_target, package_json_target, ts_types_target] + native_bundle_target_dep,
         deps = deps,
     )
 

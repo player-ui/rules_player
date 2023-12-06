@@ -17,6 +17,7 @@ _PACKAGE_JSON_ATTRS = {
         This can often be a 'package.json' and the entries/outputs/dependencies will be filled in later on.""",
         allow_single_file = ["package.json"],
     ),
+    "native_bundle": attr.string(doc = "The name for the native bundle if used"),
     "placeholder_version": attr.string(default = "0.0.0-PLACEHOLDER", doc = "The version to use for the local dependencies in the workspace"),
     "dependencies": attr.label_list(
         doc = "The dependencies of the package. These will be added to the base package.json",
@@ -43,6 +44,7 @@ def _package_json_impl(ctx):
         "output_file": output_file.short_path,
         "root_package_json": ctx.file.root_package_json.short_path,
         "base_package_json": ctx.file.base_package_json.short_path,
+        "native_bundle": ctx.attr.native_bundle,
         "dependencies": [get_js_npm_name(dep) for dep in ctx.attr.dependencies],
         "peer_dependencies": [get_js_npm_name(dep) for dep in ctx.attr.peer_dependencies],
     }

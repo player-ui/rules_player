@@ -39,5 +39,32 @@ def tsup_build(
         tool = ":{}".format(tsup_bin),
         args = [],
         srcs = srcs + [config],
-        out_dirs = ["dist"],
+        outs = kwargs.get("outs", [
+            "dist/index.mjs",
+            "dist/index.mjs.map",
+            "dist/cjs/index.cjs",
+            "dist/cjs/index.cjs.map",
+            "dist/index.legacy-esm.js",
+        ]),
+        env = kwargs.get("env", {}),
+    )
+
+def tsup_native_build(
+        name,
+        native_bundle,
+        srcs = [],
+        config = "tsup.config.ts",
+        data = ["//:tsup_config"],
+        node_modules = "//:node_modules",
+        **kwargs):
+    tsup_build(
+        name = name,
+        srcs = srcs,
+        config = config,
+        data = data,
+        node_modules = node_modules,
+        env = {
+            "PLAYER_NATIVE_BUNDLE": native_bundle,
+        },
+        outs = ["dist/{}.native.js".format(native_bundle), "dist/{}.native.js.map".format(native_bundle)],
     )
