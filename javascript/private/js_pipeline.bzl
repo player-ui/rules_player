@@ -147,7 +147,6 @@ def js_pipeline(
 
     js_library(
         name = js_library_name,
-        visibility = ["//visibility:public"],
         srcs = srcs + [tsup_build_target, package_json_target, ts_types_target] + native_bundle_target_dep,
         deps = deps,
     )
