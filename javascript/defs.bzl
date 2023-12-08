@@ -11,5 +11,5 @@ load("//javascript/private:tsup.bzl", _tsup_build = "tsup_build")
 js_pipeline = _js_pipeline
 eslint_test = _eslint_test
 vitest_test = _vitest_test
-tsup_build = _tsup_build
+# tsup_build = _tsup_build
 create_package_json = _create_package_json

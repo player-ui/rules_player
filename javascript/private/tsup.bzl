@@ -47,6 +47,7 @@ def tsup_build(
             "dist/index.legacy-esm.js",
         ]),
         env = kwargs.get("env", {}),
+        visibility = kwargs.get("visibility", []),
     )
 
 def tsup_native_build(
@@ -59,6 +60,7 @@ def tsup_native_build(
         **kwargs):
     tsup_build(
         name = name,
+        visibility = ["//visibility:public"],
         srcs = srcs,
         config = config,
         data = data,
