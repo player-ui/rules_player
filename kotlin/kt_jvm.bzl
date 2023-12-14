@@ -67,8 +67,8 @@ def kt_jvm(
     snapshot and release repositories to publish to. Additionally, a version file is
     required to read the version from for publishing.
 
-    If any of these properties are provided, publishing will be attempted, but will
-    error out if any of the additional properties are missing.
+    If any of these properties are provided, publishing targets will be attempted to be
+    created, but will error out if any of the other required properties are missing.
 
     The following can be provided for additional information to publish the artifact
     with:
@@ -76,6 +76,11 @@ def kt_jvm(
     - project_description
     - project_url
     - scm_url
+
+    Three targets are created for publishing:
+    - {name}-assemble: Package artifact and generate POM
+    - {name}-deploy: Executable target for actually deploying to a Maven repo
+    - {name}-install: Exectuable target to locally install the artifacts
 
     Args:
         name: used for the underlying `kt_jvm_library` rule
