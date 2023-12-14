@@ -1,3 +1,25 @@
+# v0.11.0 (Wed Dec 13 2023)
+
+### Release Notes
+
+#### `maven_install` for publishing to local Maven repository ([#37](https://github.com/player-ui/rules_player/pull/37))
+
+`maven_install` rule that installs an artifact to the consumers local Maven repository (typically `~/.m2/repository`). The target must provide `MavenDeploymentInfo` (i.e. `assemble_maven` targets).
+
+This is tied into the top-level `kt_jvm` macro and will generate a target if `distribution` is configured.
+
+---
+
+#### 🚀 Enhancement
+
+- `maven_install` for publishing to local Maven repository [#37](https://github.com/player-ui/rules_player/pull/37) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.10.4 (Mon Dec 04 2023)
 
 #### 🐛 Bug Fix
