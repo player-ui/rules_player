@@ -1,2 +1,7 @@
 common --enable_bzlmod
+
+build --@aspect_rules_ts//ts:skipLibCheck=honor_tsconfig
+fetch --@aspect_rules_ts//ts:skipLibCheck=honor_tsconfig
+query --@aspect_rules_ts//ts:skipLibCheck=honor_tsconfig
+
 build:release --stamp --workspace_status_command=./scripts/bazel-stamp-vars.sh

@@ -12,7 +12,6 @@ exports_files([
     "VERSION",
 ])
 
-
 js_library(
     name = "vitest_config",
     testonly = True,
@@ -21,7 +20,10 @@ js_library(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "//:node_modules/vitest"
+        "//:node_modules/@vitest/coverage-v8",
+        "//:node_modules/async_hooks",
+        "//:node_modules/vitest",
+        "//tools:vitest_coverage_mapper",
     ],
 )
 
@@ -29,24 +31,29 @@ js_library(
     name = "eslint_config",
     testonly = True,
     srcs = [
-        ".eslintrc.js"
+        ".eslintrc.js",
     ],
     visibility = ["//visibility:public"],
     deps = [
-        ":node_modules/eslint",
+        ":node_modules/@typescript-eslint/eslint-plugin",
         ":node_modules/@typescript-eslint/parser",
-        ":node_modules/@typescript-eslint/eslint-plugin"
-    ]
+        ":node_modules/eslint",
+    ],
+)
+
+js_library(
+    name = "typings",
+    srcs = [],
 )
 
 js_library(
     name = "tsup_config",
     srcs = [
-        "tsup.config.ts"
+        "tsup.config.ts",
     ],
     visibility = ["//visibility:public"],
     deps = [
-        ":node_modules/typescript",
         ":node_modules/tsup",
-    ]
+        ":node_modules/typescript",
+    ],
 )
