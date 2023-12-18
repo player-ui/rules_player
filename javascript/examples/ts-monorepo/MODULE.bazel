@@ -3,8 +3,8 @@ module(name = "ts-monorepo-example")
 bazel_dep(name = "rules_player")
 local_path_override(module_name = "rules_player", path = "../../..")
 
-bazel_dep(name = "bazel_skylib", version = "1.4.1")
-bazel_dep(name = "aspect_rules_js", version = "1.33.1")
+bazel_dep(name = "bazel_skylib", version = "1.4.2")
+bazel_dep(name = "aspect_rules_js", version = "1.34.0")
 bazel_dep(name = "aspect_rules_rollup", version = "1.0.0")
 bazel_dep(name = "rules_nodejs", version = "5.8.2")
 bazel_dep(name = "aspect_rules_ts", version = "2.1.0")
@@ -20,7 +20,7 @@ rules_ts_ext.deps()
 use_repo(rules_ts_ext, "npm_typescript")
 
 node = use_extension("@rules_nodejs//nodejs:extensions.bzl", "node")
-node.toolchain(node_version = "16.4.2")
+node.toolchain()
 
 npm = use_extension("@aspect_rules_js//npm:extensions.bzl", "npm")
 

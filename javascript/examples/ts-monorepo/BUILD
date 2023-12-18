@@ -27,7 +27,10 @@ js_library(
     ],
     visibility = ["//visibility:public"],
     deps = [
+        "//:node_modules/@vitest/coverage-v8",
+        "//:node_modules/async_hooks",
         "//:node_modules/vitest",
+        "//tools:vitest_coverage_mapper",
     ],
 )
 

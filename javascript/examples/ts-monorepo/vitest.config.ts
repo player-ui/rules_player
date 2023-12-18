@@ -1,26 +1,26 @@
-import { defineConfig } from 'vitest/config';
-import path from 'node:path';
-
-const COVERAGE_OUTPUT_FILE = path.relative(
-  process.cwd(),
-  process.env.COVERAGE_OUTPUT_FILE ?? 'coverage.dat'
-);
+import { defineConfig } from "vitest/config";
+import path from "node:path";
 
 export default defineConfig({
   test: {
-    reporters: ['default', 'junit'],
+    reporters: [
+      "default",
+      "junit",
+      path.join(__dirname, "tools", "vitest_coverage_mapper.ts"),
+    ],
     outputFile: {
-      junit: process.env.XML_OUTPUT_FILE ?? 'test-results.xml',
+      junit: process.env.XML_OUTPUT_FILE ?? "test-results.xml",
     },
 
     passWithNoTests: true,
 
     coverage: {
       enabled: Boolean(process.env.COVERAGE_OUTPUT_FILE),
+      all: true,
       reportOnFailure: true,
-      provider: 'v8',
-      reportsDirectory: 'coverage_test',
-      reporter: ['text', 'html', ['lcovonly', { file: COVERAGE_OUTPUT_FILE }]],
+      provider: "v8",
+      exclude: ["**/node_modules/**", "external/**", "tools/**"],
+      reporter: ["text", "html", "lcovonly"],
     },
   },
 });
