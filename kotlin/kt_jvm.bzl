@@ -13,9 +13,7 @@ def kt_jvm(
 
         # Distribution config
         group = None,
-        release_repo = None,
-        snapshot_repo = None,
-        version_file = None,
+        version = None,
 
         # (optional)
         project_name = None,
@@ -136,15 +134,17 @@ def kt_jvm(
     if test_resources == None:
         test_resources = native.glob(["src/test/resources/**/*"])
 
-    should_publish = group or version_file or snapshot_repo or release_repo
-    required_info_to_publish = group and version_file and snapshot_repo and release_repo
+    should_publish = group or version
+    required_info_to_publish = group and version
 
     if should_publish and not required_info_to_publish:
-        fail("publishing info not fully provided. to enable publishing, ensure group, version_file, snapshot_repo, and release_repo are provided: %s, %s, %s, %s" % (group, version_file, snapshot_repo, release_repo))
+        fail("publishing info not fully provided. to enable publishing, ensure group and version are provided: %s, %s" % (group, version))
+
+    maven_coordinates = "%s:%s:%s" % (group, name, version if version else "{pom_version}") if should_publish else None
 
     kt_jvm_library_and_test(
         name = name,
-        tags = ["maven_coordinates=%s:%s:{pom_version}" % (group, name)] if should_publish else None,
+        tags = ["maven_coordinates=%s" % (maven_coordinates)] if maven_coordinates else None,
         module_name = module_name,
         main_opts = main_opts,
         main_srcs = main_srcs,
@@ -176,13 +176,5 @@ def kt_jvm(
     if should_publish:
         distribution(
             name = name,
-            release_repo = release_repo,
-            snapshot_repo = snapshot_repo,
-            version_file = version_file,
-            project_name = project_name,
-            project_description = project_description,
-            project_url = project_url,
-            scm_url = scm_url,
-            developers = developers,
-            workspace_refs = workspace_refs,
+            maven_coordinates = maven_coordinates,
         )
