@@ -16,3 +16,17 @@ rules_ts_ext = use_extension(
 rules_ts_ext.deps()
 
 use_repo(rules_ts_ext, "npm_typescript")
+
+bazel_dep(
+    name = "rules_bazel_integration_test",
+    version = "0.20.0",
+    dev_dependency = True,
+)
+
+bazel_binaries = use_extension(
+    "@rules_bazel_integration_test//:extensions.bzl",
+    "bazel_binaries",
+    dev_dependency = True,
+)
+
+bazel_binaries.download(version_file = ".bazelversion")

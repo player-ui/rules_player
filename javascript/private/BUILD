@@ -107,3 +107,10 @@ bzl_library(
         "@aspect_rules_js//js:defs",
     ],
 )
+
+filegroup(
+    name = "all_files",
+    # Include every package that is required by the child workspaces.
+    srcs = glob(["*"]),
+    visibility = ["//:__subpackages__"],
+)

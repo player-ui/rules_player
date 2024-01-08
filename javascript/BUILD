@@ -12,3 +12,13 @@ bzl_library(
         "//javascript/private:vitest",
     ],
 )
+
+filegroup(
+    name = "all_files",
+    # Include every package that is required by the child workspaces.
+    srcs = [
+        "defs.bzl",
+        "//javascript/private:all_files",
+    ],
+    visibility = ["//:__subpackages__"],
+)
