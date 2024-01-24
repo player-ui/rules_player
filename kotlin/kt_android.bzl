@@ -2,7 +2,7 @@ load(":build.bzl", "kt_jvm_library_and_test")
 load(":lint.bzl", "lint")
 load(":distribution.bzl", "distribution")
 
-def kt_jvm(
+def kt_android(
         *,
 
         # Artifact ID
@@ -13,9 +13,9 @@ def kt_jvm(
 
         # Distribution config
         group = None,
-        version = None,
-        deploy_env = None,
-        excluded_workspaces = None,
+        release_repo = None,
+        snapshot_repo = None,
+        version_file = None,
 
         # (optional)
         project_name = None,
@@ -62,15 +62,19 @@ def kt_jvm(
 
     # Publishing
 
-    Distribution requires a group and version to use for Maven coordinates.
+    Distribution requires a group to use for Maven coordinates, as well as the Maven
+    snapshot and release repositories to publish to. Additionally, a version file is
+    required to read the version from for publishing.
 
-    If either of these properties are provided, publishing targets will be attempted to be
-    created, but will error out if any of the other required properties are missing.
+    If any of these properties are provided, publishing will be attempted, but will
+    error out if any of the additional properties are missing.
 
-    Three targets are created for publishing:
-    - {name}-assemble: Package artifact and generate POM
-    - {name}-deploy: Executable target for actually deploying to a Maven repo
-    - {name}-install: Exectuable target to locally install the artifacts
+    The following can be provided for additional information to publish the artifact
+    with:
+    - project_name
+    - project_description
+    - project_url
+    - scm_url
 
     Args:
         name: used for the underlying `kt_jvm_library` rule
@@ -80,9 +84,9 @@ def kt_jvm(
 
         # Distribution project config
         group: (optional) group identifier for publishing
-        version: (optional) version to publish under
-        deploy_env: (optional) collection of targets to exclude from transitive closure
-        excluded_workspaces: (optional) dict of workspace names to replace, or remove, from transitive closure
+        release_repo: (optional) Maven release repository
+        snapshot_repo: (optional) Maven snapshot repository
+        version_file: (optional) file containing version string
 
         # Distribution target config
         project_name: (optional) project name for POM
@@ -126,17 +130,15 @@ def kt_jvm(
     if test_resources == None:
         test_resources = native.glob(["src/test/resources/**/*"])
 
-    should_publish = group or version
-    required_info_to_publish = group and version
+    should_publish = group or version_file or snapshot_repo or release_repo
+    required_info_to_publish = group and version_file and snapshot_repo and release_repo
 
     if should_publish and not required_info_to_publish:
-        fail("publishing info not fully provided. to enable publishing, ensure group and version are provided: %s, %s" % (group, version))
+        fail("publishing info not fully provided. to enable publishing, ensure group, version_file, snapshot_repo, and release_repo are provided: %s, %s, %s, %s" % (group, version_file, snapshot_repo, release_repo))
 
-    maven_coordinates = "%s:%s:%s" % (group, name, version if version else "{pom_version}") if should_publish else None
-
-    kt_jvm_library_and_test(
+    kt_android_library_and_test(
         name = name,
-        tags = ["maven_coordinates=%s" % (maven_coordinates)] if maven_coordinates else None,
+        tags = ["maven_coordinates=%s:%s:{pom_version}" % (group, name)] if should_publish else None,
         module_name = module_name,
         main_opts = main_opts,
         main_srcs = main_srcs,
@@ -168,7 +170,13 @@ def kt_jvm(
     if should_publish:
         distribution(
             name = name,
-            maven_coordinates = maven_coordinates,
-            deploy_env = deploy_env,
-            excluded_workspaces = excluded_workspaces,
+            release_repo = release_repo,
+            snapshot_repo = snapshot_repo,
+            version_file = version_file,
+            project_name = project_name,
+            project_description = project_description,
+            project_url = project_url,
+            scm_url = scm_url,
+            developers = developers,
+            workspace_refs = workspace_refs,
         )
