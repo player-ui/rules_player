@@ -21,12 +21,12 @@ elif [ "$RELEASE_TYPE" == "release" ]; then
 fi
 
 # Find all the maven packages in the repo
-readonly DEPLOY_LABELS=$(bazel query --output=label 'kind("deploy_maven rule", //...) - attr("tags", "\[.*do-not-publish.*\]", //...)')
+readonly DEPLOY_LABELS=$(bazel query --output=label 'kind("maven_publish rule", //...) - attr("tags", "\[.*do-not-publish.*\]", //...)')
 for pkg in $DEPLOY_LABELS ; do
   if [ -n "${STAGING-}" ]; then
-    bazel run "$pkg" --define=DEPLOY_MAVEN_RELEASE_REPO="$STAGING" -- "$1" --gpg
+    bazel run "$pkg" --define=maven_repo="$STAGING" -- "$1"
   else
-    bazel run "$pkg" -- "$1" --gpg
+    bazel run "$pkg" --define=maven_repo="file://$HOME/.m2/repository" -- "$1"
   fi
 done
 
