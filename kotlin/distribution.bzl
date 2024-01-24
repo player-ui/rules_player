@@ -5,9 +5,11 @@ def distribution(
         *,
         name,
         maven_coordinates,
-        lib_name = None):
+        lib_name = None,
+        **kwargs):
     maven_export(
         name = scope_name(name, "export"),
         lib_name = lib_name if lib_name else name,
         maven_coordinates = maven_coordinates,
+        **kwargs
     )
