@@ -17,14 +17,6 @@ def kt_jvm(
         deploy_env = None,
         excluded_workspaces = None,
 
-        # (optional)
-        project_name = None,
-        project_description = None,
-        project_url = None,
-        scm_url = None,
-        developers = None,
-        workspace_refs = None,
-
         # Package level config
         module_name = None,
         main_opts = None,
