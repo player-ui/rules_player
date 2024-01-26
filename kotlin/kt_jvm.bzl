@@ -16,6 +16,7 @@ def kt_jvm(
         version = None,
         deploy_env = None,
         excluded_workspaces = None,
+        pom_template = None,
 
         # Package level config
         module_name = None,
@@ -163,4 +164,5 @@ def kt_jvm(
             maven_coordinates = maven_coordinates,
             deploy_env = deploy_env,
             excluded_workspaces = excluded_workspaces,
+            pom_template = pom_template,
         )

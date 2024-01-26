@@ -26,7 +26,7 @@ for pkg in $DEPLOY_LABELS ; do
   if [ -n "${STAGING-}" ]; then
     bazel run "$pkg" --define=maven_repo="$STAGING" -- "$1"
   else
-    bazel run "$pkg" --define=maven_repo="file://$HOME/.m2/repository" -- "$1"
+    bazel run "$pkg" --define=maven_repo="https://oss.sonatype.org/content/repositories/snapshots/" -- "$1"
   fi
 done
 
