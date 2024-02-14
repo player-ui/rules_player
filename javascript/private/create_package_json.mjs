@@ -82,6 +82,7 @@ async function main(args) {
     sideEffects: false,
     exports: {
       "./package.json": "./package.json",
+      "./dist/index.css": "./dist/index.css",
       ".": {
         types: "./types/index.d.ts",
         import: "./dist/index.mjs",
