@@ -140,6 +140,10 @@ def js_pipeline(
         dependencies = deps,
         peer_dependencies = peer_deps,
         native_bundle = native_bundle,
+        stamp = -1,
+        substitutions = {
+            "0.0.0-PLACEHOLDER": "{STABLE_VERSION}",
+        },
     )
 
     js_library_name = name + "_js_library"
