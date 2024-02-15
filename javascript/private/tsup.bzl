@@ -7,6 +7,9 @@ def tsup_build(
         config = "tsup.config.ts",
         data = ["//:tsup_config"],
         node_modules = "//:node_modules",
+        substitutions = {
+            "__VERSION__": "{STABLE_VERSION}",
+        },
         **kwargs):
     """Run a vite test.
 
@@ -37,6 +40,7 @@ def tsup_build(
         name = name,
         chdir = native.package_name(),
         tool = ":{}".format(tsup_bin),
+        stamp = -1,
         args = [],
         srcs = srcs + [config],
         outs = kwargs.get("outs", [
@@ -46,7 +50,12 @@ def tsup_build(
             "dist/cjs/index.cjs.map",
             "dist/index.legacy-esm.js",
         ]),
-        env = kwargs.get("env", {}),
+        env = dict(
+            {
+                "STAMP_SUBSTITUTIONS": json.encode(substitutions),
+            },
+            **kwargs.get("env", {})
+        ),
         visibility = kwargs.get("visibility", []),
     )
 

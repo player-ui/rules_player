@@ -17,6 +17,12 @@ js_binary(
     visibility = ["//visibility:public"],
 )
 
+js_binary(
+    name = "stamp_files",
+    entry_point = "stamp_files.mjs",
+    visibility = ["//visibility:__subpackages__"],
+)
+
 bzl_library(
     name = "js_pipeline",
     srcs = ["js_pipeline.bzl"],
