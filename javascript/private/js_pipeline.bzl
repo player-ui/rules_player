@@ -172,7 +172,7 @@ def js_pipeline(
 
     js_binary(
         name = name + ".npm-publish",
-        chdir = package_name() + "/" + name,
+        chdir = native.package_name() + "/" + name,
         data = [":" + name],
         entry_point = "@aspect_rules_js//npm/private:npm_publish_mjs",
         # required to make npm to be available in PATH
