@@ -119,6 +119,7 @@ async function main(args) {
     peer_dependencies,
     native_bundle,
     substitutions,
+    custom_entrypoints,
     BAZEL_STABLE_STATUS_FILE,
     BAZEL_VOLATILE_STATUS_FILE,
   } = args;
@@ -171,9 +172,12 @@ async function main(args) {
 
   const packageJson = {
     ...parsedBasePackageJson,
-    main: "dist/cjs/index.cjs",
-    module: "dist/index.legacy-esm.js",
-    types: "types/index.d.ts",
+    ...( !custom_entrypoints ? 
+      {main: "dist/cjs/index.cjs",
+      module: "dist/index.legacy-esm.js",
+      types: "types/index.d.ts",
+    } : {}
+    ),
     ...(native_bundle
       ? {
           bundle: `dist/${native_bundle}.native.js`,
@@ -182,11 +186,15 @@ async function main(args) {
     sideEffects: false,
     exports: {
       "./package.json": "./package.json",
-      ".": {
-        types: "./types/index.d.ts",
-        import: "./dist/index.mjs",
-        default: "./dist/cjs/index.cjs",
-      },
+      ...( !custom_entrypoints ? 
+        {
+          ".": {
+            types: "./types/index.d.ts",
+            import: "./dist/index.mjs",
+            default: "./dist/cjs/index.cjs",
+          }
+        } : {}
+      )
     },
     files: ["dist", "src", "types"],
     dependencies: replaceWorkspaceReferenceWithVersion(

@@ -21,6 +21,7 @@ def _package_json_impl(ctx):
         "native_bundle": ctx.attr.native_bundle,
         "dependencies": [get_js_npm_name(dep) for dep in ctx.attr.dependencies],
         "peer_dependencies": [get_js_npm_name(dep) for dep in ctx.attr.peer_dependencies],
+        "custom_entrypoints": ctx.attr.custom_entrypoints,
     }
 
     if stamp:
@@ -60,6 +61,7 @@ create_package_json = rule(
         ),
         "native_bundle": attr.string(doc = "The name for the native bundle if used"),
         "placeholder_version": attr.string(default = "0.0.0-PLACEHOLDER", doc = "The version to use for the local dependencies in the workspace"),
+        "custom_entrypoints": attr.bool(default = False, doc = "If custom main/module/types entrypoints are specified and shouldn't be overwritten"),
         "dependencies": attr.label_list(
             doc = "The dependencies of the package. These will be added to the base package.json",
             default = [],
