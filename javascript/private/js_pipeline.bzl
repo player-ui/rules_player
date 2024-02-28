@@ -1,5 +1,5 @@
 load("@aspect_rules_js//npm:defs.bzl", "npm_package")
-load("@aspect_rules_js//js:defs.bzl", "js_library")
+load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_library")
 load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
 load("@bazel_skylib//rules:expand_template.bzl", "expand_template")
 load(":vitest.bzl", "vitest_test")
@@ -140,6 +140,10 @@ def js_pipeline(
         dependencies = deps,
         peer_dependencies = peer_deps,
         native_bundle = native_bundle,
+        stamp = -1,
+        substitutions = {
+            "0.0.0-PLACEHOLDER": "{STABLE_VERSION}",
+        },
     )
 
     js_library_name = name + "_js_library"
@@ -164,4 +168,13 @@ def js_pipeline(
             "do-not-publish" if private else None,
         ]),
         replace_prefixes = replacements,
+    )
+
+    js_binary(
+        name = name + ".npm-publish",
+        chdir = native.package_name() + "/" + name,
+        data = [":" + name],
+        entry_point = "@aspect_rules_js//npm/private:npm_publish_mjs",
+        # required to make npm to be available in PATH
+        include_npm = True,
     )

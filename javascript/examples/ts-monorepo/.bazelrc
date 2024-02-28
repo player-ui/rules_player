@@ -1,2 +1,6 @@
 common --enable_bzlmod
-build:release --stamp --workspace_status_command=./scripts/bazel-stamp-vars.sh
+build:release --stamp --workspace_status_command=$(pwd)/workspace_status.sh
+
+build --@aspect_rules_ts//ts:skipLibCheck=always
+fetch --@aspect_rules_ts//ts:skipLibCheck=always
+query --@aspect_rules_ts//ts:skipLibCheck=always

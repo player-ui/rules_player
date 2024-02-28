@@ -1,3 +1,4 @@
+import { test, expect } from "vitest";
 import { sayHi } from "../entry";
 
 test("works", () => {
