@@ -9,8 +9,8 @@ Public API for JavaScript based project rules
 ## create_package_json
 
 <pre>
-create_package_json(<a href="#create_package_json-name">name</a>, <a href="#create_package_json-base_package_json">base_package_json</a>, <a href="#create_package_json-dependencies">dependencies</a>, <a href="#create_package_json-peer_dependencies">peer_dependencies</a>, <a href="#create_package_json-placeholder_version">placeholder_version</a>,
-                    <a href="#create_package_json-root_package_json">root_package_json</a>)
+create_package_json(<a href="#create_package_json-name">name</a>, <a href="#create_package_json-base_package_json">base_package_json</a>, <a href="#create_package_json-custom_entrypoints">custom_entrypoints</a>, <a href="#create_package_json-dependencies">dependencies</a>, <a href="#create_package_json-native_bundle">native_bundle</a>,
+                    <a href="#create_package_json-peer_dependencies">peer_dependencies</a>, <a href="#create_package_json-placeholder_version">placeholder_version</a>, <a href="#create_package_json-root_package_json">root_package_json</a>, <a href="#create_package_json-stamp">stamp</a>, <a href="#create_package_json-substitutions">substitutions</a>)
 </pre>
 
 
@@ -22,10 +22,14 @@ create_package_json(<a href="#create_package_json-name">name</a>, <a href="#crea
 | :------------- | :------------- | :------------- | :------------- | :------------- |
 | <a id="create_package_json-name"></a>name |  A unique name for this target.   | <a href="https://bazel.build/concepts/labels#target-names">Name</a> | required |  |
 | <a id="create_package_json-base_package_json"></a>base_package_json |  A .json file to use to add additional properties to the generated package.         This can often be a 'package.json' and the entries/outputs/dependencies will be filled in later on.   | <a href="https://bazel.build/concepts/labels">Label</a> | required |  |
+| <a id="create_package_json-custom_entrypoints"></a>custom_entrypoints |  If custom main/module/types entrypoints are specified and shouldn't be overwritten   | Boolean | optional | <code>False</code> |
 | <a id="create_package_json-dependencies"></a>dependencies |  The dependencies of the package. These will be added to the base package.json   | <a href="https://bazel.build/concepts/labels">List of labels</a> | optional | <code>[]</code> |
+| <a id="create_package_json-native_bundle"></a>native_bundle |  The name for the native bundle if used   | String | optional | <code>""</code> |
 | <a id="create_package_json-peer_dependencies"></a>peer_dependencies |  The peer dependencies of the package. These will be added to the base package.json   | <a href="https://bazel.build/concepts/labels">List of labels</a> | optional | <code>[]</code> |
 | <a id="create_package_json-placeholder_version"></a>placeholder_version |  The version to use for the local dependencies in the workspace   | String | optional | <code>"0.0.0-PLACEHOLDER"</code> |
 | <a id="create_package_json-root_package_json"></a>root_package_json |  The root package.json for the project. Used to get the versions of dependencies and peer-depedencies   | <a href="https://bazel.build/concepts/labels">Label</a> | required |  |
+| <a id="create_package_json-stamp"></a>stamp |  Whether to encode build information into the output. Possible values:<br><br>    - <code>stamp = 1</code>: Always stamp the build information into the output, even in         [--nostamp](https://docs.bazel.build/versions/main/user-manual.html#flag--stamp) builds.         This setting should be avoided, since it is non-deterministic.         It potentially causes remote cache misses for the target and         any downstream actions that depend on the result.     - <code>stamp = 0</code>: Never stamp, instead replace build information by constant values.         This gives good build result caching.     - <code>stamp = -1</code>: Embedding of build information is controlled by the         [--[no]stamp](https://docs.bazel.build/versions/main/user-manual.html#flag--stamp) flag.         Stamped targets are not rebuilt unless their dependencies change.   | Integer | optional | <code>-1</code> |
+| <a id="create_package_json-substitutions"></a>substitutions |  -   | <a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a> | optional | <code>{}</code> |
 
 
 <a id="eslint_test"></a>
@@ -57,7 +61,7 @@ eslint_test(<a href="#eslint_test-name">name</a>, <a href="#eslint_test-data">da
 
 <pre>
 js_pipeline(<a href="#js_pipeline-package_name">package_name</a>, <a href="#js_pipeline-name">name</a>, <a href="#js_pipeline-srcs">srcs</a>, <a href="#js_pipeline-package_json">package_json</a>, <a href="#js_pipeline-root_package_json">root_package_json</a>, <a href="#js_pipeline-vitest_config">vitest_config</a>, <a href="#js_pipeline-tsup_config">tsup_config</a>,
-            <a href="#js_pipeline-node_modules">node_modules</a>, <a href="#js_pipeline-deps">deps</a>, <a href="#js_pipeline-private">private</a>, <a href="#js_pipeline-peer_deps">peer_deps</a>, <a href="#js_pipeline-test_deps">test_deps</a>, <a href="#js_pipeline-lint_deps">lint_deps</a>, <a href="#js_pipeline-build_deps">build_deps</a>)
+            <a href="#js_pipeline-node_modules">node_modules</a>, <a href="#js_pipeline-deps">deps</a>, <a href="#js_pipeline-native_bundle">native_bundle</a>, <a href="#js_pipeline-private">private</a>, <a href="#js_pipeline-peer_deps">peer_deps</a>, <a href="#js_pipeline-test_deps">test_deps</a>, <a href="#js_pipeline-lint_deps">lint_deps</a>, <a href="#js_pipeline-build_deps">build_deps</a>)
 </pre>
 
     The main entry point for any JS/TS project. `js_pipeline` should be the only thing you need in your BUILD file.
@@ -79,11 +83,37 @@ Creates a js_library, npm_package, and test targets for a given package.
 | <a id="js_pipeline-tsup_config"></a>tsup_config |  The tsup config for the package (defaults to None).   |  <code>":tsup_config"</code> |
 | <a id="js_pipeline-node_modules"></a>node_modules |  The base node_modules to pull dependencies from (defaults to //:node_modules).   |  <code>"//:node_modules"</code> |
 | <a id="js_pipeline-deps"></a>deps |  The dependencies for the package.   |  <code>[]</code> |
+| <a id="js_pipeline-native_bundle"></a>native_bundle |  The name for the native bundle global if defined.   |  <code>None</code> |
 | <a id="js_pipeline-private"></a>private |  Whether or not the package should be private (skipping an npm release).   |  <code>False</code> |
 | <a id="js_pipeline-peer_deps"></a>peer_deps |  The peer dependencies for the package.   |  <code>[]</code> |
 | <a id="js_pipeline-test_deps"></a>test_deps |  The test dependencies for the package.   |  <code>["//:vitest_config"]</code> |
 | <a id="js_pipeline-lint_deps"></a>lint_deps |  The lint dependencies for the package.   |  <code>["//:eslint_config"]</code> |
 | <a id="js_pipeline-build_deps"></a>build_deps |  The build dependencies for the package.   |  <code>["//:tsup_config", "//:typings"]</code> |
+
+
+<a id="tsup_build"></a>
+
+## tsup_build
+
+<pre>
+tsup_build(<a href="#tsup_build-name">name</a>, <a href="#tsup_build-srcs">srcs</a>, <a href="#tsup_build-config">config</a>, <a href="#tsup_build-data">data</a>, <a href="#tsup_build-node_modules">node_modules</a>, <a href="#tsup_build-substitutions">substitutions</a>, <a href="#tsup_build-outs">outs</a>, <a href="#tsup_build-kwargs">kwargs</a>)
+</pre>
+
+Run a vite test.
+
+**PARAMETERS**
+
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="tsup_build-name"></a>name |  The name of the test.   |  none |
+| <a id="tsup_build-srcs"></a>srcs |  Inputs to the module   |  <code>[]</code> |
+| <a id="tsup_build-config"></a>config |  The vite config target.   |  <code>"tsup.config.ts"</code> |
+| <a id="tsup_build-data"></a>data |  The list of data dependencies.   |  <code>["//:tsup_config"]</code> |
+| <a id="tsup_build-node_modules"></a>node_modules |  The node_modules target.   |  <code>"//:node_modules"</code> |
+| <a id="tsup_build-substitutions"></a>substitutions |  Substitutions to stamp during the build.   |  <code>{"__VERSION__": "{STABLE_VERSION}"}</code> |
+| <a id="tsup_build-outs"></a>outs |  Any defined outputs   |  <code>None</code> |
+| <a id="tsup_build-kwargs"></a>kwargs |  Additional arguments to pass to the test.   |  none |
 
 
 <a id="vitest_test"></a>
