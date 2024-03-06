@@ -184,18 +184,18 @@ async function main(args) {
         }
       : {}),
     sideEffects: false,
-    exports: {
-      "./package.json": "./package.json",
-      ...( !custom_entrypoints ? 
-        {
+    ...( !custom_entrypoints ? 
+      {
+        exports: {
+          "./package.json": "./package.json",
           ".": {
             types: "./types/index.d.ts",
             import: "./dist/index.mjs",
             default: "./dist/cjs/index.cjs",
           }
-        } : {}
-      )
-    },
+        }
+      } : {}
+    ),
     files: ["dist", "src", "types"],
     dependencies: replaceWorkspaceReferenceWithVersion(
       versionedDependencies,
