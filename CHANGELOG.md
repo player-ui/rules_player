@@ -1,3 +1,15 @@
+# v0.11.1 (Fri Mar 15 2024)
+
+#### 🐛 Bug Fix
+
+- Fix Android SDK and build tools versions [#41](https://github.com/player-ui/rules_player/pull/41) ([@brocollie08](https://github.com/brocollie08))
+
+#### Authors: 1
+
+- [@brocollie08](https://github.com/brocollie08)
+
+---
+
 # v0.11.0 (Wed Dec 13 2023)
 
 ### Release Notes
