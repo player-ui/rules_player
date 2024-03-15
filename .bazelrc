@@ -1,4 +1,3 @@
 # Use embedded JDK
-build --repo_env=JAVA_HOME=../bazel_tools/jdk
-sync --experimental_google_legacy_api
-build --experimental_google_legacy_api
+common --repo_env=JAVA_HOME=../bazel_tools/jdk
+common --experimental_google_legacy_api
