@@ -1,3 +1,27 @@
+# v0.12.0 (Fri Mar 15 2024)
+
+#### 🚀 Enhancement
+
+- Migrate from bazel-distribution to rules_jvm_external for Maven distribution [#39](https://github.com/player-ui/rules_player/pull/39) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
+# v0.11.1 (Fri Mar 15 2024)
+
+#### 🐛 Bug Fix
+
+- Fix Android SDK and build tools versions [#41](https://github.com/player-ui/rules_player/pull/41) ([@brocollie08](https://github.com/brocollie08))
+
+#### Authors: 1
+
+- [@brocollie08](https://github.com/brocollie08)
+
+---
+
 # v0.11.0 (Wed Dec 13 2023)
 
 ### Release Notes

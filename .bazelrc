@@ -1,0 +1,3 @@
+# Use embedded JDK
+common --repo_env=JAVA_HOME=../bazel_tools/jdk
+common --experimental_google_legacy_api

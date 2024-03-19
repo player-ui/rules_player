@@ -13,17 +13,10 @@ def kt_jvm(
 
         # Distribution config
         group = None,
-        release_repo = None,
-        snapshot_repo = None,
-        version_file = None,
-
-        # (optional)
-        project_name = None,
-        project_description = None,
-        project_url = None,
-        scm_url = None,
-        developers = None,
-        workspace_refs = None,
+        version = None,
+        deploy_env = None,
+        excluded_workspaces = None,
+        pom_template = None,
 
         # Package level config
         module_name = None,
@@ -44,8 +37,7 @@ def kt_jvm(
         test_resource_strip_prefix = None,
         test_associates = None,
         test_deps = None,
-        test_runtime_deps = None,
-):
+        test_runtime_deps = None):
     """Generic Kotlin JVM macro for conditionally configuring build & test targets, linting, and publishing.
 
     # Building + Testing
@@ -63,19 +55,10 @@ def kt_jvm(
 
     # Publishing
 
-    Distribution requires a group to use for Maven coordinates, as well as the Maven
-    snapshot and release repositories to publish to. Additionally, a version file is
-    required to read the version from for publishing.
+    Distribution requires a group and version to use for Maven coordinates.
 
-    If any of these properties are provided, publishing targets will be attempted to be
+    If either of these properties are provided, publishing targets will be attempted to be
     created, but will error out if any of the other required properties are missing.
-
-    The following can be provided for additional information to publish the artifact
-    with:
-    - project_name
-    - project_description
-    - project_url
-    - scm_url
 
     Three targets are created for publishing:
     - {name}-assemble: Package artifact and generate POM
@@ -90,9 +73,9 @@ def kt_jvm(
 
         # Distribution project config
         group: (optional) group identifier for publishing
-        release_repo: (optional) Maven release repository
-        snapshot_repo: (optional) Maven snapshot repository
-        version_file: (optional) file containing version string
+        version: (optional) version to publish under
+        deploy_env: (optional) collection of targets to exclude from transitive closure
+        excluded_workspaces: (optional) dict of workspace names to replace, or remove, from transitive closure
 
         # Distribution target config
         project_name: (optional) project name for POM
@@ -136,15 +119,17 @@ def kt_jvm(
     if test_resources == None:
         test_resources = native.glob(["src/test/resources/**/*"])
 
-    should_publish = group or version_file or snapshot_repo or release_repo
-    required_info_to_publish = group and version_file and snapshot_repo and release_repo
+    should_publish = group or version
+    required_info_to_publish = group and version
 
     if should_publish and not required_info_to_publish:
-        fail("publishing info not fully provided. to enable publishing, ensure group, version_file, snapshot_repo, and release_repo are provided: %s, %s, %s, %s" % (group, version_file, snapshot_repo, release_repo))
+        fail("publishing info not fully provided. to enable publishing, ensure group and version are provided: %s, %s" % (group, version))
+
+    maven_coordinates = "%s:%s:%s" % (group, name, version if version else "{pom_version}") if should_publish else None
 
     kt_jvm_library_and_test(
         name = name,
-        tags = ["maven_coordinates=%s:%s:{pom_version}" % (group, name)] if should_publish else None,
+        tags = ["maven_coordinates=%s" % (maven_coordinates)] if maven_coordinates else None,
         module_name = module_name,
         main_opts = main_opts,
         main_srcs = main_srcs,
@@ -176,13 +161,8 @@ def kt_jvm(
     if should_publish:
         distribution(
             name = name,
-            release_repo = release_repo,
-            snapshot_repo = snapshot_repo,
-            version_file = version_file,
-            project_name = project_name,
-            project_description = project_description,
-            project_url = project_url,
-            scm_url = scm_url,
-            developers = developers,
-            workspace_refs = workspace_refs,
+            maven_coordinates = maven_coordinates,
+            deploy_env = deploy_env,
+            excluded_workspaces = excluded_workspaces,
+            pom_template = pom_template,
         )

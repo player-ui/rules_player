@@ -5,7 +5,7 @@ load("//cocoapods:workspace.bzl", "cocoapods")
 load("//distribution:workspace.bzl", "distribution")
 load("//junit5:workspace.bzl", "junit5")
 load("//kotlin:workspace.bzl", "kotlin")
-load("//maven:workspace.bzl", "maven")
+load("//maven:workspace.bzl", "maven_repository")
 load("//javascript:workspace.bzl", "javascript")
 
 def deps():
@@ -15,6 +15,6 @@ def deps():
     distribution()
     junit5()
     kotlin()
-    maven()
+    maven_repository()
     javascript()
     cocoapods()

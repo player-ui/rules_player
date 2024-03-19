@@ -25,11 +25,11 @@ class NexusStagingCli : CliktCommand() {
     }
 
     val username by option(help = "Nexus server username").defaultLazy {
-        System.getenv("DEPLOY_MAVEN_USERNAME")
+        System.getenv("MAVEN_USER")
     }
 
     val password by option(help = "Nexus server password").defaultLazy {
-        System.getenv("DEPLOY_MAVEN_PASSWORD")
+        System.getenv("MAVEN_PASSWORD")
     }
 
     val clientTimeout by option(help = "Client timeout in seconds").long()
