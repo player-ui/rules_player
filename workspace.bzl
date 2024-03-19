@@ -8,11 +8,8 @@ load("//kotlin:workspace.bzl", "kotlin")
 load("//maven:workspace.bzl", "maven")
 load("//javascript:workspace.bzl", "javascript")
 
-def deps(
-    android_api_version = None,
-    android_build_tools_version = None
-):
-    android(api_level = android_api_version, build_tools_version = android_build_tools_version)
+def deps():
+    android()
     apple()
     skylib()
     distribution()
