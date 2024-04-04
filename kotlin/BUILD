@@ -7,5 +7,8 @@ bzl_library(
     srcs = ["defs.bzl"],
     visibility = ["//visibility:public"],
     deps = [
+        "//kotlin/private:lint",
+        "//kotlin/private:distribution",
+        "//kotlin/private:kt_jvm"
     ],
 )
