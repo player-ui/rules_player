@@ -7,8 +7,7 @@ bzl_library(
         "//kotlin:__subpackages__",
     ],
     deps = [
-        ":scope_name",
-        "@io_bazel_rules_kotlin//kotlin:lint.bzl"
+        ":scope_name"
     ]
 )
 
@@ -20,7 +19,7 @@ bzl_library(
     ],
     deps = [
         ":scope_name",
-        "@rules_jvm_external//:defs",
+        "@rules_jvm_external//:defs.bzl",
     ]
 )
 
