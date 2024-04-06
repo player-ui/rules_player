@@ -1,4 +1,4 @@
-load("@rules_kotlin//kotlin:lint.bzl", "ktlint_fix", "ktlint_test")
+load("@io_bazel_rules_kotlin//kotlin:lint.bzl", "ktlint_fix", "ktlint_test")
 load(":scope_name.bzl", "scope_name")
 
 def lint(

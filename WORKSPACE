@@ -3,22 +3,26 @@ workspace(
 )
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
+
+# Kotlin rule
 rules_kotlin_version = "1.9.0"
 http_archive(
-    name = "rules_kotlin",
+    name = "io_bazel_rules_kotlin",
     sha256 = "5766f1e599acf551aa56f49dab9ab9108269b03c557496c54acaf41f98e2b8d6",
     url = "https://github.com/bazelbuild/rules_kotlin/releases/download/v1.9.0/rules_kotlin-v1.9.0.tar.gz",
 )
 
-load("@rules_kotlin//kotlin:repositories.bzl", "kotlin_repositories")
+load("@io_bazel_rules_kotlin//kotlin:repositories.bzl", "kotlin_repositories")
 
 kotlin_repositories()
 
-load("@rules_kotlin//kotlin:core.bzl", "kt_register_toolchains")
+load("@io_bazel_rules_kotlin//kotlin:core.bzl", "kt_register_toolchains")
 
 kt_register_toolchains()
 
+# JVM rule
 http_archive(
     name = "rules_jvm_external",
     sha256 = "d31e369b854322ca5098ea12c69d7175ded971435e55c18dd9dd5f29cc5249ac",
@@ -49,3 +53,13 @@ maven_install(
     ],
 )
 
+git_repository(
+    name = "junit",
+    remote = "https://github.com/sugarmanz/junit5-samples",
+    commit = "2617a5e6fb5b858894f1c9ede486498e70becf99",
+    shallow_since = "1648584808 -0400"
+)
+
+load("//kotlin:conf.bzl", "junit5")
+
+junit5()
