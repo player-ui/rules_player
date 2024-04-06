@@ -1,3 +1,8 @@
-load("//javascript:js_library_pipeline.bzl", _js_library_pipeline = "js_library_pipeline")
+load("//:conf.bzl", "my_data_dependency")
 
-js_library_pipeline = _js_library_pipeline
+def _non_module_dependencies_impl(_ctx):
+    my_data_dependency()
+
+non_module_extension = module_extension(
+    implementation = _non_module_dependencies_impl,
+)

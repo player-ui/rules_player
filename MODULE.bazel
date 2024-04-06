@@ -46,5 +46,5 @@ maven.install(
 )
 use_repo(maven, "maven")
 
-junitDep = use_extension("//:conf.bzl", "non_module_extension")
+junitDep = use_extension("//:index.bzl", "non_module_extension")
 use_repo(junitDep, "junit")
