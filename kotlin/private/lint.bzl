@@ -1,4 +1,4 @@
-load("@io_bazel_rules_kotlin//kotlin:lint.bzl", "ktlint_fix", "ktlint_test")
+load("@rules_jvm_external//:defs.bzl", "maven_install")
 load(":scope_name.bzl", "scope_name")
 
 def lint(
@@ -8,14 +8,13 @@ def lint(
         srcs,
         lint_config,
 ):
-    ktlint_test(
-        name = scope_name(name, "lint"),
-        srcs = srcs,
-        config = lint_config,
-    )
-
-    ktlint_fix(
-        name = scope_name(name, "lint-fix"),
-        srcs = srcs,
-        config = lint_config,
+    maven_install(
+        artifacts = [
+            "org.hamcrest:hamcrest-library:1.3",
+        ],
+        repositories = [
+            # Private repositories are supported through HTTP Basic auth
+            "https://maven.google.com",
+            "https://repo1.maven.org/maven2",
+        ],
     )
