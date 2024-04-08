@@ -15,10 +15,3 @@ def my_data_dependency():
         commit = "2617a5e6fb5b858894f1c9ede486498e70becf99",
         shallow_since = "1648584808 -0400"
     )
-
-def _non_module_dependencies_impl(_ctx):
-    my_data_dependency()
-
-non_module_extension = module_extension(
-    implementation = _non_module_dependencies_impl,
-)
