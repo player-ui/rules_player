@@ -32,7 +32,7 @@ bzl_library(
     deps = [
         ":lint",
         ":distribution",
-        ":kt_jvm_library_and_test.bzl"
+        ":kt_jvm_library_and_test.bzl",
     ]
 )
 
