@@ -17,6 +17,8 @@ rules_ts_ext.deps()
 
 use_repo(rules_ts_ext, "npm_typescript")
 
+bazel_dep(name = "rules_java", version = "6.5.2")
+
 bazel_dep(name = "rules_kotlin", version = "1.9.0", repo_name = "io_bazel_rules_kotlin")
 
 bazel_dep(name = "rules_jvm_external", version = "5.3")
@@ -45,6 +47,3 @@ maven.install(
     ]
 )
 use_repo(maven, "maven")
-
-junitDep = use_extension("//:index.bzl", "non_module_extension")
-use_repo(junitDep, "junit")
