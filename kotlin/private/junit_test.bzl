@@ -1,5 +1,5 @@
 load("@bazel_tools//tools/build_defs/repo:jvm.bzl", "jvm_maven_import_external")
-load("@io_bazel_rules_kotlin//kotlin:jvm.bzl", "kt_jvm_test")
+load("@rules_kotlin//kotlin:jvm.bzl", "kt_jvm_test")
 
 JUNIT_JUPITER_GROUP_ID = "org.junit.jupiter"
 JUNIT_JUPITER_ARTIFACT_ID_LIST = [

@@ -1,4 +1,4 @@
-load("@rules_jvm_external//:defs.bzl", "maven_install")
+load(":kt_jvm_library_and_test.bzl", "kt_jvm_library_and_test")
 load(":lint.bzl", "lint")
 load(":distribution.bzl", "distribution")
 
@@ -107,14 +107,62 @@ def kt_jvm(
         test_runtime_deps: (optional) depencies of the test source set that are provided at runtime
     """
 
-    maven_install(
-        artifacts = [
-            "org.hamcrest:hamcrest-library:1.3",
-        ],
-        repositories = [
-            # Private repositories are supported through HTTP Basic auth
-            "https://maven.google.com",
-            "https://repo1.maven.org/maven2",
-        ],
+    if main_srcs == None:
+        main_srcs = native.glob(["src/main/kotlin/**/*.kt"])
+
+    if main_resources == None:
+        main_resources = native.glob(["src/main/resources/**/*"])
+
+    if test_srcs == None:
+        test_srcs = native.glob(["src/test/kotlin/**/*.kt"])
+
+    if test_resources == None:
+        test_resources = native.glob(["src/test/resources/**/*"])
+
+    should_publish = group or version
+    required_info_to_publish = group and version
+
+    if should_publish and not required_info_to_publish:
+        fail("publishing info not fully provided. to enable publishing, ensure group and version are provided: %s, %s" % (group, version))
+
+    maven_coordinates = "%s:%s:%s" % (group, name, version if version else "{pom_version}") if should_publish else None
+
+    kt_jvm_library_and_test(
+        name = name,
+        tags = ["maven_coordinates=%s" % (maven_coordinates)] if maven_coordinates else None,
+        module_name = module_name,
+        main_opts = main_opts,
+        main_srcs = main_srcs,
+        main_resources = main_resources,
+        main_resource_jars = main_resource_jars,
+        main_resource_strip_prefix = main_resource_strip_prefix,
+        main_associates = main_associates,
+        main_deps = main_deps,
+        main_exports = main_exports,
+        main_runtime_deps = main_runtime_deps,
+        test_package = test_package,
+        test_opts = test_opts,
+        test_srcs = test_srcs,
+        test_resources = test_resources,
+        test_resource_jars = test_resource_jars,
+        test_resource_strip_prefix = test_resource_strip_prefix,
+        test_associates = test_associates,
+        test_deps = test_deps,
+        test_runtime_deps = test_runtime_deps,
     )
 
+    if lint_config:
+        lint(
+            name = name,
+            srcs = main_srcs + test_srcs,
+            lint_config = lint_config,
+        )
+
+    if should_publish:
+        distribution(
+            name = name,
+            maven_coordinates = maven_coordinates,
+            deploy_env = deploy_env,
+            excluded_workspaces = excluded_workspaces,
+            pom_template = pom_template,
+        )

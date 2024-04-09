@@ -18,7 +18,12 @@ rules_ts_ext.deps()
 
 use_repo(rules_ts_ext, "npm_typescript")
 
-
+bazel_dep(name = "rules_kotlin")
+git_override(
+    remote = "https://github.com/bazelbuild/rules_kotlin.git",
+    commit = "58fde1a5d0ab6fa812ba3fb93331b2d7652fd3b6",
+    module_name = "rules_kotlin"
+)
 bazel_dep(name = "rules_jvm_external", version = "5.3")
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 
