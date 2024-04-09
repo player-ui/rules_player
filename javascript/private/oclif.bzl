@@ -178,7 +178,7 @@ def oclif_pipeline(
         node_modules = "//:node_modules",
     )
 
-    package_name = name + "_package"
+    package_name = name
     package_target = ":" + package_name
 
     npm_package(
@@ -197,7 +197,7 @@ def oclif_pipeline(
 
     js_binary(
         name = name + ".npm-publish",
-        chdir = native.package_name() + "/" + name,
+        chdir = native.package_name() + "/" + package_name,
         data = [package_target],
         entry_point = "@aspect_rules_js//npm/private:npm_publish_mjs",
         # required to make npm to be available in PATH
