@@ -6,7 +6,7 @@ load("@aspect_bazel_lib//lib:directory_path.bzl", "directory_path")
 load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_run_binary", "js_test")
 load("@bazel_skylib//lib:paths.bzl", "paths")
 
-def compile(name, node_modules = "//:node_modules", srcs = None, data = [], config = None, **kwargs):
+def compile(name, node_modules = "//:node_modules", srcs = None, data = [], config = None, skip_test = False, **kwargs):
     """Run the src or src_dir through the player compiler.
     Args:
         name: The name of the target.
@@ -53,16 +53,17 @@ def compile(name, node_modules = "//:node_modules", srcs = None, data = [], conf
         **kwargs
     )
 
-    js_test(
-        name = js_test_bin_name,
-        data = data + [":" + name, "{}/@player-tools/cli".format(node_modules), config],
-        entry_point = ":{}".format(player_cli_entrypoint),
-        args = [
-            "json",
-            "validate",
-            "-c",
-            "$(rootpath {})".format(config),
-            "-f",
-            "$(location {})".format(":" + name),
-        ],
-    )
+    if skip_test != True:
+        js_test(
+            name = js_test_bin_name,
+            data = data + [":" + name, "{}/@player-tools/cli".format(node_modules), config],
+            entry_point = ":{}".format(player_cli_entrypoint),
+            args = [
+                "json",
+                "validate",
+                "-c",
+                "$(rootpath {})".format(config),
+                "-f",
+                "$(location {})".format(":" + name),
+            ],
+        )
