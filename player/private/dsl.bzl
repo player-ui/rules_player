@@ -46,7 +46,7 @@ def compile(name, node_modules = "//:node_modules", srcs = None, data = [], conf
             "-i",
             "{}/{}".format(native.package_name(), input_dir),
             "-c",
-            "$(location {})".format(config),
+            "$(rootpath {})".format(config),
         ],
         out_dirs = ["{}_dist".format(name)],
         **kwargs
@@ -60,7 +60,7 @@ def compile(name, node_modules = "//:node_modules", srcs = None, data = [], conf
             "json",
             "validate",
             "-c",
-            "$(location {})".format(config),
+            "$(rootpath {})".format(config),
             "-f",
             "$(location {})".format(":" + name),
         ],
