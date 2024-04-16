@@ -41,6 +41,7 @@ def compile(name, node_modules = "//:node_modules", srcs = None, data = [], conf
         args = [
             "dsl",
             "compile",
+            "--skip-validation",
             "-o",
             "{}/{}_dist".format(native.package_name(), name),
             "-i",
