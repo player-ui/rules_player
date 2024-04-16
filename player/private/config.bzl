@@ -11,6 +11,12 @@ _config_attrs = {
         allow_files = True,
         allow_empty = True,
     ),
+    "presets": attr.label_list(
+        default = [],
+        providers = [JsInfo],
+        allow_files = True,
+        allow_empty = True,
+    ),
     "_config_template": attr.label(
         allow_single_file = True,
         default = Label("//player/private:player.config.json.template"),
@@ -23,6 +29,7 @@ def _create_base_config_impl(ctx):
     """
 
     tmpl_plugins = []
+    tmpl_presets = []
 
     for plugin in ctx.attr.plugins:
         linked_list = plugin[JsInfo].npm_linked_packages.to_list()
@@ -31,6 +38,13 @@ def _create_base_config_impl(ctx):
 
         tmpl_plugins.append(linked_list[0].package)
 
+    for plugin in ctx.attr.plugins:
+        linked_list = plugin[JsInfo].npm_linked_packages.to_list()
+        if len(linked_list) > 1:
+            fail("Plugin {} has more than one linked package".format(plugin))
+
+        tmpl_presets.append(linked_list[0].package)
+
     output_file = ctx.actions.declare_file("{}.player.config.json".format(ctx.label.name))
 
     ctx.actions.expand_template(
@@ -38,6 +52,7 @@ def _create_base_config_impl(ctx):
         output = output_file,
         substitutions = {
             "_TMPL_PLUGINS": json.encode(tmpl_plugins),
+            "_TMPL_PRESETS": json.encode(tmpl_presets),
         },
     )
 
