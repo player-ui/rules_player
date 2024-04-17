@@ -33,6 +33,8 @@ def compile(name, node_modules = "//:node_modules", srcs = None, data = [], conf
 
     input_dir = paths.dirname(srcs[0])
 
+    outputs = [paths.join("{}_dist".format(name), paths.relativize(paths.replace_extension(src, ".json"), input_dir)) for src in srcs]
+
     js_run_binary(
         name = name,
         tool = js_bin_name,
@@ -49,7 +51,7 @@ def compile(name, node_modules = "//:node_modules", srcs = None, data = [], conf
             "-c",
             "$(rootpath {})".format(config),
         ],
-        out_dirs = ["{}_dist".format(name)],
+        outs = outputs,
         **kwargs
     )
 
