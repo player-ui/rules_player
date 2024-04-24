@@ -1,0 +1,4 @@
+module.exports = {
+  "plugins": _TMPL_PLUGINS.map(r => require.resolve(r)),
+  "presets": _TMPL_PRESETS.map(r => require.resolve(r))
+}

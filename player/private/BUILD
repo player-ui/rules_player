@@ -13,5 +13,5 @@ bzl_library(
 )
 
 exports_files([
-    "player.config.json.template",
+    "player.config.js.template",
 ])

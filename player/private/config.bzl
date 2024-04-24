@@ -19,7 +19,7 @@ _config_attrs = {
     ),
     "_config_template": attr.label(
         allow_single_file = True,
-        default = Label("//player/private:player.config.json.template"),
+        default = Label("//player/private:player.config.js.template"),
     ),
 }
 
@@ -45,7 +45,7 @@ def _create_base_config_impl(ctx):
 
         tmpl_presets.append(linked_list[0].package)
 
-    output_file = ctx.actions.declare_file("{}.player.config.json".format(ctx.label.name))
+    output_file = ctx.actions.declare_file("{}.player.config.js".format(ctx.label.name))
 
     ctx.actions.expand_template(
         template = ctx.file._config_template,
