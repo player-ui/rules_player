@@ -66,6 +66,6 @@ def compile(name, node_modules = "//:node_modules", srcs = None, data = [], conf
                 "-c",
                 "$(rootpath {})".format(config),
                 "-f",
-                "$(location {})".format(":" + name),
+                "$(locations {})".format(":" + name),
             ],
         )
