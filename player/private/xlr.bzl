@@ -5,6 +5,7 @@ A rule for compiling player flows.
 load("@aspect_bazel_lib//lib:directory_path.bzl", "directory_path")
 load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_run_binary")
 load("config.bzl", "create_base_config")
+load("@bazel_skylib//lib:paths.bzl", "paths")
 
 def xlr_compile(
         name,
@@ -46,14 +47,14 @@ def xlr_compile(
             "xlr",
             "compile",
             "-o",
-            native.package_name(),
+            paths.join(native.package_name(), "dist"),
             "-i",
-            "{}/{}".format(native.package_name(), input_dir),
+            paths.join(native.package_name(), input_dir),
             "-c",
             "$(rootpath {})".format(config),
             "-m",
             mode,
         ],
-        out_dirs = ["xlr"],
+        out_dirs = [paths.join("dist", "xlr")],
         **kwargs
     )
