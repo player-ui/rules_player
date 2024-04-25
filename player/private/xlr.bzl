@@ -5,7 +5,6 @@ A rule for compiling player flows.
 load("@aspect_bazel_lib//lib:directory_path.bzl", "directory_path")
 load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_run_binary")
 load("config.bzl", "create_base_config")
-load("@bazel_skylib//lib:paths.bzl", "paths")
 
 def xlr_compile(
         name,
@@ -13,6 +12,7 @@ def xlr_compile(
         srcs = None,
         data = [],
         config = None,
+        input_dir = "src",
         mode = "plugin",
         **kwargs):
     player_cli_entrypoint = "{}_entrypoint".format(name)
@@ -36,8 +36,6 @@ def xlr_compile(
         data = ["{}/@player-tools/cli".format(node_modules)],
         entry_point = ":{}".format(player_cli_entrypoint),
     )
-
-    input_dir = paths.dirname(srcs[0])
 
     js_run_binary(
         name = name,
