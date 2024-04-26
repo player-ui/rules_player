@@ -25,3 +25,4 @@ user.bazelrc
 **/node_modules/
 
 **/.DS_Store
+.bazelrc.local
