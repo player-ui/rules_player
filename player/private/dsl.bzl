@@ -6,7 +6,7 @@ load("@aspect_bazel_lib//lib:directory_path.bzl", "directory_path")
 load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_run_binary", "js_test")
 load("@bazel_skylib//lib:paths.bzl", "paths")
 
-def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "src", data = [], config = None, skip_test = False, **kwargs):
+def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "src", output_dir = None, data = [], config = None, skip_test = False, **kwargs):
     """Run the src or src_dir through the player compiler.
     Args:
         name: The name of the target.
@@ -31,7 +31,8 @@ def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "sr
         entry_point = ":{}".format(player_cli_entrypoint),
     )
 
-    outputs = [paths.join("{}_dist".format(name), paths.relativize(paths.replace_extension(src, ".json"), input_dir)) for src in srcs]
+    output_dir = output_dir if output_dir else "{}_dist".format(name)
+    outputs = [paths.join(output_dir, paths.relativize(paths.replace_extension(src, ".json"), input_dir)) for src in srcs]
 
     js_run_binary(
         name = name,
@@ -43,7 +44,7 @@ def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "sr
             "compile",
             "--skip-validation",
             "-o",
-            "{}/{}_dist".format(native.package_name(), name),
+            "{}/{}".format(native.package_name(), output_dir),
             "-i",
             "{}/{}".format(native.package_name(), input_dir),
             "-c",
