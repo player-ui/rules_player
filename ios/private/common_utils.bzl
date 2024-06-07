@@ -158,6 +158,7 @@ def ios_pipeline(
     srcs = [":" + name + "_Sources"] + ["//:.swiftlint.yml"],
     outs = ["output.sh"],
     executable = True,
+    testonly = True,
     visibility = ["//visibility:public"],
     cmd="""
       echo `$(location @SwiftLint//:swiftlint) --config $(location //:.swiftlint.yml) $(SRCS) || true` > lint_results.txt
