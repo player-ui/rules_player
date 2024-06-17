@@ -70,8 +70,10 @@ def ios_pipeline(
     deps: Dependencies for the plugin
     test_deps: Dependencies for the tests of this plugin
     hasUnitTests: Whether or not to generate ios_unit_test tests
-    hasUITests: Whether or not to generate ios_ui_test tests
+    
     hasViewInspectorTests: Whether or not to generate ios_ui_test tests that require ViewInspector
+    test_host: the target where the tests should run (Demo app target)
+    hasUITests: Whether or not to generate ios_ui_test tests
     needsXCTest: set the 'testonly' attribute on swift_library
     bundle_name: optionally override the name used for the resource bundle
   """
