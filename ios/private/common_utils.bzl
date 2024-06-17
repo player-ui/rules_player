@@ -69,13 +69,12 @@ def ios_pipeline(
       This will create a Bundle.module shim as well automatically
     deps: Dependencies for the plugin
     test_deps: Dependencies for the tests of this plugin
-    hasUnitTests: Whether or not to generate ios_unit_test tests
-    
+    hasUnitTests: Whether or not to generate ios_unit_test tests  
     hasViewInspectorTests: Whether or not to generate ios_ui_test tests that require ViewInspector
-    test_host: the target where the tests should run (Demo app target)
+    test_host: The target where the tests should run (Demo app target)
     hasUITests: Whether or not to generate ios_ui_test tests
-    needsXCTest: set the 'testonly' attribute on swift_library
-    bundle_name: optionally override the name used for the resource bundle
+    needsXCTest: Set the 'testonly' attribute on swift_library
+    bundle_name: Pptionally override the name used for the resource bundle
   """
 
   # if we are backed by a JS package, these attributes
