@@ -10,5 +10,8 @@ bzl_library(
 
 exports_files([
     "ResourceShimTemplate.swift",
-    "Info.plist"
+    "Info.plist",
+    "pod_repo_push.sh",
+    "pod_trunk_push.sh",
+    "unzip_and_tag.sh"
 ])
