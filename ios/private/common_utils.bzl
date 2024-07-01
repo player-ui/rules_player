@@ -55,6 +55,7 @@ def ios_pipeline(
   hasUnitTests,
   hasViewInspectorTests,
   test_host,
+  hasUITests = False,
   needsXCTest = False,
   bundle_name = None,
   
@@ -68,10 +69,12 @@ def ios_pipeline(
       This will create a Bundle.module shim as well automatically
     deps: Dependencies for the plugin
     test_deps: Dependencies for the tests of this plugin
-    hasUnitTests: Whether or not to generate ios_unit_test tests
+    hasUnitTests: Whether or not to generate ios_unit_test tests  
+    hasViewInspectorTests: Whether or not to generate ios_ui_test tests that require ViewInspector
+    test_host: The target where the tests should run (Demo app target)
     hasUITests: Whether or not to generate ios_ui_test tests
-    needsXCTest: set the 'testonly' attribute on swift_library
-    bundle_name: optionally override the name used for the resource bundle
+    needsXCTest: Set the 'testonly' attribute on swift_library
+    bundle_name: Pptionally override the name used for the resource bundle
   """
 
   # if we are backed by a JS package, these attributes
@@ -128,7 +131,7 @@ def ios_pipeline(
         visibility = ["//visibility:public"]
     )
   # ViewInspector has to run as a UI Test to work properly
-  # SwiftUI plugins need ViewInspector
+  # Some SwiftUI plugins need ViewInspector
   if hasViewInspectorTests == True:
     ios_ui_test(
         name = name + "ViewInspectorTests",
@@ -137,6 +140,18 @@ def ios_pipeline(
         deps = [
             "@swiftpkg_viewinspector//:Sources_ViewInspector",
             ":" + name
+        ] + deps + test_deps,
+        visibility = ["//visibility:public"],
+        test_host = test_host
+    )
+
+  #Some SwiftUI plugins have UI tests without ViewInspector
+  if hasUITests == True:
+    ios_ui_test(
+        name = name + "UITests",
+        srcs = native.glob(["UITests/**/*.swift"]),
+        minimum_os_version = "14.0",
+         deps = [
         ] + deps + test_deps,
         visibility = ["//visibility:public"],
         test_host = test_host
