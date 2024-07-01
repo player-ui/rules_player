@@ -7,7 +7,15 @@ fi
 
 # We only need the version, so find that line and grab the value
 # (lines are space delimited in stable-status.txt)
-VERSION_NUMBER=$(cat stable-status.txt | grep STABLE_VERSION | cut -d' ' -f2-)
+VERSION_NUMBER=$(cat stable-status.txt | grep STABLE_VERSION | cut -d' ' -f2)
+
+BRANCH="{TARGET_BRANCH}"
+
+# Change the target branch if this is not a stable release
+if [[ $VERSION_NUMBER =~ "-" ]]; then
+    echo "Prerelease/Canary"
+    BRANCH=$(echo $VERSION_NUMBER | cut -d- -f1)
+fi
 
 echo "Using version $VERSION_NUMBER for new release."
 
@@ -20,10 +28,15 @@ fi
 # Clone the target repository
 git clone {REPOSITORY} publishRepo
 
-# Unzip contents and overwrite files in the target repository
-unzip -o {ZIP} -d publishRepo
-
 cd publishRepo
+
+git fetch --all
+
+# Switches to the target branch
+git checkout -b $BRANCH
+
+# Unzip contents and overwrite files in the target repository
+unzip -o ../{ZIP} -d .
 
 # Commit files
 git add . && git commit -m "Version $VERSION_NUMBER"
@@ -34,4 +47,4 @@ git tag -a $VERSION_NUMBER -m "Version $VERSION_NUMBER"
 echo "Pushing new tag $VERSION_NUMBER to {REPOSITORY}"
 
 # Push commit and tags to repository
-git push --follow-tags
+git push --follow-tags origin $BRANCH

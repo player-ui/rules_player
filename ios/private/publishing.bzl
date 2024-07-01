@@ -21,6 +21,7 @@ def _spm_publish_impl(ctx):
     substitutions = {
       '{REPOSITORY}': ctx.attr.repository,
       '{ZIP}': ctx.file.zip.basename,
+      '{TARGET_BRANCH}': ctx.attr.target_branch
     }
   )
 
@@ -100,6 +101,10 @@ spm_publish = rule(
     ),
     "repository": attr.string(
       doc = "The git repository to publish spm zip contents to"
+    ),
+    "target_branch": attr.string(
+      default = "main",
+      doc = "The branch to use for stable releases"
     ),
     "_publishTemplate": attr.label(
       default = _TEMPLATE_SPM_PUBLISH,
