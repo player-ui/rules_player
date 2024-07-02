@@ -47,4 +47,4 @@ git tag -a $VERSION_NUMBER -m "Version $VERSION_NUMBER"
 echo "Pushing new tag $VERSION_NUMBER to {REPOSITORY}"
 
 # Push commit and tags to repository
-git push --follow-tags origin $BRANCH
+git push -f --follow-tags origin refs/heads/$BRANCH:refs/heads/$BRANCH
