@@ -1,3 +1,61 @@
+# v0.12.0 (Fri Mar 15 2024)
+
+#### 🚀 Enhancement
+
+- Migrate from bazel-distribution to rules_jvm_external for Maven distribution [#39](https://github.com/player-ui/rules_player/pull/39) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
+# v0.11.1 (Fri Mar 15 2024)
+
+#### 🐛 Bug Fix
+
+- Fix Android SDK and build tools versions [#41](https://github.com/player-ui/rules_player/pull/41) ([@brocollie08](https://github.com/brocollie08))
+
+#### Authors: 1
+
+- [@brocollie08](https://github.com/brocollie08)
+
+---
+
+# v0.11.0 (Wed Dec 13 2023)
+
+### Release Notes
+
+#### `maven_install` for publishing to local Maven repository ([#37](https://github.com/player-ui/rules_player/pull/37))
+
+`maven_install` rule that installs an artifact to the consumers local Maven repository (typically `~/.m2/repository`). The target must provide `MavenDeploymentInfo` (i.e. `assemble_maven` targets).
+
+This is tied into the top-level `kt_jvm` macro and will generate a target if `distribution` is configured.
+
+---
+
+#### 🚀 Enhancement
+
+- `maven_install` for publishing to local Maven repository [#37](https://github.com/player-ui/rules_player/pull/37) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
+# v0.10.4 (Mon Dec 04 2023)
+
+#### 🐛 Bug Fix
+
+- Kotlin rules v1.7.1 [#35](https://github.com/player-ui/rules_player/pull/35) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v0.10.3 (Wed Oct 18 2023)
 
 #### 🐛 Bug Fix
