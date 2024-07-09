@@ -7,11 +7,17 @@ bzl_library(
 )
 
 bzl_library(
+    name = "xlr",
+    srcs = ["xlr.bzl"],
+    visibility = ["//player:__subpackages__"],
+)
+
+bzl_library(
     name = "config",
     srcs = ["config.bzl"],
     visibility = ["//player:__subpackages__"],
 )
 
 exports_files([
-    "player.config.json.template",
+    "player.config.js.template",
 ])

@@ -26,6 +26,7 @@ def js_pipeline(
         native_bundle = None,
         private = False,
         peer_deps = [],
+        include_packaging_targets = [],
         test_deps = ["//:vitest_config"],
         lint_deps = ["//:eslint_config"],
         build_deps = ["//:tsup_config", "//:typings"]):
@@ -163,7 +164,7 @@ def js_pipeline(
         name = name,
         visibility = ["//visibility:public"],
         package = package_name,
-        srcs = [js_library_target, tsup_build_target],
+        srcs = [js_library_target, tsup_build_target] + include_packaging_targets,
         tags = filter_empty([
             "do-not-publish" if private else None,
         ]),
