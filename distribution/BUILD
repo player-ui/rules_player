@@ -6,9 +6,9 @@ kt_jvm_binary(
   srcs = ["NexusStagingCli.kt"],
   main_class = "com.intuit.player.rules.distribution.NexusStagingCliKt",
   deps = [
-    "@maven//:com_github_ajalt_clikt_clikt_jvm",
-    "@maven//:io_github_gradle_nexus_publish_plugin",
-    "@maven//:ch_qos_logback_logback_classic",
+    "@rules_player_maven//:com_github_ajalt_clikt_clikt_jvm",
+    "@rules_player_maven//:io_github_gradle_nexus_publish_plugin",
+    "@rules_player_maven//:ch_qos_logback_logback_classic",
   ],
 )
 

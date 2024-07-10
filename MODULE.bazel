@@ -24,6 +24,7 @@ bazel_dep(name = "rules_jvm_external", version = "5.3")
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 
 maven.install(
+    name = "rules_player_maven",
     artifacts = [
         "com.github.ajalt.clikt:clikt-jvm:3.4.0",
         "io.github.gradle-nexus:publish-plugin:1.1.0",
@@ -38,14 +39,13 @@ maven.install(
         "org.zeroturnaround:zt-exec:1.10",
     ],
     fetch_sources = True,
-    fail_if_repin_required = True,
     repositories = [
         "https://repo1.maven.org/maven2",
         "https://maven.google.com/",
         "https://plugins.gradle.org/m2/",
     ]
 )
-use_repo(maven, "maven")
+use_repo(maven, "rules_player_maven")
 ## Rule Dependencies
 bazel_dep(name = "rules_swift", version = "1.18.0", repo_name = "build_bazel_rules_swift")
 bazel_dep(name = "rules_apple", version = "3.5.1", repo_name = "build_bazel_rules_apple")
