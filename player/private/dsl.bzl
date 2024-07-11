@@ -43,7 +43,7 @@ def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "sr
             "compile",
             "--skip-validation",
             "-o",
-            "{}/{}_dist".format(native.package_name(), name),
+            "{}/{}".format(native.package_name(), output_dir),
             "-i",
             "{}/{}".format(native.package_name(), input_dir),
             "-c",
