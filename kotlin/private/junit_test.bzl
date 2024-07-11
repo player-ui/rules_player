@@ -141,4 +141,4 @@ def _format_maven_jar_name(group_id, artifact_id):
     return ("%s_%s" % (group_id, artifact_id)).replace(".", "_").replace("-", "_")
 
 def _format_maven_jar_dep_name(group_id, artifact_id):
-    return "@rules_player_maven//:%s" % _format_maven_jar_name(group_id, artifact_id)
+    return "@maven//:%s" % _format_maven_jar_name(group_id, artifact_id)

@@ -3,4 +3,25 @@ module(
 )
 
 bazel_dep(name = "rules_player")
-local_path_override(module_name = "rules_player", path = "../../..")
+local_path_override(module_name = "rules_player", path = "../..")
+
+bazel_dep(name = "rules_jvm_external", version = "5.3")
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+
+maven.install(
+    artifacts = [
+        "org.junit.jupiter:junit-jupiter-api:5.7.2",
+        "org.junit.jupiter:junit-jupiter-params:5.7.2",
+        "org.junit.jupiter:junit-jupiter-engine:5.7.2",
+        "org.junit.platform:junit-platform-suite-api:1.7.2",
+        "org.junit.platform:junit-platform-console:1.7.2",
+        "org.junit.platform:junit-platform-launcher:1.7.2"
+    ],
+    fetch_sources = True,
+    repositories = [
+        "https://repo1.maven.org/maven2",
+        "https://maven.google.com/",
+        "https://plugins.gradle.org/m2/",
+    ]
+)
+use_repo(maven, "maven")
