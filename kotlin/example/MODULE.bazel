@@ -1,6 +1,5 @@
 module(
-    name = "kotlin_example",
-    version = "1.0",
+    name = "kotlin_example"
 )
 
 bazel_dep(name = "rules_player")
