@@ -1,4 +1,4 @@
-load(":build.bzl", "kt_jvm_library_and_test")
+load(":kt_jvm_library_and_test.bzl", "kt_jvm_library_and_test")
 load(":lint.bzl", "lint")
 load(":distribution.bzl", "distribution")
 

@@ -7,9 +7,8 @@ bzl_library(
     srcs = ["defs.bzl"],
     visibility = ["//visibility:public"],
     deps = [
-        "//javascript/private:eslint",
-        "//javascript/private:js_pipeline",
-        "//javascript/private:oclif",
-        "//javascript/private:vitest",
+        "//kotlin/private:lint",
+        "//kotlin/private:distribution",
+        "//kotlin/private:kt_jvm"
     ],
 )
