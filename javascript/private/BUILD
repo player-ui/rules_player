@@ -101,3 +101,16 @@ bzl_library(
         "@aspect_rules_js//js:defs",
     ],
 )
+
+bzl_library(
+    name = "oclif",
+    srcs = ["oclif.bzl"],
+    visibility = [
+        "//docs:__subpackages__",
+        "//javascript:__subpackages__",
+    ],
+    deps = [
+        "@aspect_bazel_lib//lib:directory_path",
+        "@aspect_rules_js//js:defs",
+    ],
+)

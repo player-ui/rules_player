@@ -66,6 +66,9 @@ jobs:
           at: ~/rules_player
       - run:
           name: Test
+          command: bazel test //...
+      - run:
+          name: Test Examples
           command: ./scripts/test.sh
 
   release:

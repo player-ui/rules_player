@@ -9,6 +9,7 @@ bzl_library(
     deps = [
         "//javascript/private:eslint",
         "//javascript/private:js_pipeline",
+        "//javascript/private:oclif",
         "//javascript/private:vitest",
     ],
 )

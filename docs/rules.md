@@ -61,7 +61,8 @@ eslint_test(<a href="#eslint_test-name">name</a>, <a href="#eslint_test-data">da
 
 <pre>
 js_pipeline(<a href="#js_pipeline-package_name">package_name</a>, <a href="#js_pipeline-name">name</a>, <a href="#js_pipeline-srcs">srcs</a>, <a href="#js_pipeline-package_json">package_json</a>, <a href="#js_pipeline-root_package_json">root_package_json</a>, <a href="#js_pipeline-vitest_config">vitest_config</a>, <a href="#js_pipeline-tsup_config">tsup_config</a>,
-            <a href="#js_pipeline-node_modules">node_modules</a>, <a href="#js_pipeline-deps">deps</a>, <a href="#js_pipeline-native_bundle">native_bundle</a>, <a href="#js_pipeline-private">private</a>, <a href="#js_pipeline-peer_deps">peer_deps</a>, <a href="#js_pipeline-test_deps">test_deps</a>, <a href="#js_pipeline-lint_deps">lint_deps</a>, <a href="#js_pipeline-build_deps">build_deps</a>)
+            <a href="#js_pipeline-node_modules">node_modules</a>, <a href="#js_pipeline-deps">deps</a>, <a href="#js_pipeline-native_bundle">native_bundle</a>, <a href="#js_pipeline-private">private</a>, <a href="#js_pipeline-peer_deps">peer_deps</a>, <a href="#js_pipeline-include_packaging_targets">include_packaging_targets</a>,
+            <a href="#js_pipeline-test_deps">test_deps</a>, <a href="#js_pipeline-lint_deps">lint_deps</a>, <a href="#js_pipeline-build_deps">build_deps</a>)
 </pre>
 
     The main entry point for any JS/TS project. `js_pipeline` should be the only thing you need in your BUILD file.
@@ -86,9 +87,44 @@ Creates a js_library, npm_package, and test targets for a given package.
 | <a id="js_pipeline-native_bundle"></a>native_bundle |  The name for the native bundle global if defined.   |  <code>None</code> |
 | <a id="js_pipeline-private"></a>private |  Whether or not the package should be private (skipping an npm release).   |  <code>False</code> |
 | <a id="js_pipeline-peer_deps"></a>peer_deps |  The peer dependencies for the package.   |  <code>[]</code> |
+| <a id="js_pipeline-include_packaging_targets"></a>include_packaging_targets |  <p align="center"> - </p>   |  <code>[]</code> |
 | <a id="js_pipeline-test_deps"></a>test_deps |  The test dependencies for the package.   |  <code>["//:vitest_config"]</code> |
 | <a id="js_pipeline-lint_deps"></a>lint_deps |  The lint dependencies for the package.   |  <code>["//:eslint_config"]</code> |
 | <a id="js_pipeline-build_deps"></a>build_deps |  The build dependencies for the package.   |  <code>["//:tsup_config", "//:typings"]</code> |
+
+
+<a id="oclif_pipeline"></a>
+
+## oclif_pipeline
+
+<pre>
+oclif_pipeline(<a href="#oclif_pipeline-package_name">package_name</a>, <a href="#oclif_pipeline-name">name</a>, <a href="#oclif_pipeline-srcs">srcs</a>, <a href="#oclif_pipeline-manifest">manifest</a>, <a href="#oclif_pipeline-package_json">package_json</a>, <a href="#oclif_pipeline-root_package_json">root_package_json</a>, <a href="#oclif_pipeline-vitest_config">vitest_config</a>,
+               <a href="#oclif_pipeline-node_modules">node_modules</a>, <a href="#oclif_pipeline-deps">deps</a>, <a href="#oclif_pipeline-peer_deps">peer_deps</a>, <a href="#oclif_pipeline-test_deps">test_deps</a>, <a href="#oclif_pipeline-lint_deps">lint_deps</a>, <a href="#oclif_pipeline-build_deps">build_deps</a>)
+</pre>
+
+    A modified version of the `js_pipeline` for building oclif CLIs and CLI plugins.
+
+Creates a js_library, npm_package, and test targets for a given package.
+
+
+**PARAMETERS**
+
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="oclif_pipeline-package_name"></a>package_name |  The name of the package including the scope (@test/bar).   |  none |
+| <a id="oclif_pipeline-name"></a>name |  The name of the package (defaults to the last part of the package_name).   |  <code>None</code> |
+| <a id="oclif_pipeline-srcs"></a>srcs |  The source files for the package (defaults to src/*).   |  <code>None</code> |
+| <a id="oclif_pipeline-manifest"></a>manifest |  If an oclif manifest should be generated as part of the build. Not needed for CLI plugins.   |  <code>True</code> |
+| <a id="oclif_pipeline-package_json"></a>package_json |  The package.json file for the package (defaults to package.json).   |  <code>"package.json"</code> |
+| <a id="oclif_pipeline-root_package_json"></a>root_package_json |  The root package.json file for the package (defaults to //:package.json).   |  <code>"//:package.json"</code> |
+| <a id="oclif_pipeline-vitest_config"></a>vitest_config |  The vitest config for the package (defaults to None).   |  <code>":vitest_config"</code> |
+| <a id="oclif_pipeline-node_modules"></a>node_modules |  The base node_modules to pull dependencies from (defaults to //:node_modules).   |  <code>"//:node_modules"</code> |
+| <a id="oclif_pipeline-deps"></a>deps |  The dependencies for the package.   |  <code>[]</code> |
+| <a id="oclif_pipeline-peer_deps"></a>peer_deps |  The peer dependencies for the package.   |  <code>[]</code> |
+| <a id="oclif_pipeline-test_deps"></a>test_deps |  The test dependencies for the package.   |  <code>["//:vitest_config"]</code> |
+| <a id="oclif_pipeline-lint_deps"></a>lint_deps |  The lint dependencies for the package.   |  <code>["//:eslint_config"]</code> |
+| <a id="oclif_pipeline-build_deps"></a>build_deps |  The build dependencies for the package.   |  <code>["//:typings"]</code> |
 
 
 <a id="tsup_build"></a>
