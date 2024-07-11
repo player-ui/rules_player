@@ -1,0 +1,7 @@
+module(
+    name = "kotlin_example",
+    version = "1.0",
+)
+
+bazel_dep(name = "rules_player")
+local_path_override(module_name = "rules_player", path = "../../..")
