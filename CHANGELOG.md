@@ -1,3 +1,43 @@
+# v1.0.0 (Thu Jul 11 2024)
+
+### Release Notes
+
+#### Oclif Macro ([#43](https://github.com/player-ui/rules_player/pull/43))
+
+Add macro for building Oclif CLIs and Plugins.
+
+---
+
+#### 💥 Breaking Change
+
+- Bazel 6 Migration [#34](https://github.com/player-ui/rules_player/pull/34) ([@adierkens](https://github.com/adierkens) [@hborawski](https://github.com/hborawski) [@rafbcampos](https://github.com/rafbcampos) [@KetanReddy](https://github.com/KetanReddy) [@sugarmanz](https://github.com/sugarmanz) [@brocollie08](https://github.com/brocollie08) nancy_wu1@intuit.com [@nancywu1](https://github.com/nancywu1))
+
+#### 🐛 Bug Fix
+
+- Update docs [#53](https://github.com/player-ui/rules_player/pull/53) ([@adierkens](https://github.com/adierkens) [@sugarmanz](https://github.com/sugarmanz))
+- Bazel 6 JVM [#50](https://github.com/player-ui/rules_player/pull/50) ([@adierkens](https://github.com/adierkens) [@brocollie08](https://github.com/brocollie08) [@sugarmanz](https://github.com/sugarmanz))
+- Update config search path to remove bin/ prefix [#44](https://github.com/player-ui/rules_player/pull/44) ([@adierkens](https://github.com/adierkens) [@KetanReddy](https://github.com/KetanReddy))
+- Bazel 6 xlr [#45](https://github.com/player-ui/rules_player/pull/45) ([@adierkens](https://github.com/adierkens))
+- Oclif Macro [#43](https://github.com/player-ui/rules_player/pull/43) ([@KetanReddy](https://github.com/KetanReddy))
+- iOS_pipeline macro seperate out uitests [#49](https://github.com/player-ui/rules_player/pull/49) (nancy_wu1@intuit.com [@nancywu1](https://github.com/nancywu1))
+- iOS: Move over common utils.bzl macros to be reused for playerplugins [#48](https://github.com/player-ui/rules_player/pull/48) (nancy_wu1@intuit.com [@nancywu1](https://github.com/nancywu1))
+- add generic stamp rule back in to stamp Podspec [#46](https://github.com/player-ui/rules_player/pull/46) ([@hborawski](https://github.com/hborawski))
+- Bazel 6 - Support artifact stamping [#40](https://github.com/player-ui/rules_player/pull/40) ([@adierkens](https://github.com/adierkens) [@KetanReddy](https://github.com/KetanReddy))
+- set visibility for native bundles [#36](https://github.com/player-ui/rules_player/pull/36) ([@hborawski](https://github.com/hborawski))
+
+#### Authors: 8
+
+- [@brocollie08](https://github.com/brocollie08)
+- [@nancywu1](https://github.com/nancywu1)
+- Adam Dierkens ([@adierkens](https://github.com/adierkens))
+- Harris Borawski ([@hborawski](https://github.com/hborawski))
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+- Ketan Reddy ([@KetanReddy](https://github.com/KetanReddy))
+- Rafael Campos ([@rafbcampos](https://github.com/rafbcampos))
+- zwu01 (nancy_wu1@intuit.com)
+
+---
+
 # v0.12.0 (Fri Mar 15 2024)
 
 #### 🚀 Enhancement
