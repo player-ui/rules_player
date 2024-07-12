@@ -1,13 +1,15 @@
-load("@io_bazel_rules_kotlin//kotlin:jvm.bzl", "kt_jvm_binary")
-load("@rules_player//maven:parse_coordinates.bzl", "parse_coordinates")
-load(":deps.bzl", "staging_cli")
+load("@rules_kotlin//kotlin:jvm.bzl", "kt_jvm_binary")
 
 # TODO: We should probably build this for the archive
 kt_jvm_binary(
   name = "nexus-staging-cli",
   srcs = ["NexusStagingCli.kt"],
   main_class = "com.intuit.player.rules.distribution.NexusStagingCliKt",
-  deps = parse_coordinates(staging_cli),
+  deps = [
+    "@rules_player_maven//:com_github_ajalt_clikt_clikt_jvm",
+    "@rules_player_maven//:io_github_gradle_nexus_publish_plugin",
+    "@rules_player_maven//:ch_qos_logback_logback_classic",
+  ],
 )
 
 sh_binary(

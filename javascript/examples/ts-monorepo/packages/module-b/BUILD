@@ -1,18 +1,13 @@
-load("@build_bazel_rules_nodejs//:index.bzl", "generated_file_test")
-load("//:index.bzl", "js_library_pipeline")
+load("@rules_player//javascript:defs.bzl", "js_pipeline")
+load("@npm//:defs.bzl", "npm_link_all_packages")
 
-js_library_pipeline(
-    name = "@test/module-b",
-    srcs = glob(["files/**"]),
-    bin_entry = "./files/cli.ts",
-    dependencies = [
-        "//packages/module-a:@test/module-a",
+npm_link_all_packages(name = "node_modules")
+
+js_pipeline(
+    package_name = "@test/module-b",
+    tsup_config = "tsup.config.ts",
+    vitest_config = "vitest.config.ts",
+    deps = [
+        ":node_modules/@test/module-a",
     ],
-    entry = "./files/entry.ts",
-)
-
-generated_file_test(
-    name = "package-json-test",
-    src = "package.test.json",
-    generated = ":@test/module-b-package_json",
 )

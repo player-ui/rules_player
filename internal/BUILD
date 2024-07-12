@@ -1,8 +1,10 @@
-load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
+load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
 
-package(default_visibility = ["//visibility:public"])
+exports_files(["defs.bzl"])
 
-nodejs_binary(
-    name = "stamp_replacement",
-    entry_point = "stamp_replacement.js",
+bzl_library(
+    name = "defs",
+    srcs = ["defs.bzl"],
+    visibility = ["//visibility:public"],
+    deps = [],
 )
