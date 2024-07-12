@@ -28,7 +28,7 @@ async function getShaForTarFile(download_url) {
     })
   });
 
-  const ruleHash = crypto.createHash('sha256').update(fs.readFileSync(tarballPath)).digest('hex');
+  const ruleHash = crypto.createHash('sha256').update(fs.readFileSync(tarballPath)).digest('base64');
 
   return ruleHash;
 }
@@ -49,11 +49,13 @@ class BazelRuleUsagePlugin {
       const notes = `
 
 \`\`\`starlark
-http_archive(
-  name = "rules_player",
+bazel_dep(name = "rules_player")
+
+archive_override(
+  module_name = "rules_player",
   strip_prefix = "rules_player-${versionWithoutPrefix}",
   urls = ["${tarball_url}"],
-  sha256 = "${ruleHash}"
+  integrity = "sha256-${ruleHash}"
 )
 \`\`\`
 
