@@ -1,3 +1,17 @@
+# v1.0.1 (Thu Jul 18 2024)
+
+#### 🐛 Bug Fix
+
+- iOS publishing rule updates [#51](https://github.com/player-ui/rules_player/pull/51) ([@hborawski](https://github.com/hborawski))
+- Update Generated Release Notes to Conform to Bazel 6 Standard [#57](https://github.com/player-ui/rules_player/pull/57) ([@KetanReddy](https://github.com/KetanReddy))
+
+#### Authors: 2
+
+- Harris Borawski ([@hborawski](https://github.com/hborawski))
+- Ketan Reddy ([@KetanReddy](https://github.com/KetanReddy))
+
+---
+
 # v1.0.0 (Thu Jul 11 2024)
 
 ### Release Notes
