@@ -28,4 +28,9 @@ coverage --remote_download_toplevel
 coverage --remote_timeout=3600
 coverage --build_metadata=REPO_URL=https://github.com/player-ui/rules_player.git
 
+# To update these lines, execute 
+# `bazel run @rules_bazel_integration_test//tools:update_deleted_packages`
+build --deleted_packages=examples/kotlin,examples/ts-monorepo,examples/ts-monorepo/packages/module-a,examples/ts-monorepo/packages/module-b
+query --deleted_packages=examples/kotlin,examples/ts-monorepo,examples/ts-monorepo/packages/module-a,examples/ts-monorepo/packages/module-b
+
 try-import %workspace%/.bazelrc.local
