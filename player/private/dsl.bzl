@@ -8,6 +8,7 @@ load("@bazel_skylib//lib:paths.bzl", "paths")
 
 def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "src", output_dir = None, data = [], config = None, skip_test = False, **kwargs):
     """Run the src or src_dir through the player compiler.
+    
     Args:
         name: The name of the target.
         srcs: The source files to compile.

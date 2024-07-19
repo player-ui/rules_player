@@ -3,6 +3,7 @@ load("xlr.bzl", "xlr_compile")
 
 def js_xlr_pipeline(name = None, xlr_mode = "plugin", xlr_input_dir = "src", srcs = None, **kwargs):
     """A rule for compiling player flows with xlr mode.
+    
     Args:
         name: The name of the target.
         xlr_mode: The mode to use when compiling with XLR. Defaults to "plugin".

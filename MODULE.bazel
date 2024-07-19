@@ -19,7 +19,7 @@ rules_ts_ext.deps()
 use_repo(rules_ts_ext, "npm_typescript")
 
 bazel_dep(name = "rules_kotlin", version = "1.9.1")
-
+bazel_dep(name = "rules_java", version = "7.2.0", dev_dependency = True)
 bazel_dep(name = "rules_jvm_external", version = "5.3")
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 
