@@ -1,4 +1,9 @@
+"""
+Implementation of junit testing rules for kotlin
+"""
+
 load("@bazel_tools//tools/build_defs/repo:jvm.bzl", "jvm_maven_import_external")
+load("@rules_java//java:defs.bzl", "java_test")
 load("@rules_kotlin//kotlin:jvm.bzl", "kt_jvm_test")
 
 JUNIT_JUPITER_GROUP_ID = "org.junit.jupiter"
@@ -24,7 +29,13 @@ JUNIT_EXTRA_DEPENDENCIES = [
 
 def junit_jupiter_java_repositories(
         version = "5.7.2"):
-    """Imports dependencies for JUnit Jupiter"""
+    """
+    Imports dependencies for JUnit Jupiter
+
+    Args:
+        version: The version of junit_jupiter to use
+    """
+
     for artifact_id in JUNIT_JUPITER_ARTIFACT_ID_LIST:
         jvm_maven_import_external(
             name = _format_maven_jar_name(JUNIT_JUPITER_GROUP_ID, artifact_id),
@@ -34,7 +45,7 @@ def junit_jupiter_java_repositories(
                 version,
             ),
             server_urls = ["https://repo1.maven.org/maven2"],
-            licenses = ["notice"], # EPL 2.0 License
+            licenses = ["notice"],  # EPL 2.0 License
         )
 
     for t in JUNIT_EXTRA_DEPENDENCIES:
@@ -42,12 +53,18 @@ def junit_jupiter_java_repositories(
             name = _format_maven_jar_name(t[0], t[1]),
             artifact = "%s:%s:%s" % t,
             server_urls = ["https://repo1.maven.org/maven2"],
-            licenses = ["notice"], # EPL 2.0 License
+            licenses = ["notice"],  # EPL 2.0 License
         )
 
 def junit_platform_java_repositories(
         version = "1.7.2"):
-    """Imports dependencies for JUnit Platform"""
+    """
+    Imports dependencies for JUnit Platform
+
+    Args:
+        version: The version of junit_platform to use
+    """
+
     for artifact_id in JUNIT_PLATFORM_ARTIFACT_ID_LIST:
         jvm_maven_import_external(
             name = _format_maven_jar_name(JUNIT_PLATFORM_GROUP_ID, artifact_id),
@@ -57,10 +74,22 @@ def junit_platform_java_repositories(
                 version,
             ),
             server_urls = ["https://repo1.maven.org/maven2"],
-            licenses = ["notice"], # EPL 2.0 License
+            licenses = ["notice"],  # EPL 2.0 License
         )
 
 def java_junit5_test(name, srcs, test_package, deps = [], runtime_deps = [], **kwargs):
+    """
+    Generate a *_test target for running java tests using junit5
+
+    Args:
+        name: The name of the target to generate
+        srcs: The list of input sources needed to test
+        test_package: The name of the test package to execute
+        deps: Dependencies needed for library to test
+        runtime_deps: Runtime dependencies to use while testing
+        **kwargs: Additional arguments to pass to java_test
+    """
+
     FILTER_KWARGS = [
         "main_class",
         "use_testrunner",
@@ -76,8 +105,7 @@ def java_junit5_test(name, srcs, test_package, deps = [], runtime_deps = [], **k
         junit_console_args += ["--select-package", test_package]
     else:
         fail("must specify 'test_package'")
-
-    native.java_test(
+    java_test(
         name = name,
         srcs = srcs,
         use_testrunner = False,
@@ -100,42 +128,54 @@ def java_junit5_test(name, srcs, test_package, deps = [], runtime_deps = [], **k
     )
 
 def kt_jvm_junit5_test(name, srcs, test_package, deps = [], runtime_deps = [], **kwargs):
-     FILTER_KWARGS = [
-         "main_class",
-         "use_testrunner",
-         "args",
-     ]
+    """
+    Generate a *_test target for running kotlin tests using junit5
 
-     for arg in FILTER_KWARGS:
-         if arg in kwargs.keys():
-             kwargs.pop(arg)
+    Args:
+        name: The name of the target to generate
+        srcs: The list of input sources needed to test
+        test_package: The name of the test package to execute
+        deps: Dependencies needed for library to test
+        runtime_deps: Runtime dependencies to use while testing
+        **kwargs: Additional arguments to pass to kt_jvm_test
+    """
 
-     junit_console_args = []
-     if test_package:
-         junit_console_args += ["--select-package", test_package]
-     else:
-         fail("must specify 'test_package'")
+    FILTER_KWARGS = [
+        "main_class",
+        "use_testrunner",
+        "args",
+    ]
 
-     kt_jvm_test(
-         name = name,
-         srcs = srcs,
-         main_class = "org.junit.platform.console.ConsoleLauncher",
-         args = junit_console_args,
-         deps = deps + [
-             _format_maven_jar_dep_name(JUNIT_JUPITER_GROUP_ID, artifact_id)
-             for artifact_id in JUNIT_JUPITER_ARTIFACT_ID_LIST
-         ] + [
-             _format_maven_jar_dep_name(JUNIT_PLATFORM_GROUP_ID, "junit-platform-suite-api"),
-         ] + [
-             _format_maven_jar_dep_name(t[0], t[1])
-             for t in JUNIT_EXTRA_DEPENDENCIES
-         ],
-         runtime_deps = (runtime_deps if runtime_deps else []) + [
-             _format_maven_jar_dep_name(JUNIT_PLATFORM_GROUP_ID, artifact_id)
-             for artifact_id in JUNIT_PLATFORM_ARTIFACT_ID_LIST
-         ],
-         **kwargs
-     )
+    for arg in FILTER_KWARGS:
+        if arg in kwargs.keys():
+            kwargs.pop(arg)
+
+    junit_console_args = []
+    if test_package:
+        junit_console_args += ["--select-package", test_package]
+    else:
+        fail("must specify 'test_package'")
+
+    kt_jvm_test(
+        name = name,
+        srcs = srcs,
+        main_class = "org.junit.platform.console.ConsoleLauncher",
+        args = junit_console_args,
+        deps = deps + [
+            _format_maven_jar_dep_name(JUNIT_JUPITER_GROUP_ID, artifact_id)
+            for artifact_id in JUNIT_JUPITER_ARTIFACT_ID_LIST
+        ] + [
+            _format_maven_jar_dep_name(JUNIT_PLATFORM_GROUP_ID, "junit-platform-suite-api"),
+        ] + [
+            _format_maven_jar_dep_name(t[0], t[1])
+            for t in JUNIT_EXTRA_DEPENDENCIES
+        ],
+        runtime_deps = (runtime_deps if runtime_deps else []) + [
+            _format_maven_jar_dep_name(JUNIT_PLATFORM_GROUP_ID, artifact_id)
+            for artifact_id in JUNIT_PLATFORM_ARTIFACT_ID_LIST
+        ],
+        **kwargs
+    )
 
 def _format_maven_jar_name(group_id, artifact_id):
     return ("%s_%s" % (group_id, artifact_id)).replace(".", "_").replace("-", "_")

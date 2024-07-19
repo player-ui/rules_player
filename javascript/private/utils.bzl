@@ -5,6 +5,16 @@ General utils for working in JS projects
 load("@aspect_rules_js//js:providers.bzl", "JsInfo")
 
 def filter_empty(things):
+    """
+    Create a new array removing any empty values from the given array
+
+    Args:
+        things: The array to filter
+
+    Returns:
+        A new array
+    """
+
     new_things = []
     for f in things:
         if f != None:
@@ -12,6 +22,16 @@ def filter_empty(things):
     return new_things
 
 def remove_duplicates(data):
+    """
+    Create a new array removing any duplicate values from the given array
+
+    Args:
+        data: The array to filter
+
+    Returns:
+        A new array
+    """
+
     filtered = []
     for d in data:
         if d in filtered:
@@ -20,12 +40,32 @@ def remove_duplicates(data):
     return filtered
 
 def is_test_file(file, test_file_pattern):
+    """
+    Check if the given file matches the provided test patterns
+
+    Args:
+        file: A file path to test
+        test_file_pattern: A list of globs to test against
+
+    Returns:
+        True if the given file patches the pattern
+    """
     for p in test_file_pattern:
         if p in file:
             return True
     return False
 
 def filter_false(arr):
+    """
+    Create a new array removing any falsy values from the given array
+
+    Args:
+        arr: The array to filter
+
+    Returns:
+        A new array
+    """
+
     filtered = []
     for f in arr:
         if f:

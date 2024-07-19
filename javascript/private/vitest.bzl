@@ -1,3 +1,7 @@
+"""
+Implementation for the test macro for vitest
+"""
+
 load("@aspect_bazel_lib//lib:directory_path.bzl", "directory_path")
 load("@aspect_rules_js//js:defs.bzl", "js_test")
 
