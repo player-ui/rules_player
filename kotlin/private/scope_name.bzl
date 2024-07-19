@@ -1,3 +1,7 @@
+"""
+Utilities for managing artifact scope names
+"""
+
 def scope_name(name, suffix):
     if name == native.package_name().split("/")[-1]:
         return suffix

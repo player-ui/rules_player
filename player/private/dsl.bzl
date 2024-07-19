@@ -8,11 +8,17 @@ load("@bazel_skylib//lib:paths.bzl", "paths")
 
 def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "src", output_dir = None, data = [], config = None, skip_test = False, **kwargs):
     """Run the src or src_dir through the player compiler.
-    
+
     Args:
         name: The name of the target.
         srcs: The source files to compile.
         node_modules: The node_modules target to use.
+        input_dir: The directory that contains the source files.
+        output_dir: The name of the directory to write to
+        data: Additional data to pass to the compiler
+        config: A config override to use
+        skip_test: Flag to skip generating the *_test target
+        **kwargs: Additonal args to pass to the js_run_binary cmd
     """
 
     player_cli_entrypoint = "{}_entrypoint".format(name)
@@ -31,7 +37,7 @@ def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "sr
         data = ["{}/@player-tools/cli".format(node_modules)],
         entry_point = ":{}".format(player_cli_entrypoint),
     )
-    
+
     output_dir = output_dir if output_dir else "{}_dist".format(name)
     outputs = [paths.join(output_dir, paths.relativize(paths.replace_extension(src, ".json"), input_dir)) for src in srcs]
 

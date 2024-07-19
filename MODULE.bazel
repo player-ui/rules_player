@@ -1,5 +1,9 @@
-module(name = "rules_player", version = "1.0")
+module(
+    name = "rules_player",
+    version = "1.0",
+)
 
+bazel_dep(name = "cgrindel_bazel_starlib", version = "0.21.0")
 bazel_dep(name = "aspect_bazel_lib", version = "1.32.0")
 bazel_dep(name = "aspect_rules_js", version = "1.33.1")
 bazel_dep(name = "aspect_rules_rollup", version = "1.0.0")
@@ -13,16 +17,14 @@ rules_ts_ext = use_extension(
     "ext",
     dev_dependency = True,
 )
-
 rules_ts_ext.deps()
-
 use_repo(rules_ts_ext, "npm_typescript")
 
 bazel_dep(name = "rules_kotlin", version = "1.9.1")
-bazel_dep(name = "rules_java", version = "7.2.0", dev_dependency = True)
+bazel_dep(name = "rules_java", version = "7.2.0")
 bazel_dep(name = "rules_jvm_external", version = "5.3")
-maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(
     name = "rules_player_maven",
     artifacts = [
@@ -51,7 +53,7 @@ bazel_dep(name = "rules_apple", version = "3.5.1", repo_name = "build_bazel_rule
 bazel_dep(name = "rules_ios", version = "4.3.1", repo_name = "build_bazel_rules_ios")
 
 bazel_dep(name = "rules_bazel_integration_test", version = "0.24.1", dev_dependency = True)
+
 bazel_binaries = use_extension("@rules_bazel_integration_test//:extensions.bzl", "bazel_binaries", dev_dependency = True)
 bazel_binaries.download(version_file = ".bazelversion")
-
-use_repo(bazel_binaries, "bazel_binaries")
+use_repo(bazel_binaries, "bazel_binaries", "bazel_binaries_bazelisk", "build_bazel_bazel_.bazelversion")

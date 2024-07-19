@@ -1,3 +1,7 @@
+"""
+Macro implementation for building and testing kotlin libraries
+"""
+
 load("@rules_kotlin//kotlin:jvm.bzl", "kt_jvm_library")
 load(":junit_test.bzl", "kt_jvm_junit5_test")
 load(":scope_name.bzl", "scope_name")
@@ -6,7 +10,6 @@ load(":scope_name.bzl", "scope_name")
 def kt_jvm_library_and_test(
         *,
         # Generic parameters
-
         name,
         tags = None,
 
@@ -41,8 +44,7 @@ def kt_jvm_library_and_test(
         # Test dependencies
         test_associates = [],
         test_deps = [],
-        test_runtime_deps = [],
-):
+        test_runtime_deps = []):
     kt_jvm_library(
         name = name,
         module_name = module_name,

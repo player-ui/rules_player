@@ -1,6 +1,10 @@
+"""
+Macro implementation for building, testing, and deploying kotlin code
+"""
+
+load(":distribution.bzl", "distribution")
 load(":kt_jvm_library_and_test.bzl", "kt_jvm_library_and_test")
 load(":lint.bzl", "lint")
-load(":distribution.bzl", "distribution")
 
 def kt_jvm(
         *,
@@ -75,13 +79,7 @@ def kt_jvm(
         version: (optional) version to publish under
         deploy_env: (optional) collection of targets to exclude from transitive closure
         excluded_workspaces: (optional) dict of workspace names to replace, or remove, from transitive closure
-
-        project_name: (optional) project name for POM
-        project_description: (optional) project description for POM
-        project_url: (optional) project url for POM
-        scm_url: (optional) project scm url for POM
-        developers: (optional) developers for POM
-        workspace_refs: (optional) refs used to track dependencies
+        pom_template: (optional) file override to use while generating the pom file
 
         module_name: (optional) Kotlin module name
         main_opts: (optional) Kotlin compiler options used to compile the main source set

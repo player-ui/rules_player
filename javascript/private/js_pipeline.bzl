@@ -1,12 +1,16 @@
-load("@aspect_rules_js//npm:defs.bzl", "npm_package")
+"""
+Macro implementation for the main JS/TS compile, test, and publish workflow
+"""
+
 load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_library")
+load("@aspect_rules_js//npm:defs.bzl", "npm_package")
 load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
 load("@bazel_skylib//rules:expand_template.bzl", "expand_template")
-load(":vitest.bzl", "vitest_test")
 load(":eslint.bzl", "eslint_test")
-load(":tsup.bzl", "tsup_build", "tsup_native_build")
 load(":package_json.bzl", "create_package_json")
+load(":tsup.bzl", "tsup_build", "tsup_native_build")
 load(":utils.bzl", "filter_empty", "without_tests")
+load(":vitest.bzl", "vitest_test")
 
 test_file_pattern = [
     "_tests_",
@@ -47,6 +51,7 @@ def js_pipeline(
       deps: The dependencies for the package.
       native_bundle: The name for the native bundle global if defined.
       private: Whether or not the package should be private (skipping an npm release).
+      include_packaging_targets: Additional dependencies to add to the package target
       peer_deps: The peer dependencies for the package.
       test_deps: The test dependencies for the package.
       lint_deps: The lint dependencies for the package.

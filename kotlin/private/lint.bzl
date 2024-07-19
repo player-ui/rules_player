@@ -1,13 +1,15 @@
+"""
+Macro implementation for linting kotlin source
+"""
+
 load("@rules_kotlin//kotlin:lint.bzl", "ktlint_fix", "ktlint_test")
 load(":scope_name.bzl", "scope_name")
 
 def lint(
         *,
-
         name,
         srcs,
-        lint_config,
-):
+        lint_config):
     ktlint_test(
         name = scope_name(name, "lint"),
         srcs = srcs,

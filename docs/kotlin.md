@@ -1,8 +1,6 @@
 <!-- Generated with Stardoc: http://skydoc.bazel.build -->
 
-
 Public API for Kotlin based project rules
-
 
 <a id="distribution"></a>
 
@@ -12,17 +10,17 @@ Public API for Kotlin based project rules
 distribution(<a href="#distribution-name">name</a>, <a href="#distribution-maven_coordinates">maven_coordinates</a>, <a href="#distribution-lib_name">lib_name</a>, <a href="#distribution-kwargs">kwargs</a>)
 </pre>
 
-
+Utility macro for deploying kotlin artifacts
 
 **PARAMETERS**
 
 
 | Name  | Description | Default Value |
 | :------------- | :------------- | :------------- |
-| <a id="distribution-name"></a>name |  <p align="center"> - </p>   |  none |
-| <a id="distribution-maven_coordinates"></a>maven_coordinates |  <p align="center"> - </p>   |  none |
-| <a id="distribution-lib_name"></a>lib_name |  <p align="center"> - </p>   |  <code>None</code> |
-| <a id="distribution-kwargs"></a>kwargs |  <p align="center"> - </p>   |  none |
+| <a id="distribution-name"></a>name |  The name of the export target   |  none |
+| <a id="distribution-maven_coordinates"></a>maven_coordinates |  The maven location   |  none |
+| <a id="distribution-lib_name"></a>lib_name |  The library name   |  `None` |
+| <a id="distribution-kwargs"></a>kwargs |  Additional args to use for export   |  none |
 
 
 <a id="kt_jvm"></a>
@@ -70,32 +68,32 @@ Three targets are created for publishing:
 
 | Name  | Description | Default Value |
 | :------------- | :------------- | :------------- |
-| <a id="kt_jvm-name"></a>name |  used for the underlying <code>kt_jvm_library</code> rule   |  none |
-| <a id="kt_jvm-lint_config"></a>lint_config |  project level KtLint config   |  <code>None</code> |
-| <a id="kt_jvm-group"></a>group |  (optional) group identifier for publishing   |  <code>None</code> |
-| <a id="kt_jvm-version"></a>version |  (optional) version to publish under   |  <code>None</code> |
-| <a id="kt_jvm-deploy_env"></a>deploy_env |  (optional) collection of targets to exclude from transitive closure   |  <code>None</code> |
-| <a id="kt_jvm-excluded_workspaces"></a>excluded_workspaces |  (optional) dict of workspace names to replace, or remove, from transitive closure   |  <code>None</code> |
-| <a id="kt_jvm-pom_template"></a>pom_template |  <p align="center"> - </p>   |  <code>None</code> |
-| <a id="kt_jvm-module_name"></a>module_name |  (optional) Kotlin module name   |  <code>None</code> |
-| <a id="kt_jvm-main_opts"></a>main_opts |  (optional) Kotlin compiler options used to compile the main source set   |  <code>None</code> |
-| <a id="kt_jvm-main_srcs"></a>main_srcs |  (optional) main source set -- defaults to <code>glob(["src/main/kotlin/**/*.kt"])</code>   |  <code>None</code> |
-| <a id="kt_jvm-main_resources"></a>main_resources |  (optional) main resources -- defaults to <code>glob(["src/main/resources/**/*"])</code>   |  <code>None</code> |
-| <a id="kt_jvm-main_resource_jars"></a>main_resource_jars |  (optional) additional resource JARs for the main sources   |  <code>None</code> |
-| <a id="kt_jvm-main_resource_strip_prefix"></a>main_resource_strip_prefix |  (optional) remove prefix from resources   |  <code>None</code> |
-| <a id="kt_jvm-main_associates"></a>main_associates |  (optional) Kotlin module dependencies to treat as associates of the same module   |  <code>None</code> |
-| <a id="kt_jvm-main_deps"></a>main_deps |  (optional) dependencies of the main source set   |  <code>None</code> |
-| <a id="kt_jvm-main_exports"></a>main_exports |  (optional) dependencies that should be exported as apart of this module   |  <code>None</code> |
-| <a id="kt_jvm-main_runtime_deps"></a>main_runtime_deps |  (optional) depencies of the main source set that are provided at runtime   |  <code>None</code> |
-| <a id="kt_jvm-test_package"></a>test_package |  (required if test sources are provided) package containing tests   |  <code>None</code> |
-| <a id="kt_jvm-test_opts"></a>test_opts |  (optional) Kotlin compiler options used to compile the test source set   |  <code>None</code> |
-| <a id="kt_jvm-test_srcs"></a>test_srcs |  (optional) test source set -- defaults to <code>glob(["src/test/kotlin/**/*.kt"])</code>   |  <code>None</code> |
-| <a id="kt_jvm-test_resources"></a>test_resources |  (optional) main resources -- defaults to <code>glob(["src/test/resources/**/*"])</code>   |  <code>None</code> |
-| <a id="kt_jvm-test_resource_jars"></a>test_resource_jars |  (optional) additional resource JARs for the test sources   |  <code>None</code> |
-| <a id="kt_jvm-test_resource_strip_prefix"></a>test_resource_strip_prefix |  (optional) remove prefix from resources   |  <code>None</code> |
-| <a id="kt_jvm-test_associates"></a>test_associates |  (optional) Kotlin module dependencies to treat as associates of the same module   |  <code>None</code> |
-| <a id="kt_jvm-test_deps"></a>test_deps |  (optional) dependencies of the test source set   |  <code>None</code> |
-| <a id="kt_jvm-test_runtime_deps"></a>test_runtime_deps |  (optional) depencies of the test source set that are provided at runtime   |  <code>None</code> |
+| <a id="kt_jvm-name"></a>name |  used for the underlying `kt_jvm_library` rule   |  none |
+| <a id="kt_jvm-lint_config"></a>lint_config |  project level KtLint config   |  `None` |
+| <a id="kt_jvm-group"></a>group |  (optional) group identifier for publishing   |  `None` |
+| <a id="kt_jvm-version"></a>version |  (optional) version to publish under   |  `None` |
+| <a id="kt_jvm-deploy_env"></a>deploy_env |  (optional) collection of targets to exclude from transitive closure   |  `None` |
+| <a id="kt_jvm-excluded_workspaces"></a>excluded_workspaces |  (optional) dict of workspace names to replace, or remove, from transitive closure   |  `None` |
+| <a id="kt_jvm-pom_template"></a>pom_template |  (optional) file override to use while generating the pom file   |  `None` |
+| <a id="kt_jvm-module_name"></a>module_name |  (optional) Kotlin module name   |  `None` |
+| <a id="kt_jvm-main_opts"></a>main_opts |  (optional) Kotlin compiler options used to compile the main source set   |  `None` |
+| <a id="kt_jvm-main_srcs"></a>main_srcs |  (optional) main source set -- defaults to `glob(["src/main/kotlin/**/*.kt"])`   |  `None` |
+| <a id="kt_jvm-main_resources"></a>main_resources |  (optional) main resources -- defaults to `glob(["src/main/resources/**/*"])`   |  `None` |
+| <a id="kt_jvm-main_resource_jars"></a>main_resource_jars |  (optional) additional resource JARs for the main sources   |  `None` |
+| <a id="kt_jvm-main_resource_strip_prefix"></a>main_resource_strip_prefix |  (optional) remove prefix from resources   |  `None` |
+| <a id="kt_jvm-main_associates"></a>main_associates |  (optional) Kotlin module dependencies to treat as associates of the same module   |  `None` |
+| <a id="kt_jvm-main_deps"></a>main_deps |  (optional) dependencies of the main source set   |  `None` |
+| <a id="kt_jvm-main_exports"></a>main_exports |  (optional) dependencies that should be exported as apart of this module   |  `None` |
+| <a id="kt_jvm-main_runtime_deps"></a>main_runtime_deps |  (optional) depencies of the main source set that are provided at runtime   |  `None` |
+| <a id="kt_jvm-test_package"></a>test_package |  (required if test sources are provided) package containing tests   |  `None` |
+| <a id="kt_jvm-test_opts"></a>test_opts |  (optional) Kotlin compiler options used to compile the test source set   |  `None` |
+| <a id="kt_jvm-test_srcs"></a>test_srcs |  (optional) test source set -- defaults to `glob(["src/test/kotlin/**/*.kt"])`   |  `None` |
+| <a id="kt_jvm-test_resources"></a>test_resources |  (optional) main resources -- defaults to `glob(["src/test/resources/**/*"])`   |  `None` |
+| <a id="kt_jvm-test_resource_jars"></a>test_resource_jars |  (optional) additional resource JARs for the test sources   |  `None` |
+| <a id="kt_jvm-test_resource_strip_prefix"></a>test_resource_strip_prefix |  (optional) remove prefix from resources   |  `None` |
+| <a id="kt_jvm-test_associates"></a>test_associates |  (optional) Kotlin module dependencies to treat as associates of the same module   |  `None` |
+| <a id="kt_jvm-test_deps"></a>test_deps |  (optional) dependencies of the test source set   |  `None` |
+| <a id="kt_jvm-test_runtime_deps"></a>test_runtime_deps |  (optional) depencies of the test source set that are provided at runtime   |  `None` |
 
 
 <a id="kt_jvm_junit5_test"></a>
@@ -106,19 +104,19 @@ Three targets are created for publishing:
 kt_jvm_junit5_test(<a href="#kt_jvm_junit5_test-name">name</a>, <a href="#kt_jvm_junit5_test-srcs">srcs</a>, <a href="#kt_jvm_junit5_test-test_package">test_package</a>, <a href="#kt_jvm_junit5_test-deps">deps</a>, <a href="#kt_jvm_junit5_test-runtime_deps">runtime_deps</a>, <a href="#kt_jvm_junit5_test-kwargs">kwargs</a>)
 </pre>
 
-
+Generate a *_test target for running kotlin tests using junit5
 
 **PARAMETERS**
 
 
 | Name  | Description | Default Value |
 | :------------- | :------------- | :------------- |
-| <a id="kt_jvm_junit5_test-name"></a>name |  <p align="center"> - </p>   |  none |
-| <a id="kt_jvm_junit5_test-srcs"></a>srcs |  <p align="center"> - </p>   |  none |
-| <a id="kt_jvm_junit5_test-test_package"></a>test_package |  <p align="center"> - </p>   |  none |
-| <a id="kt_jvm_junit5_test-deps"></a>deps |  <p align="center"> - </p>   |  <code>[]</code> |
-| <a id="kt_jvm_junit5_test-runtime_deps"></a>runtime_deps |  <p align="center"> - </p>   |  <code>[]</code> |
-| <a id="kt_jvm_junit5_test-kwargs"></a>kwargs |  <p align="center"> - </p>   |  none |
+| <a id="kt_jvm_junit5_test-name"></a>name |  The name of the target to generate   |  none |
+| <a id="kt_jvm_junit5_test-srcs"></a>srcs |  The list of input sources needed to test   |  none |
+| <a id="kt_jvm_junit5_test-test_package"></a>test_package |  The name of the test package to execute   |  none |
+| <a id="kt_jvm_junit5_test-deps"></a>deps |  Dependencies needed for library to test   |  `[]` |
+| <a id="kt_jvm_junit5_test-runtime_deps"></a>runtime_deps |  Runtime dependencies to use while testing   |  `[]` |
+| <a id="kt_jvm_junit5_test-kwargs"></a>kwargs |  Additional arguments to pass to kt_jvm_test   |  none |
 
 
 <a id="lint"></a>

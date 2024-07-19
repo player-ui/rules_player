@@ -1,3 +1,7 @@
+"""
+Implementation for the build rules using tsup
+"""
+
 load("@aspect_bazel_lib//lib:directory_path.bzl", "directory_path")
 load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_run_binary")
 load(":utils.bzl", "is_test_file")
@@ -97,4 +101,5 @@ def tsup_native_build(
             "PLAYER_NATIVE_BUNDLE": native_bundle,
         },
         outs = ["dist/{}.native.js".format(native_bundle), "dist/{}.native.js.map".format(native_bundle)],
+        **kwargs
     )

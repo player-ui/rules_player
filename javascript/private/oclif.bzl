@@ -1,13 +1,14 @@
-load("@aspect_rules_js//npm:defs.bzl", "npm_package")
+"""
+Implementation of the js_pipeline with oclif additions
+"""
+
 load("@aspect_bazel_lib//lib:directory_path.bzl", "directory_path")
-load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_run_binary", "js_library")
+load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_library", "js_run_binary")
+load("@aspect_rules_js//npm:defs.bzl", "npm_package")
 load("@aspect_rules_ts//ts:defs.bzl", "ts_config", "ts_project")
-load("@bazel_skylib//rules:expand_template.bzl", "expand_template")
-load(":vitest.bzl", "vitest_test")
 load(":eslint.bzl", "eslint_test")
-load(":tsup.bzl", "tsup_build", "tsup_native_build")
 load(":package_json.bzl", "create_package_json")
-load(":utils.bzl", "filter_empty", "without_tests")
+load(":vitest.bzl", "vitest_test")
 
 test_file_pattern = [
     "_tests_",
@@ -19,16 +20,10 @@ def oclif_pipeline(
         name = None,
         srcs = None,
         manifest = True,
-        package_json = "package.json",
-        root_package_json = "//:package.json",
-        vitest_config = ":vitest_config",
         node_modules = "//:node_modules",
         deps = [],
         peer_deps = [],
-        test_deps = ["//:vitest_config"],
-        lint_deps = ["//:eslint_config"],
-        build_deps = ["//:typings"]
-    ):
+        build_deps = ["//:typings"]):
     """
     A modified version of the `js_pipeline` for building oclif CLIs and CLI plugins.
 
@@ -39,16 +34,9 @@ def oclif_pipeline(
       srcs: The source files for the package (defaults to src/*).
       manifest: If an oclif manifest should be generated as part of the build. Not needed for CLI plugins.
       name: The name of the package (defaults to the last part of the package_name).
-      package_json: The package.json file for the package (defaults to package.json).
-      root_package_json: The root package.json file for the package (defaults to //:package.json).
-      vitest_config: The vitest config for the package (defaults to None).
       node_modules: The base node_modules to pull dependencies from (defaults to //:node_modules).
       deps: The dependencies for the package.
-      native_bundle: The name for the native bundle global if defined.
-      private: Whether or not the package should be private (skipping an npm release).
       peer_deps: The peer dependencies for the package.
-      test_deps: The test dependencies for the package.
-      lint_deps: The lint dependencies for the package.
       build_deps: The build dependencies for the package.
     """
 
@@ -76,7 +64,7 @@ def oclif_pipeline(
             "//:tsconfig",
         ],
     )
-    
+
     tsc_build_name = name + "_tsc_build"
     tsc_build_target = ":" + tsc_build_name
 
@@ -118,7 +106,7 @@ def oclif_pipeline(
 
     manifest_target = []
 
-    if manifest == True :
+    if manifest == True:
         manifest_name = name + "_manifest"
         manifest_target = [":" + manifest_name]
 
@@ -157,10 +145,10 @@ def oclif_pipeline(
     js_library(
         name = bundle_name,
         srcs = [
-            tsc_build_target,
-            package_json_target,
-        ] + native.glob(["bin/*"])
-        + manifest_target,
+                   tsc_build_target,
+                   package_json_target,
+               ] + native.glob(["bin/*"]) +
+               manifest_target,
         deps = all_deps,
     )
 
@@ -190,7 +178,7 @@ def oclif_pipeline(
         allow_overwrites = True,
         package = package_name,
         replace_prefixes = {
-            package_json_name : "package",
+            package_json_name: "package",
         },
         visibility = ["//visibility:public"],
     )
