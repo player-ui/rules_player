@@ -1,5 +1,11 @@
-load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
 load("@aspect_rules_js//js:defs.bzl", "js_binary")
+load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
+
+filegroup(
+    name = "all_files",
+    srcs = glob(["*"]),
+    visibility = ["//:__subpackages__"],
+)
 
 exports_files(
     glob(["*.bzl"]),

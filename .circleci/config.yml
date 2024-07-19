@@ -69,7 +69,7 @@ jobs:
           command: bazel test //...
       - run:
           name: Test Examples
-          command: ./scripts/test.sh
+          command: bazel test //examples:all_integration_tests
 
   release:
     executor: base
