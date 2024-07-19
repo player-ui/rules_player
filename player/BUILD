@@ -8,5 +8,7 @@ bzl_library(
     visibility = ["//visibility:public"],
     deps = [
         "//player/private:dsl",
+        "//player/private:xlr",
+        "//player/private:config",
     ],
 )

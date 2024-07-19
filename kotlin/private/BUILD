@@ -12,6 +12,14 @@ bzl_library(
 )
 
 bzl_library(
+    name = "junit",
+    srcs = ["junit_test.bzl", "junit5.bzl"],
+    visibility = [
+        "//kotlin:__subpackages__",
+    ],
+)
+
+bzl_library(
     name = "distribution",
     srcs = ["distribution.bzl"],
     visibility = [
@@ -25,7 +33,7 @@ bzl_library(
 
 bzl_library(
     name = "kt_jvm",
-    srcs = ["kt_jvm.bzl"],
+    srcs = ["kt_jvm.bzl",],
     visibility = [
         "//kotlin:__subpackages__",
     ],
@@ -33,6 +41,10 @@ bzl_library(
         ":lint",
         ":distribution",
         ":kt_jvm_library_and_test.bzl",
+        ":junit",
+        "@rules_kotlin//kotlin",
+        "@rules_jvm_external//:implementation",
+        "@rules_java//java:rules",
     ]
 )
 

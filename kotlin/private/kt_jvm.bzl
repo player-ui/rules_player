@@ -68,16 +68,14 @@ def kt_jvm(
     Args:
         name: used for the underlying `kt_jvm_library` rule
 
-        # Project config
         lint_config: project level KtLint config
 
-        # Distribution project config
+
         group: (optional) group identifier for publishing
         version: (optional) version to publish under
         deploy_env: (optional) collection of targets to exclude from transitive closure
         excluded_workspaces: (optional) dict of workspace names to replace, or remove, from transitive closure
 
-        # Distribution target config
         project_name: (optional) project name for POM
         project_description: (optional) project description for POM
         project_url: (optional) project url for POM
@@ -85,7 +83,6 @@ def kt_jvm(
         developers: (optional) developers for POM
         workspace_refs: (optional) refs used to track dependencies
 
-        # Package level config
         module_name: (optional) Kotlin module name
         main_opts: (optional) Kotlin compiler options used to compile the main source set
         main_srcs: (optional) main source set -- defaults to `glob(["src/main/kotlin/**/*.kt"])`
