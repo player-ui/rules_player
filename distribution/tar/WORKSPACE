@@ -1,0 +1,7 @@
+load("@aspect_rules_js//npm:repositories.bzl", "npm_import")
+
+npm_import(
+    name = "tar",
+    package = "tar",
+    version = "7.4.1",
+)
