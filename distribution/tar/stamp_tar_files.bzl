@@ -6,7 +6,7 @@ load("@bazel_skylib//lib:paths.bzl", "paths")
 
 load("@aspect_bazel_lib//lib:stamping.bzl", "STAMP_ATTRS", "maybe_stamp")
 
-_STAMP_TAR_FILES = Label("//distribution/tar:stamp_tar_files")
+_STAMP_TAR_FILES = Label("//distribution/tar:stamp_tar_files_script")
 
 def stamp_tar_impl(ctx):
   """
@@ -15,28 +15,28 @@ def stamp_tar_impl(ctx):
   stamped_tar = ctx.actions.declare_file(paths.basename(ctx.attr.name + '.tar.gz'))
 
   # change to True to test
-  stamp = True
+
   # stamp = maybe_stamp(ctx) 
 
   args = {
     "input_file": ctx.file.tar.path,
     "output_file": stamped_tar.path,
-    "stamp": ctx.info_file.path if stamp else None,
+    "stamp": ctx.info_file.path,
     "substitutions": ctx.attr.substitutions,  
   }
 
-  if stamp:
-        stamp_inputs = [ctx.info_file]
-        ctx.actions.run(
-                inputs = ctx.files.tar + stamp_inputs,
-                outputs = [stamped_tar],
-                arguments = [json.encode(args)],
-                executable = ctx.executable._stamp_tar_files_exec,
-                mnemonic = "tar",
-                env = {
-                    "BAZEL_BINDIR": ctx.bin_dir.path,
-                },                
-            )
+
+  stamp_inputs = [ctx.info_file]
+  ctx.actions.run(
+          inputs = ctx.files.tar + stamp_inputs,
+          outputs = [stamped_tar],
+          arguments = [json.encode(args)],
+          executable = ctx.executable._stamp_tar_files_exec,
+          mnemonic = "tar",
+          env = {
+              "BAZEL_BINDIR": ctx.bin_dir.path,
+          },                
+      )
 
   return [
     DefaultInfo(

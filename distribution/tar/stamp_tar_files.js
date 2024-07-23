@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const os = require('os');
-const tar = require('tar');
+// const tar = require('tar');
 
 async function handleSubstitutions(folderOrFile, substitutions) {
   if (Object.keys(substitutions).length === 0) {
@@ -28,29 +28,33 @@ async function handleSubstitutions(folderOrFile, substitutions) {
     await fs.promises.writeFile(folderOrFile, contents);
   }
 }
-d
+
 const repackageTar = async (input_file, output_file, substitutions) => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'stamping-'));
   const tempTar = path.join(tempDir, "temp.tar");
   const tempOutputDir = path.join(tempDir, "output");
   await fs.promises.mkdir(tempOutputDir, { recursive: true });
 
-  await tar.extract({
-    cwd: tempOutputDir,
-    file: input_file,
-  });
+  
+  spawnSync('tar -xvf',[input_file],{cwd: tempOutputDir})
+  // await tar.extract({
+  //   cwd: tempOutputDir,
+  //   file: input_file,
+  // });
 
   await handleSubstitutions(tempOutputDir, substitutions);
 
-  await tar.create({
-    file: output_file,
-    cwd: tempOutputDir,
-    gzip: true,
-  }, ['.']);
-};
+  spawnSync('tar -czvf', [output_file], {cwd: tempOutputDir})
+//   await tar.create({
+//     file: output_file,
+//     cwd: tempOutputDir,
+//     gzip: true,
+//   }, ['.']);
+// };
 
 const main = async ([config]) => {
   const { input_file, output_file, stamp, substitutions } = JSON.parse(config);
+
 
   // Don't do much if we don't have to stamp, just copy it over as is
   if (!stamp) {
@@ -85,12 +89,10 @@ const main = async ([config]) => {
   });
 
   await repackageTar(input_file, output_file, substitutions);
+
 };
 
-if (require.main === module) {
-  try {
-    process.exitCode = main(process.argv.slice(2));
-  } catch (e) {
-    console.error(process.argv[1], e);
-  }
-}
+main(process.argv.slice(2)).catch((e) => {
+  console.error(e);
+  process.exit(1);
+})}
