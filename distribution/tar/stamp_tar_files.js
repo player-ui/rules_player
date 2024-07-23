@@ -35,8 +35,9 @@ const repackageTar = async (input_file, output_file, substitutions) => {
   const tempOutputDir = path.join(tempDir, "output");
   await fs.promises.mkdir(tempOutputDir, { recursive: true });
 
+  const cp = require('child_process')
   
-  spawnSync('tar -xvf',[input_file],{cwd: tempOutputDir})
+  cp.spawnSync('tar -xvf',[input_file],{cwd: tempOutputDir})
   // await tar.extract({
   //   cwd: tempOutputDir,
   //   file: input_file,
@@ -44,7 +45,7 @@ const repackageTar = async (input_file, output_file, substitutions) => {
 
   await handleSubstitutions(tempOutputDir, substitutions);
 
-  spawnSync('tar -czvf', [output_file], {cwd: tempOutputDir})
+  cp.spawnSync('tar -czvf', [output_file], {cwd: tempOutputDir})
 //   await tar.create({
 //     file: output_file,
 //     cwd: tempOutputDir,
@@ -58,7 +59,7 @@ const main = async ([config]) => {
 
   const file = stable ? info_file : version_file 
   
-  
+
   // Don't do much if we don't have to stamp, just copy it over as is
   if (!stamp) {
     fs.copyFileSync(input_file, output_file);
@@ -70,8 +71,7 @@ const main = async ([config]) => {
   // Replace what needs to be replaced
   // retar it to the new location
   
-  
-  const stampFile = fs.readFileSync("../../" + stamp, "utf-8");
+  const stampFile = fs.readFileSync(path.resolve(__dirname,"../../../../../../../../../../../" + stamp), "utf-8");
 
   // TODO: Should share this as a common module
   stampFile.split("\n").forEach((line) => {

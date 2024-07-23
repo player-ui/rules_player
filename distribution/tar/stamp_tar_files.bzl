@@ -21,6 +21,7 @@ def stamp_tar_impl(ctx):
     "input_file": ctx.file.tar.short_path,
     "output_file": stamped_tar.short_path,
     "stamp": ctx.info_file.path if stamp else None,
+    
     "substitutions": ctx.attr.substitutions,  
   }
 
