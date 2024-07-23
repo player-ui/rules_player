@@ -14,21 +14,26 @@ def stamp_tar_impl(ctx):
   """
   stamped_tar = ctx.actions.declare_file(paths.basename(ctx.attr.name + '.tar.gz'))
 
-  # change to True to test
 
-  # stamp = maybe_stamp(ctx) 
+  stamp = maybe_stamp(ctx) 
 
   args = {
-    "input_file": ctx.file.tar.path,
-    "output_file": stamped_tar.path,
-    "stamp": ctx.info_file.path,
+    "input_file": ctx.file.tar.short_path,
+    "output_file": stamped_tar.short_path,
+    "stamp": ctx.info_file.path if stamp else None,
     "substitutions": ctx.attr.substitutions,  
   }
 
-
-  stamp_inputs = [ctx.info_file]
+  input = [] 
+  
+  if stamp:
+        input = [ctx.info_file]
+        args["info_file"] = stamp.stable_status_file.path
+        args["version_file"] = stamp.volatile_status_file.path
+        args["stamp_file"] = ctx.info_file.short_path
+        
   ctx.actions.run(
-          inputs = ctx.files.tar + stamp_inputs,
+          inputs = ctx.files.tar + input,
           outputs = [stamped_tar],
           arguments = [json.encode(args)],
           executable = ctx.executable._stamp_tar_files_exec,

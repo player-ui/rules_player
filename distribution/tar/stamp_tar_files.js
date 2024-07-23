@@ -51,11 +51,14 @@ const repackageTar = async (input_file, output_file, substitutions) => {
 //     gzip: true,
 //   }, ['.']);
 // };
+}
 
 const main = async ([config]) => {
-  const { input_file, output_file, stamp, substitutions } = JSON.parse(config);
+  const { input_file, version_file, output_file, stamp, stable, substitutions, stamp_file } = JSON.parse(config);
 
-
+  const file = stable ? info_file : version_file 
+  
+  
   // Don't do much if we don't have to stamp, just copy it over as is
   if (!stamp) {
     fs.copyFileSync(input_file, output_file);
@@ -66,7 +69,9 @@ const main = async ([config]) => {
   // untar the file
   // Replace what needs to be replaced
   // retar it to the new location
-  const stampFile = fs.readFileSync(stamp, "utf-8");
+  
+  
+  const stampFile = fs.readFileSync("../../" + stamp, "utf-8");
 
   // TODO: Should share this as a common module
   stampFile.split("\n").forEach((line) => {
@@ -95,4 +100,4 @@ const main = async ([config]) => {
 main(process.argv.slice(2)).catch((e) => {
   console.error(e);
   process.exit(1);
-})}
+})
