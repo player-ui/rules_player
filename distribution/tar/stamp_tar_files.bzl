@@ -21,7 +21,6 @@ def stamp_tar_impl(ctx):
     "input_file": ctx.file.tar.short_path,
     "output_file": stamped_tar.short_path,
     "stamp": ctx.info_file.path if stamp else None,
-    
     "substitutions": ctx.attr.substitutions,  
   }
 
@@ -31,13 +30,8 @@ def stamp_tar_impl(ctx):
         input = [ctx.info_file]
         args["info_file"] = stamp.stable_status_file.path
         args["version_file"] = stamp.volatile_status_file.path
-        
-        parent_directory = ctx.info_file.path[:ctx.info_file.path.rfind('/')]
-        workspace_root = ctx.workspace_name
-        absolute_parent_directory = paths.join(workspace_root,parent_directory)
-        args["stamped_tar"] = absolute_parent_directory
-
-        
+        args["stamped_tar_path"] = ctx.info_file.path
+      
   ctx.actions.run(
           inputs = ctx.files.tar + input,
           outputs = [stamped_tar],

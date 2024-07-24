@@ -32,67 +32,39 @@ async function handleSubstitutions(folderOrFile, substitutions) {
 }
 
 const repackageTar = async (input_file, output_file, substitutions) => {
-  // const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'stamping-'));
-
-  // const tempTar = path.join(tempDir, "temp.tar");
-  // const tempOutputDir = path.join(tempDir, "output");
   const tempDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'stamping-'))
   const tempOutputDir = path.join(tempDir, "output");
   await fs.promises.mkdir(tempOutputDir, { recursive: true });
 
-  
-  // cp.spawnSync('tar -xvf',[input_file],{cwd: tempOutputDir})
-
   cp.spawnSync('tar',['-xzvf', input_file, '-C', tempOutputDir], {stdio:'inherit'})
-  // await tar.extract({
-  //   cwd: tempOutputDir,
-  //   file: input_file,
-  // });
 
-  
   await handleSubstitutions(tempOutputDir, substitutions);
 
-  // throw new Error (tempDirPath + '/' + output_file)
-
-  
-
-  // cp.spawnSync('tar -czvf', [output_file], {cwd: tempOutputDir})
-
   cp.spawnSync('tar',['-czvf', output_file, '-C', tempOutputDir, '.'], {stdio:'inherit'})
-//   await tar.create({
-//     file: output_file,
-//     cwd: tempOutputDir,
-//     gzip: true,
-//   }, ['.']);
-// };
 }
 
+const removePaths = (filePath) =>{
+  const pathToRemove = '/bazel-out/darwin_arm64-fastbuild/bin';
+  return filePath.replace(pathToRemove, "")
+}
 const main = async ([config]) => {
-  const { input_file, version_file, output_file, stamp, stable, substitutions, stamp_file,stamped_tar } = JSON.parse(config);
+  const { input_file, version_file, output_file, stamp, stable, substitutions,stamped_tar_path } = JSON.parse(config);
 
   const file = stable ? info_file : version_file 
   
   const resolvedInputFile = path.resolve(input_file)
   const resolvedOutputFile = path.resolve(output_file)
-  const resolvedStampFile = path.resolve(stamp)
-
 
   // Don't do much if we don't have to stamp, just copy it over as is
   if (!stamp) {
     fs.copyFileSync(resolvedInputFile, resolvedOutputFile);
     return;
   }
+  
+  // get the absolute path of the stamp path
+  const stampFilePath = removePaths(path.resolve(stamped_tar_path))
 
-  // Grab all of the vars to stamp
-  // untar the file
-  // Replace what needs to be replaced
-  
-  
-  // retar it to the new location
-  
-  const stampFile = fs.readFileSync(path.resolve(__dirname,"../../../../../../../../../../../" + stamp), "utf-8");
-
-  // const stampFileNotWorking = fs.readFileSync(stampFileOld)
+  const stampFile = fs.readFileSync(stampFilePath,"utf-8");
 
   // TODO: Should share this as a common module
   stampFile.split("\n").forEach((line) => {
