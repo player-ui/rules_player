@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 const os = require('os');
+const cp = require('child_process')
+const process = require("process")
 // const tar = require('tar');
 
 async function handleSubstitutions(folderOrFile, substitutions) {
@@ -30,22 +32,33 @@ async function handleSubstitutions(folderOrFile, substitutions) {
 }
 
 const repackageTar = async (input_file, output_file, substitutions) => {
-  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'stamping-'));
-  const tempTar = path.join(tempDir, "temp.tar");
+  // const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'stamping-'));
+
+  // const tempTar = path.join(tempDir, "temp.tar");
+  // const tempOutputDir = path.join(tempDir, "output");
+  const tempDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'stamping-'))
   const tempOutputDir = path.join(tempDir, "output");
   await fs.promises.mkdir(tempOutputDir, { recursive: true });
 
-  const cp = require('child_process')
   
-  cp.spawnSync('tar -xvf',[input_file],{cwd: tempOutputDir})
+  // cp.spawnSync('tar -xvf',[input_file],{cwd: tempOutputDir})
+
+  cp.spawnSync('tar',['-xzvf', input_file, '-C', tempOutputDir], {stdio:'inherit'})
   // await tar.extract({
   //   cwd: tempOutputDir,
   //   file: input_file,
   // });
 
+  
   await handleSubstitutions(tempOutputDir, substitutions);
 
-  cp.spawnSync('tar -czvf', [output_file], {cwd: tempOutputDir})
+  // throw new Error (tempDirPath + '/' + output_file)
+
+  
+
+  // cp.spawnSync('tar -czvf', [output_file], {cwd: tempOutputDir})
+
+  cp.spawnSync('tar',['-czvf', output_file, '-C', tempOutputDir, '.'], {stdio:'inherit'})
 //   await tar.create({
 //     file: output_file,
 //     cwd: tempOutputDir,
@@ -55,23 +68,31 @@ const repackageTar = async (input_file, output_file, substitutions) => {
 }
 
 const main = async ([config]) => {
-  const { input_file, version_file, output_file, stamp, stable, substitutions, stamp_file } = JSON.parse(config);
+  const { input_file, version_file, output_file, stamp, stable, substitutions, stamp_file,stamped_tar } = JSON.parse(config);
 
   const file = stable ? info_file : version_file 
   
+  const resolvedInputFile = path.resolve(input_file)
+  const resolvedOutputFile = path.resolve(output_file)
+  const resolvedStampFile = path.resolve(stamp)
+
 
   // Don't do much if we don't have to stamp, just copy it over as is
   if (!stamp) {
-    fs.copyFileSync(input_file, output_file);
+    fs.copyFileSync(resolvedInputFile, resolvedOutputFile);
     return;
   }
 
   // Grab all of the vars to stamp
   // untar the file
   // Replace what needs to be replaced
+  
+  
   // retar it to the new location
   
   const stampFile = fs.readFileSync(path.resolve(__dirname,"../../../../../../../../../../../" + stamp), "utf-8");
+
+  // const stampFileNotWorking = fs.readFileSync(stampFileOld)
 
   // TODO: Should share this as a common module
   stampFile.split("\n").forEach((line) => {
@@ -93,7 +114,9 @@ const main = async ([config]) => {
     });
   });
 
-  await repackageTar(input_file, output_file, substitutions);
+
+
+  await repackageTar(resolvedInputFile, resolvedOutputFile, substitutions);
 
 };
 

@@ -14,9 +14,9 @@ def stamp_tar_impl(ctx):
   """
   stamped_tar = ctx.actions.declare_file(paths.basename(ctx.attr.name + '.tar.gz'))
 
-
   stamp = maybe_stamp(ctx) 
-
+  path_of_stamped_tar = paths.dirname(stamp.stable_status_file.path)
+  
   args = {
     "input_file": ctx.file.tar.short_path,
     "output_file": stamped_tar.short_path,
@@ -31,7 +31,12 @@ def stamp_tar_impl(ctx):
         input = [ctx.info_file]
         args["info_file"] = stamp.stable_status_file.path
         args["version_file"] = stamp.volatile_status_file.path
-        args["stamp_file"] = ctx.info_file.short_path
+        
+        parent_directory = ctx.info_file.path[:ctx.info_file.path.rfind('/')]
+        workspace_root = ctx.workspace_name
+        absolute_parent_directory = paths.join(workspace_root,parent_directory)
+        args["stamped_tar"] = absolute_parent_directory
+
         
   ctx.actions.run(
           inputs = ctx.files.tar + input,
