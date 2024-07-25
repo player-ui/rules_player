@@ -120,6 +120,7 @@ async function main(args) {
     native_bundle,
     substitutions,
     custom_entrypoints,
+    additional_exports,
     BAZEL_STABLE_STATUS_FILE,
     BAZEL_VOLATILE_STATUS_FILE,
   } = args;
@@ -195,6 +196,7 @@ async function main(args) {
               import: "./dist/index.mjs",
               default: "./dist/cjs/index.cjs",
             },
+            ...(additional_exports ?? {}),
           },
         }
       : {}),
