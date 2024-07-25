@@ -3,7 +3,6 @@ const path = require("path");
 const os = require('os');
 const cp = require('child_process')
 const process = require("process")
-// const tar = require('tar');
 
 async function handleSubstitutions(folderOrFile, substitutions) {
   if (Object.keys(substitutions).length === 0) {
