@@ -1,6 +1,13 @@
 load("@aspect_rules_js//js:defs.bzl", "js_binary")
 load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
 
+load("@cgrindel_bazel_starlib//bzlformat:defs.bzl", "bzlformat_missing_pkgs", "bzlformat_pkg")
+
+bzlformat_pkg(name = "bzlformat")
+
+bzlformat_missing_pkgs(name = "bzlformat_missing_pkgs")
+
+
 bzl_library(
     name = "stamp_tar_files",
     srcs = ["stamp_tar_files.bzl"],
@@ -14,4 +21,3 @@ js_binary(
     entry_point = "stamp_tar_files.js",
     visibility = ["//visibility:public"],
 )
-

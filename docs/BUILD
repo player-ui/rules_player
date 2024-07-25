@@ -20,4 +20,9 @@ stardoc_with_diff_test(
     bzl_library_target = "//player:defs",
 )
 
+stardoc_with_diff_test(
+    name = "distribution",
+    bzl_library_target = "//distribution:stamp_tar_files",
+)
+
 update_docs(name = "update")

@@ -1,8 +1,9 @@
-const fs = require("fs");
-const path = require("path");
-const os = require('os');
-const cp = require('child_process')
-const process = require("process")
+import fs from 'fs';
+import path from 'path';
+import os from 'os';
+import {spawnSync} from 'child_process';
+import process from 'process';
+
 
 async function handleSubstitutions(folderOrFile, substitutions) {
   if (Object.keys(substitutions).length === 0) {
@@ -35,11 +36,11 @@ const repackageTar = async (input_file, output_file, substitutions) => {
   const tempOutputDir = path.join(tempDir, "output");
   await fs.promises.mkdir(tempOutputDir, { recursive: true });
 
-  cp.spawnSync('tar',['-xzvf', input_file, '-C', tempOutputDir], {stdio:'inherit'})
+  spawnSync('tar',['-xzvf', input_file, '-C', tempOutputDir], {stdio:'inherit'})
 
   await handleSubstitutions(tempOutputDir, substitutions);
 
-  cp.spawnSync('tar',['-czvf', output_file, '-C', tempOutputDir, '.'], {stdio:'inherit'})
+  spawnSync('tar',['-czvf', output_file, '-C', tempOutputDir, '.'], {stdio:'inherit'})
 }
 
 const removePaths = (filePath) =>{
