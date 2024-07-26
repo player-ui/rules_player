@@ -172,6 +172,9 @@ async function main(args) {
   }, parsedBasePackageJson.peerDependencies ?? {});
 
   const packageJson = {
+    sideEffects: false,
+    files: ["dist", "src", "types"],
+
     ...parsedBasePackageJson,
     ...(!custom_entrypoints
       ? {
@@ -185,7 +188,6 @@ async function main(args) {
           bundle: `dist/${native_bundle}.native.js`,
         }
       : {}),
-    sideEffects: false,
     ...(!custom_entrypoints
       ? {
           exports: {
@@ -200,7 +202,6 @@ async function main(args) {
           },
         }
       : {}),
-    files: ["dist", "src", "types"],
     dependencies: replaceWorkspaceReferenceWithVersion(
       versionedDependencies,
       "0.0.0-PLACEHOLDER"
