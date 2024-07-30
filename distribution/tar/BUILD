@@ -7,7 +7,6 @@ bzlformat_pkg(name = "bzlformat")
 
 bzlformat_missing_pkgs(name = "bzlformat_missing_pkgs")
 
-
 bzl_library(
     name = "stamp_tar_files",
     srcs = ["stamp_tar_files.bzl"],
@@ -18,6 +17,6 @@ bzl_library(
 
 js_binary(
     name = "stamp_tar_files_script",
-    entry_point = "stamp_tar_files.js",
+    entry_point = "stamp_tar_files.mjs",
     visibility = ["//visibility:public"],
 )

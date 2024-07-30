@@ -15,7 +15,6 @@ def stamp_tar_impl(ctx):
   stamped_tar = ctx.actions.declare_file(paths.basename(ctx.attr.name + '.tar.gz'))
 
   stamp = maybe_stamp(ctx) 
-  path_of_stamped_tar = paths.dirname(stamp.stable_status_file.path)
   
   args = {
     "input_file": ctx.file.tar.short_path,
