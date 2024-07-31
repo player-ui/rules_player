@@ -9,6 +9,9 @@
     "type": "git",
     "url": "https://github.com/player-ui/rules_player.git"
   },
+  "scripts":{
+    "build:ts": "pnpm esbuild --bundle --platform=node gh-pages/gh-pages.ts --outfile=gh-pages/gh-pages.js"
+  },
   "license": "MIT",
   "dependencies": {
     "@types/node": "^20.11.18",

@@ -1,18 +1,11 @@
-// const yargs = require("yargs/yargs");
-// const { hideBin } = require("yargs/helpers");
-// const fs = require("fs");
-// const ghPages = require("gh-pages");
-// const path = require("path");
-// const tar = require("tar");
-
 import yargs from "yargs/yargs";
 import { hideBin} from "yargs/helpers";
 import fs from "fs";
 import ghPages from "gh-pages";
 import path from "path";
-import tar from "tar";    
+import { extract }  from "tar";    
 
-async function deployPages(dir, config) {
+async function deployPages(dir, config):Promise<void> {
   return new Promise((resolve, reject) => {
     ghPages.publish(dir, config, (err) => {
       if (err) {
@@ -28,7 +21,7 @@ async function expandTarball(tarball) {
   const tempDir = path.join(__dirname, "temp");
   await fs.promises.mkdir(tempDir, { recursive: true });
 
-  await tar.extract({
+  await extract({
     cwd: tempDir,
     file: tarball,
   });
@@ -50,9 +43,12 @@ async function main(args) {
     dest_dir,
   } = args;
 
+
   const normalized_dest_dir = String(dest_dir);
 
+
   const version = await fs.promises.readFile(version_file, "utf8");
+
   let cleanup = false;
   let upload_root = srcDir;
 
@@ -60,6 +56,7 @@ async function main(args) {
     cleanup = true;
     upload_root = await expandTarball(srcDir);
   }
+
 
   if (!normalized_dest_dir) {
     throw new Error("Unable to upload without a destination directory");

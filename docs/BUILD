@@ -22,7 +22,7 @@ stardoc_with_diff_test(
 
 stardoc_with_diff_test(
     name = "distribution",
-    bzl_library_target = "//distribution:stamp_tar_files",
+    bzl_library_target = "//distribution/tar:stamp_tar_files",
 )
 
 update_docs(name = "update")

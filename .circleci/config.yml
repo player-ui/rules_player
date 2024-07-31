@@ -59,6 +59,15 @@ jobs:
           paths:
             - .
 
+  build_ts:
+    executor: base
+    steps:
+      - attach_workspace:
+          at: ~/rules_player
+      - run:
+          name: Test
+          command: yarn build:ts
+
   test:
     executor: base
     steps:
