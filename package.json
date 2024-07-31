@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://github.com/player-ui/rules_player.git"
   },
-  "scripts":{
+  "scripts": {
     "build:ts": "pnpm esbuild --bundle --platform=node gh-pages/gh-pages.ts --outfile=gh-pages/gh-pages.js"
   },
   "license": "MIT",
@@ -23,10 +23,8 @@
     "yargs": "^17.7.2"
   },
   "engines": {
-    "node": "^16.13.0",
     "pnpm": "^8.9.2"
   },
-  "packageManager": "pnpm@8.9.2",
   "devDependencies": {
     "@auto-it/git-tag": "^10.37.1",
     "@auto-it/released": "^10.37.1",
