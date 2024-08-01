@@ -62,7 +62,7 @@ jobs:
           paths:
             - .
 
-  generate_js:
+  generateScript:
     executor: base
     steps:
       - attach_workspace:
@@ -109,13 +109,13 @@ workflows:
           requires:
             - install
 
-      - generate_js:
+      - generateScript:
           requires:
             - build
 
       - test:
           requires:
-            - build
+            - generateScript
 
       - release:
           context:
