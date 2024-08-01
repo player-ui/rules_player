@@ -1,9 +1,12 @@
 version: 2.1
 
+orbs:
+  node: circleci/node@5.2.0
+
 executors:
   base:
     docker:
-      - image: docker.io/sugarmanz/bazel-common
+      - image: docker.io/playerui/bazel-docker
     working_directory: ~/rules_player
     resource_class: large
     environment:
@@ -59,6 +62,20 @@ jobs:
           paths:
             - .
 
+  generateScript:
+    executor: base
+    steps:
+      - attach_workspace:
+          at: ~/rules_player
+      - run:
+          name: Build generated gh-page.js 
+          command: yarn build:ts
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+
   test:
     executor: base
     steps:
@@ -97,9 +114,13 @@ workflows:
           requires:
             - install
 
-      - test:
+      - generateScript:
           requires:
             - build
+
+      - test:
+          requires:
+            - generateScript
 
       - release:
           context:
