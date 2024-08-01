@@ -5,11 +5,11 @@ bzlformat_pkg(name = "bzlformat")
 
 bzlformat_missing_pkgs(name = "bzlformat_missing_pkgs")
 
-exports_files(["defs.bzl"])
-
 bzl_library(
     name = "defs",
     srcs = ["defs.bzl"],
     visibility = ["//visibility:public"],
     deps = [],
 )
+
+exports_files(["defs.bzl"])
