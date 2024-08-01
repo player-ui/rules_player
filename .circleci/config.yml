@@ -68,9 +68,6 @@ jobs:
       - attach_workspace:
           at: ~/rules_player
       - run:
-          name: directory view
-          command: tree
-      - run:
           name: Build generated gh-page.js 
           command: yarn build:ts
       - persist_to_workspace:
