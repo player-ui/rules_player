@@ -17,7 +17,7 @@ exports_files([
 js_binary(
     name = "gh_pages_bin",
     data = ["//gh-pages/private:gh-pages.js"],
-    entry_point = "gh-pages.js",
+    entry_point = "//gh-pages/private:gh-pages.js",
     visibility = ["//visibility:public"],
     
 )
