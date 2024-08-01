@@ -70,6 +70,10 @@ jobs:
       - run:
           name: Build generated gh-page.js 
           command: yarn build:ts
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
 
   test:
     executor: base
