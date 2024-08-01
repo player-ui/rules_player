@@ -62,13 +62,13 @@ jobs:
           paths:
             - .
 
-  build_ts:
+  generate_js:
     executor: base
     steps:
       - attach_workspace:
           at: ~/rules_player
       - run:
-          name: Test
+          name: Build generated gh-page.js 
           command: yarn build:ts
 
   test:
@@ -108,6 +108,10 @@ workflows:
       - build:
           requires:
             - install
+
+      - generate_js:
+          requires:
+            - build
 
       - test:
           requires:
