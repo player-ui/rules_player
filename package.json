@@ -10,7 +10,7 @@
     "url": "https://github.com/player-ui/rules_player.git"
   },
   "scripts": {
-    "build:ts": "yarn esbuild --bundle --platform=node gh-pages/gh-pages.ts --outfile=gh-pages/gh-pages.js"
+    "build:ts": "yarn esbuild --bundle --platform=node gh-pages/private/gh-pages.ts --outfile=gh-pages/private/gh-pages.js"
   },
   "license": "MIT",
   "dependencies": {
@@ -23,7 +23,7 @@
     "yargs": "^17.7.2"
   },
   "engines": {
-    "node": "^18.10.0",
+    "node": "^20.0.0",
     "pnpm": "^8.9.2"
   },
   "devDependencies": {
