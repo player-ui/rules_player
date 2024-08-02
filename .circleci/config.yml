@@ -95,6 +95,9 @@ jobs:
           at: ~/rules_player
       - run: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
       - run:
+          name: commit generated .js file
+          command: git add gh-pages/private/gh-pages.js && git commit -m "add generated .js"
+      - run:
           name: Release
           command: yarn auto shipit -vv
 
