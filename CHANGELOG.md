@@ -1,3 +1,27 @@
+# v1.1.0 (Thu Aug 01 2024)
+
+#### 🚀 Enhancement
+
+- Bazel6 - stamping tars, generating gh-page.js, and deploying gh-pages [#62](https://github.com/player-ui/rules_player/pull/62) ([@mercillo](https://github.com/mercillo))
+
+#### 🐛 Bug Fix
+
+- Gitignore update [#65](https://github.com/player-ui/rules_player/pull/65) ([@mercillo](https://github.com/mercillo))
+- Gitignore - ghpage.js update [#64](https://github.com/player-ui/rules_player/pull/64) ([@mercillo](https://github.com/mercillo))
+
+#### 🏠 Internal
+
+- Lint & Fix all *.bzl files [#60](https://github.com/player-ui/rules_player/pull/60) ([@adierkens](https://github.com/adierkens))
+- Update examples to use rules_bazel_integration_test [#59](https://github.com/player-ui/rules_player/pull/59) ([@adierkens](https://github.com/adierkens))
+- Generate docs for all rules [#58](https://github.com/player-ui/rules_player/pull/58) ([@adierkens](https://github.com/adierkens))
+
+#### Authors: 2
+
+- Adam Dierkens ([@adierkens](https://github.com/adierkens))
+- Marlon "Marky" Ercillo ([@mercillo](https://github.com/mercillo))
+
+---
+
 # v1.0.1 (Thu Jul 18 2024)
 
 #### 🐛 Bug Fix
