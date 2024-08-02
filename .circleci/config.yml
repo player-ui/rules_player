@@ -87,6 +87,9 @@ jobs:
       - run:
           name: Test Examples
           command: bazel test //examples:all_integration_tests
+      - run:
+          name: Auto Test
+          command: yarn auto shipit --dry-run
 
   release:
     executor: base
