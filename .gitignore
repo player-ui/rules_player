@@ -13,7 +13,7 @@
 /bazel.iml
 
 # Ignore generated file from gh-page.
-/gh-pages/private/gh_pages.js
+/gh-pages/private/gh-pages.js
 
 # Ignore all bazel-* symlinks. There is no full list since this can change
 # based on the name of the directory bazel is cloned into.
