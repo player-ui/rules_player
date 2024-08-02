@@ -87,6 +87,7 @@ jobs:
       - run:
           name: Test Examples
           command: bazel test //examples:all_integration_tests
+      - run: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
       - run:
           name: Auto Test
           command: yarn auto shipit --dry-run
@@ -96,7 +97,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/rules_player
-      - run: mkdir ~/.ssh/ && echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
       - run:
           name: Release
           command: yarn auto shipit -vv
