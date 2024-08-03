@@ -1,3 +1,16 @@
+# v1.1.1 (Fri Aug 02 2024)
+
+#### 🐛 Bug Fix
+
+- Removing generation of js file [#69](https://github.com/player-ui/rules_player/pull/69) ([@mercillo](https://github.com/mercillo))
+- Add GH script [#67](https://github.com/player-ui/rules_player/pull/67) ([@mercillo](https://github.com/mercillo))
+
+#### Authors: 1
+
+- Marlon "Marky" Ercillo ([@mercillo](https://github.com/mercillo))
+
+---
+
 # v1.1.0 (Thu Aug 01 2024)
 
 #### 🚀 Enhancement

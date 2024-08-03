@@ -62,20 +62,6 @@ jobs:
           paths:
             - .
 
-  generateScript:
-    executor: base
-    steps:
-      - attach_workspace:
-          at: ~/rules_player
-      - run:
-          name: Build generated gh-page.js 
-          command: yarn build:ts
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-
-
   test:
     executor: base
     steps:
@@ -114,13 +100,9 @@ workflows:
           requires:
             - install
 
-      - generateScript:
-          requires:
-            - build
-
       - test:
           requires:
-            - generateScript
+            - build
 
       - release:
           context:
