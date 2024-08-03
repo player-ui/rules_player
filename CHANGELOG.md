@@ -1,3 +1,15 @@
+# v1.1.2 (Sat Aug 03 2024)
+
+#### 🐛 Bug Fix
+
+- Fix stamp_tar_files [#70](https://github.com/player-ui/rules_player/pull/70) ([@mercillo](https://github.com/mercillo))
+
+#### Authors: 1
+
+- Marlon "Marky" Ercillo ([@mercillo](https://github.com/mercillo))
+
+---
+
 # v1.1.1 (Fri Aug 02 2024)
 
 #### 🐛 Bug Fix
