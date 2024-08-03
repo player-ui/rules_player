@@ -43,15 +43,10 @@ const repackageTar = async (input_file, output_file, substitutions) => {
   spawnSync('tar',['-czvf', output_file, '-C', tempOutputDir, '.'], {stdio:'inherit'})
 }
 
-const removePaths = (filePath) =>{
-  const pathToRemove = '/bazel-out/darwin_arm64-fastbuild/bin';
-  return filePath.replace(pathToRemove, "")
-}
-const main = async ([config]) => {
-  const { input_file, version_file, output_file, stamp, stable, substitutions,stamped_tar_path } = JSON.parse(config);
 
-  const file = stable ? info_file : version_file 
-  
+const main = async ([config]) => {
+  const { input_file, output_file, stamp, substitutions } = JSON.parse(config);
+
   const resolvedInputFile = path.resolve(input_file)
   const resolvedOutputFile = path.resolve(output_file)
 
@@ -61,8 +56,7 @@ const main = async ([config]) => {
     return;
   }
   
-  // get the absolute path of the stamp path
-  const stampFilePath = removePaths(path.resolve(stamped_tar_path))
+  const stampFilePath = path.resolve(input_file)
 
   const stampFile = fs.readFileSync(stampFilePath,"utf-8");
 
