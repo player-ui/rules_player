@@ -23,22 +23,21 @@ def stamp_tar_impl(ctx):
     inputs = []
 
     stamped_tar = ctx.actions.declare_file(paths.basename(ctx.attr.name + ".tar.gz"))
-    
+
     stamp = maybe_stamp(ctx)
 
     args = {
         "input_file": ctx.file.tar.short_path,
         "output_file": stamped_tar.short_path,
+        "stable": ctx.attr.stable,
         "stamp": ctx.info_file.path if stamp else None,
         "substitutions": ctx.attr.substitutions,
-        "stable": ctx.attr.stable,
     }
 
     if stamp:
         inputs = [stamp.volatile_status_file, stamp.stable_status_file]
         args["info_file"] = stamp.stable_status_file.path
         args["version_file"] = stamp.volatile_status_file.path
-
 
     ctx.actions.run(
         inputs = inputs + ctx.files.tar,
@@ -60,12 +59,12 @@ def stamp_tar_impl(ctx):
 stamp_tar_files = rule(
     implementation = stamp_tar_impl,
     attrs = dict({
-        "substitutions": attr.string_dict(
-            doc = "A mapping of values to replace in a file, to the stamp variables",
-        ),
         "stable": attr.bool(
             default = False,
             doc = "If true, replaces variables from stable-status. False replaces from volatile-status",
+        ),
+        "substitutions": attr.string_dict(
+            doc = "A mapping of values to replace in a file, to the stamp variables",
         ),
         "tar": attr.label(
             allow_single_file = True,
