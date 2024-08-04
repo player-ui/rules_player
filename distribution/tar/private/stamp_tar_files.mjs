@@ -20,6 +20,7 @@ async function handleSubstitutions(folderOrFile, substitutions) {
   }
 
   let contents = await fs.promises.readFile(folderOrFile, "utf-8");
+
   const originalContents = contents;
   for (const key in substitutions) {
     const value = substitutions[key];
@@ -29,6 +30,7 @@ async function handleSubstitutions(folderOrFile, substitutions) {
   if (contents !== originalContents) {
     await fs.promises.writeFile(folderOrFile, contents);
   }
+
 }
 
 const repackageTar = async (input_file, output_file, substitutions) => {
@@ -40,25 +42,29 @@ const repackageTar = async (input_file, output_file, substitutions) => {
 
   await handleSubstitutions(tempOutputDir, substitutions);
 
+ 
   spawnSync('tar',['-czvf', output_file, '-C', tempOutputDir, '.'], {stdio:'inherit'})
 }
 
 
 const main = async ([config]) => {
-  const { input_file, output_file, stamp, substitutions } = JSON.parse(config);
+  const { input_file, output_file,stable, stamp, substitutions,volatile_file, stable_file} = JSON.parse(config);
 
   const resolvedInputFile = path.resolve(input_file)
   const resolvedOutputFile = path.resolve(output_file)
 
-  // Don't do much if we don't have to stamp, just copy it over as is
+  // If stamping doesnt exist, just copy files
   if (!stamp) {
     fs.copyFileSync(resolvedInputFile, resolvedOutputFile);
     return;
   }
   
-  const stampFilePath = path.resolve(input_file)
+  let file = stable ? stable_file : volatile_file 
 
-  const stampFile = fs.readFileSync(stampFilePath,"utf-8");
+  // need this to find the bazel-out/ path
+  process.chdir(process.env.JS_BINARY__EXECROOT)  
+
+  const stampFile = fs.readFileSync(file,"utf-8");
 
   // TODO: Should share this as a common module
   stampFile.split("\n").forEach((line) => {
@@ -79,8 +85,6 @@ const main = async ([config]) => {
       }
     });
   });
-
-
 
   await repackageTar(resolvedInputFile, resolvedOutputFile, substitutions);
 
