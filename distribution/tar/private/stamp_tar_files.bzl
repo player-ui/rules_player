@@ -9,17 +9,21 @@ _STAMP_TAR_FILES = Label("//distribution/tar/private:stamp_tar_files_script")
 
 def stamp_tar_impl(ctx):
     """
-    untar, tar and stamp.
+    this takes a tar file, calls maybe_stamp and replaces any variables in that file with the substituions passed, and then repackages the entire tar.
 
     Args:
-      ctx: tar file
+      ctx: tar, substitutions
+      maybe_stamp() generates a stable and volatile file in bazel-out
+
 
     Returns:
       stamped tar file
     """
 
-    stamped_tar = ctx.actions.declare_file(paths.basename(ctx.attr.name + ".tar.gz"))
+    inputs = []
 
+    stamped_tar = ctx.actions.declare_file(paths.basename(ctx.attr.name + ".tar.gz"))
+    
     stamp = maybe_stamp(ctx)
 
     args = {
@@ -27,15 +31,17 @@ def stamp_tar_impl(ctx):
         "output_file": stamped_tar.short_path,
         "stamp": ctx.info_file.path if stamp else None,
         "substitutions": ctx.attr.substitutions,
+        "stable": ctx.attr.stable,
     }
 
-    input = []
-
     if stamp:
-        input = [ctx.info_file]
+        inputs = [stamp.volatile_status_file, stamp.stable_status_file]
+        args["info_file"] = stamp.stable_status_file.path
+        args["version_file"] = stamp.volatile_status_file.path
+
 
     ctx.actions.run(
-        inputs = ctx.files.tar + input,
+        inputs = inputs + ctx.files.tar,
         outputs = [stamped_tar],
         arguments = [json.encode(args)],
         executable = ctx.executable._stamp_tar_files_exec,
@@ -56,6 +62,10 @@ stamp_tar_files = rule(
     attrs = dict({
         "substitutions": attr.string_dict(
             doc = "A mapping of values to replace in a file, to the stamp variables",
+        ),
+        "stable": attr.bool(
+            default = False,
+            doc = "If true, replaces variables from stable-status. False replaces from volatile-status",
         ),
         "tar": attr.label(
             allow_single_file = True,
