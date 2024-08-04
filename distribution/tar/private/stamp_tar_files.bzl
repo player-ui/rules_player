@@ -36,8 +36,8 @@ def stamp_tar_impl(ctx):
 
     if stamp:
         inputs = [stamp.volatile_status_file, stamp.stable_status_file]
-        args["info_file"] = stamp.stable_status_file.path
-        args["version_file"] = stamp.volatile_status_file.path
+        args["stable_file"] = stamp.stable_status_file.path
+        args["volatile_file"] = stamp.volatile_status_file.path
 
     ctx.actions.run(
         inputs = inputs + ctx.files.tar,

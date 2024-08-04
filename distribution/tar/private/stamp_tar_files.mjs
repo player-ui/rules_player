@@ -20,6 +20,7 @@ async function handleSubstitutions(folderOrFile, substitutions) {
   }
 
   let contents = await fs.promises.readFile(folderOrFile, "utf-8");
+
   const originalContents = contents;
   for (const key in substitutions) {
     const value = substitutions[key];
@@ -29,6 +30,7 @@ async function handleSubstitutions(folderOrFile, substitutions) {
   if (contents !== originalContents) {
     await fs.promises.writeFile(folderOrFile, contents);
   }
+
 }
 
 const repackageTar = async (input_file, output_file, substitutions) => {
@@ -40,12 +42,13 @@ const repackageTar = async (input_file, output_file, substitutions) => {
 
   await handleSubstitutions(tempOutputDir, substitutions);
 
+ 
   spawnSync('tar',['-czvf', output_file, '-C', tempOutputDir, '.'], {stdio:'inherit'})
 }
 
 
 const main = async ([config]) => {
-  const { input_file, output_file,stable, stamp, substitutions,version_file, info_file} = JSON.parse(config);
+  const { input_file, output_file,stable, stamp, substitutions,volatile_file, stable_file} = JSON.parse(config);
 
   const resolvedInputFile = path.resolve(input_file)
   const resolvedOutputFile = path.resolve(output_file)
@@ -56,8 +59,7 @@ const main = async ([config]) => {
     return;
   }
   
-  // from bazel builld //docs:gh_deploy no info and version file
-  let file = stable ? info_file : version_file 
+  let file = stable ? stable_file : volatile_file 
 
   // need this to find the bazel-out/ path
   process.chdir(process.env.JS_BINARY__EXECROOT)  
