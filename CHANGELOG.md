@@ -1,3 +1,15 @@
+# v1.1.3 (Sun Aug 04 2024)
+
+#### 🐛 Bug Fix
+
+- Stamping Fix - Calls the right stamp file [#71](https://github.com/player-ui/rules_player/pull/71) ([@mercillo](https://github.com/mercillo))
+
+#### Authors: 1
+
+- Marlon "Marky" Ercillo ([@mercillo](https://github.com/mercillo))
+
+---
+
 # v1.1.2 (Sat Aug 03 2024)
 
 #### 🐛 Bug Fix
