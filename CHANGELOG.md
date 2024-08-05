@@ -1,3 +1,64 @@
+# v1.1.3 (Sun Aug 04 2024)
+
+#### 🐛 Bug Fix
+
+- Stamping Fix - Calls the right stamp file [#71](https://github.com/player-ui/rules_player/pull/71) ([@mercillo](https://github.com/mercillo))
+
+#### Authors: 1
+
+- Marlon "Marky" Ercillo ([@mercillo](https://github.com/mercillo))
+
+---
+
+# v1.1.2 (Sat Aug 03 2024)
+
+#### 🐛 Bug Fix
+
+- Fix stamp_tar_files [#70](https://github.com/player-ui/rules_player/pull/70) ([@mercillo](https://github.com/mercillo))
+
+#### Authors: 1
+
+- Marlon "Marky" Ercillo ([@mercillo](https://github.com/mercillo))
+
+---
+
+# v1.1.1 (Fri Aug 02 2024)
+
+#### 🐛 Bug Fix
+
+- Removing generation of js file [#69](https://github.com/player-ui/rules_player/pull/69) ([@mercillo](https://github.com/mercillo))
+- Add GH script [#67](https://github.com/player-ui/rules_player/pull/67) ([@mercillo](https://github.com/mercillo))
+
+#### Authors: 1
+
+- Marlon "Marky" Ercillo ([@mercillo](https://github.com/mercillo))
+
+---
+
+# v1.1.0 (Thu Aug 01 2024)
+
+#### 🚀 Enhancement
+
+- Bazel6 - stamping tars, generating gh-page.js, and deploying gh-pages [#62](https://github.com/player-ui/rules_player/pull/62) ([@mercillo](https://github.com/mercillo))
+
+#### 🐛 Bug Fix
+
+- Gitignore update [#65](https://github.com/player-ui/rules_player/pull/65) ([@mercillo](https://github.com/mercillo))
+- Gitignore - ghpage.js update [#64](https://github.com/player-ui/rules_player/pull/64) ([@mercillo](https://github.com/mercillo))
+
+#### 🏠 Internal
+
+- Lint & Fix all *.bzl files [#60](https://github.com/player-ui/rules_player/pull/60) ([@adierkens](https://github.com/adierkens))
+- Update examples to use rules_bazel_integration_test [#59](https://github.com/player-ui/rules_player/pull/59) ([@adierkens](https://github.com/adierkens))
+- Generate docs for all rules [#58](https://github.com/player-ui/rules_player/pull/58) ([@adierkens](https://github.com/adierkens))
+
+#### Authors: 2
+
+- Adam Dierkens ([@adierkens](https://github.com/adierkens))
+- Marlon "Marky" Ercillo ([@mercillo](https://github.com/mercillo))
+
+---
+
 # v1.0.1 (Thu Jul 18 2024)
 
 #### 🐛 Bug Fix
