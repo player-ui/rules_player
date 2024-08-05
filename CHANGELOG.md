@@ -1,3 +1,15 @@
+# v1.1.4 (Mon Aug 05 2024)
+
+#### 🐛 Bug Fix
+
+- Add XLR entries to generated package.json [#63](https://github.com/player-ui/rules_player/pull/63) ([@adierkens](https://github.com/adierkens))
+
+#### Authors: 1
+
+- Adam Dierkens ([@adierkens](https://github.com/adierkens))
+
+---
+
 # v1.1.3 (Sun Aug 04 2024)
 
 #### 🐛 Bug Fix
