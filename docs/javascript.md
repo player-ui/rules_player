@@ -7,8 +7,9 @@ Public API for JavaScript based project rules
 ## create_package_json
 
 <pre>
-create_package_json(<a href="#create_package_json-name">name</a>, <a href="#create_package_json-base_package_json">base_package_json</a>, <a href="#create_package_json-custom_entrypoints">custom_entrypoints</a>, <a href="#create_package_json-dependencies">dependencies</a>, <a href="#create_package_json-native_bundle">native_bundle</a>,
-                    <a href="#create_package_json-peer_dependencies">peer_dependencies</a>, <a href="#create_package_json-placeholder_version">placeholder_version</a>, <a href="#create_package_json-root_package_json">root_package_json</a>, <a href="#create_package_json-stamp">stamp</a>, <a href="#create_package_json-substitutions">substitutions</a>)
+create_package_json(<a href="#create_package_json-name">name</a>, <a href="#create_package_json-additional_exports">additional_exports</a>, <a href="#create_package_json-base_package_json">base_package_json</a>, <a href="#create_package_json-custom_entrypoints">custom_entrypoints</a>, <a href="#create_package_json-dependencies">dependencies</a>,
+                    <a href="#create_package_json-native_bundle">native_bundle</a>, <a href="#create_package_json-peer_dependencies">peer_dependencies</a>, <a href="#create_package_json-placeholder_version">placeholder_version</a>, <a href="#create_package_json-root_package_json">root_package_json</a>, <a href="#create_package_json-stamp">stamp</a>,
+                    <a href="#create_package_json-substitutions">substitutions</a>)
 </pre>
 
 
@@ -19,6 +20,7 @@ create_package_json(<a href="#create_package_json-name">name</a>, <a href="#crea
 | Name  | Description | Type | Mandatory | Default |
 | :------------- | :------------- | :------------- | :------------- | :------------- |
 | <a id="create_package_json-name"></a>name |  A unique name for this target.   | <a href="https://bazel.build/concepts/labels#target-names">Name</a> | required |  |
+| <a id="create_package_json-additional_exports"></a>additional_exports |  Additional entrypoints to add to the generated package.json   | <a href="https://bazel.build/rules/lib/dict">Dictionary: String -> String</a> | optional |  `{}`  |
 | <a id="create_package_json-base_package_json"></a>base_package_json |  A .json file to use to add additional properties to the generated package. This can often be a 'package.json' and the entries/outputs/dependencies will be filled in later on.   | <a href="https://bazel.build/concepts/labels">Label</a> | required |  |
 | <a id="create_package_json-custom_entrypoints"></a>custom_entrypoints |  If custom main/module/types entrypoints are specified and shouldn't be overwritten   | Boolean | optional |  `False`  |
 | <a id="create_package_json-dependencies"></a>dependencies |  The dependencies of the package. These will be added to the base package.json   | <a href="https://bazel.build/concepts/labels">List of labels</a> | optional |  `[]`  |
@@ -59,8 +61,8 @@ A test target that runs eslint on the given sources.
 
 <pre>
 js_pipeline(<a href="#js_pipeline-package_name">package_name</a>, <a href="#js_pipeline-name">name</a>, <a href="#js_pipeline-srcs">srcs</a>, <a href="#js_pipeline-package_json">package_json</a>, <a href="#js_pipeline-root_package_json">root_package_json</a>, <a href="#js_pipeline-vitest_config">vitest_config</a>, <a href="#js_pipeline-tsup_config">tsup_config</a>,
-            <a href="#js_pipeline-node_modules">node_modules</a>, <a href="#js_pipeline-deps">deps</a>, <a href="#js_pipeline-native_bundle">native_bundle</a>, <a href="#js_pipeline-private">private</a>, <a href="#js_pipeline-peer_deps">peer_deps</a>, <a href="#js_pipeline-include_packaging_targets">include_packaging_targets</a>,
-            <a href="#js_pipeline-test_deps">test_deps</a>, <a href="#js_pipeline-lint_deps">lint_deps</a>, <a href="#js_pipeline-build_deps">build_deps</a>)
+            <a href="#js_pipeline-node_modules">node_modules</a>, <a href="#js_pipeline-deps">deps</a>, <a href="#js_pipeline-native_bundle">native_bundle</a>, <a href="#js_pipeline-private">private</a>, <a href="#js_pipeline-peer_deps">peer_deps</a>, <a href="#js_pipeline-create_package_json_args">create_package_json_args</a>,
+            <a href="#js_pipeline-include_packaging_targets">include_packaging_targets</a>, <a href="#js_pipeline-test_deps">test_deps</a>, <a href="#js_pipeline-lint_deps">lint_deps</a>, <a href="#js_pipeline-build_deps">build_deps</a>)
 </pre>
 
 The main entry point for any JS/TS project. `js_pipeline` should be the only thing you need in your BUILD file.
@@ -85,6 +87,7 @@ Creates a js_library, npm_package, and test targets for a given package.
 | <a id="js_pipeline-native_bundle"></a>native_bundle |  The name for the native bundle global if defined.   |  `None` |
 | <a id="js_pipeline-private"></a>private |  Whether or not the package should be private (skipping an npm release).   |  `False` |
 | <a id="js_pipeline-peer_deps"></a>peer_deps |  The peer dependencies for the package.   |  `[]` |
+| <a id="js_pipeline-create_package_json_args"></a>create_package_json_args |  Additional arguments to pass to the package_json creation   |  `{}` |
 | <a id="js_pipeline-include_packaging_targets"></a>include_packaging_targets |  Additional dependencies to add to the package target   |  `[]` |
 | <a id="js_pipeline-test_deps"></a>test_deps |  The test dependencies for the package.   |  `["//:vitest_config"]` |
 | <a id="js_pipeline-lint_deps"></a>lint_deps |  The lint dependencies for the package.   |  `["//:eslint_config"]` |

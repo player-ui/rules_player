@@ -120,6 +120,7 @@ async function main(args) {
     native_bundle,
     substitutions,
     custom_entrypoints,
+    additional_exports,
     BAZEL_STABLE_STATUS_FILE,
     BAZEL_VOLATILE_STATUS_FILE,
   } = args;
@@ -171,6 +172,9 @@ async function main(args) {
   }, parsedBasePackageJson.peerDependencies ?? {});
 
   const packageJson = {
+    sideEffects: false,
+    files: ["dist", "src", "types"],
+
     ...parsedBasePackageJson,
     ...(!custom_entrypoints
       ? {
@@ -184,7 +188,6 @@ async function main(args) {
           bundle: `dist/${native_bundle}.native.js`,
         }
       : {}),
-    sideEffects: false,
     ...(!custom_entrypoints
       ? {
           exports: {
@@ -195,10 +198,10 @@ async function main(args) {
               import: "./dist/index.mjs",
               default: "./dist/cjs/index.cjs",
             },
+            ...(additional_exports ?? {}),
           },
         }
       : {}),
-    files: ["dist", "src", "types"],
     dependencies: replaceWorkspaceReferenceWithVersion(
       versionedDependencies,
       "0.0.0-PLACEHOLDER"

@@ -30,6 +30,7 @@ def js_pipeline(
         native_bundle = None,
         private = False,
         peer_deps = [],
+        create_package_json_args = {},
         include_packaging_targets = [],
         test_deps = ["//:vitest_config"],
         lint_deps = ["//:eslint_config"],
@@ -51,6 +52,7 @@ def js_pipeline(
       deps: The dependencies for the package.
       native_bundle: The name for the native bundle global if defined.
       private: Whether or not the package should be private (skipping an npm release).
+      create_package_json_args: Additional arguments to pass to the package_json creation
       include_packaging_targets: Additional dependencies to add to the package target
       peer_deps: The peer dependencies for the package.
       test_deps: The test dependencies for the package.
@@ -150,6 +152,7 @@ def js_pipeline(
         substitutions = {
             "0.0.0-PLACEHOLDER": "{STABLE_VERSION}",
         },
+        **create_package_json_args
     )
 
     js_library_name = name + "_js_library"

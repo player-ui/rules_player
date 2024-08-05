@@ -38,5 +38,10 @@ def js_xlr_pipeline(name = None, xlr_mode = "plugin", xlr_input_dir = "src", src
         include_packaging_targets = [
             ":" + name + "_xlr",
         ],
+        create_package_json_args = {
+            "additional_exports": {
+                "./dist/xlr/*": "./dist/xlr/*",
+            },
+        },
         **kwargs
     )

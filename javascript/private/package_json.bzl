@@ -14,6 +14,7 @@ def _package_json_impl(ctx):
     stamp_inputs = []
 
     args = {
+        "additional_exports": ctx.attr.additional_exports,
         "base_package_json": ctx.file.base_package_json.short_path,
         "custom_entrypoints": ctx.attr.custom_entrypoints,
         "dependencies": [get_js_npm_name(dep) for dep in ctx.attr.dependencies],
@@ -48,6 +49,7 @@ def _package_json_impl(ctx):
 create_package_json = rule(
     implementation = _package_json_impl,
     attrs = dict({
+        "additional_exports": attr.string_dict(default = {}, doc = "Additional entrypoints to add to the generated package.json"),
         "base_package_json": attr.label(
             mandatory = True,
             doc = """A .json file to use to add additional properties to the generated package.
