@@ -32,14 +32,14 @@ def _create_base_config_impl(ctx):
     tmpl_presets = []
 
     for plugin in ctx.attr.plugins:
-        linked_list = plugin[JsInfo].npm_linked_packages.to_list()
+        linked_list = plugin[JsInfo].npm_sources.to_list()
         if len(linked_list) > 1:
             fail("Plugin {} has more than one linked package".format(plugin))
 
         tmpl_plugins.append(linked_list[0].package)
 
     for plugin in ctx.attr.presets:
-        linked_list = plugin[JsInfo].npm_linked_packages.to_list()
+        linked_list = plugin[JsInfo].npm_sources.to_list()
         if len(linked_list) > 1:
             fail("Plugin {} has more than one linked package".format(plugin))
 
