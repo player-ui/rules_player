@@ -27,8 +27,12 @@
     "pnpm": "^8.9.2"
   },
   "devDependencies": {
-    "@auto-it/git-tag": "^10.37.1",
-    "@auto-it/released": "^10.37.1",
-    "auto": "^10.37.1"
+    "@auto-it/git-tag": "^11.2.0",
+    "@auto-it/released": "^11.2.0",
+    "auto": "^11.2.0"
+  },
+  "volta": {
+    "node": "20.17.0",
+    "yarn": "1.22.22"
   }
 }
