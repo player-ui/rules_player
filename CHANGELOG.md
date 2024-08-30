@@ -1,3 +1,25 @@
+# v1.1.5 (Fri Aug 30 2024)
+
+### Release Notes
+
+#### Update JS Rules to Latest ([#73](https://github.com/player-ui/rules_player/pull/73))
+
+- Update aspect rules for js builds to the latest major
+- Update iOS rules to support Bazel 7
+
+---
+
+#### 🐛 Bug Fix
+
+- Create Specific Export for XLR Manifest [#72](https://github.com/player-ui/rules_player/pull/72) ([@KetanReddy](https://github.com/KetanReddy))
+- Update JS Rules to Latest [#73](https://github.com/player-ui/rules_player/pull/73) ([@KetanReddy](https://github.com/KetanReddy))
+
+#### Authors: 1
+
+- Ketan Reddy ([@KetanReddy](https://github.com/KetanReddy))
+
+---
+
 # v1.1.4 (Mon Aug 05 2024)
 
 #### 🐛 Bug Fix
