@@ -1,9 +1,8 @@
 # JavaScript rules
 
-This is a guide to use JavaScript rules.
+This guide provides instructions on using JavaScript rules.
 
 ## Example usage of `eslint_test`
-Code example can be found [here](https://github.intuit.com/mercillo/autoregistrationfees/commit/f062bf4db9cb697ff834ad9c7de8524132867f7d).
 
 ### Linting dependencies installation
 Install all linting dependencies as `devDependencies`.
@@ -19,7 +18,29 @@ Install all linting dependencies as `devDependencies`.
 ```
 
 ### Add eslint config
-Add `.eslintrc.js` ([example](https://github.intuit.com/mercillo/autoregistrationfees/blob/f062bf4db9cb697ff834ad9c7de8524132867f7d/.eslintrc.js)) and export target `eslint_configs`
+Add `.eslintrc.js` and export target `eslint_configs`
+`.eslintrc.js` with example configs: 
+```
+module.exports = {
+  extends: [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+  ],
+  parser: "@typescript-eslint/parser",
+  ignorePatterns: ["node_modules", "dist", "__snapshots__"],
+  plugins: ["@typescript-eslint", "prettier"],
+  rules: {
+    "prettier/prettier": "error",
+    "@typescript-eslint/no-namespace": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "react/no-unescaped-entities": "off",
+  },
+  root: true,
+};
+```
+
+`eslint_configs`:
 ```
 js_library(
     name = "eslint_configs",
@@ -38,16 +59,15 @@ load("@rules_player//javascript:defs.bzl", "eslint_test")
 ```
 
 2. Define build and lint dependencies
+
+There may be more dependencies required for your build, but these are the required linting, react, and player ones needed.
+
 ```
 deps = [
     "//:node_modules/react",
     "//:node_modules/@types/react",
-    "//:node_modules/@cg-player/components",
-    "//:node_modules/@cg-player/common-types-plugin",
     "//:node_modules/@player-ui/types",
     "//:node_modules/@player-tools/dsl",
-    "//:node_modules/@player-ui/make-flow",
-    "//:node_modules/@ctg-topics/cg-topic-dsl-utils",
 ]
 
 lint_deps = [
