@@ -42,10 +42,9 @@ def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "sr
     output_dir = output_dir if output_dir else "{}_dist".format(name)
     outputs = []
     for src in srcs:
-        outputs += [paths.join(output_dir, paths.relativize(paths.replace_extension(src, ".json"), input_dir))]
-        if(schema_name not in src):
-            outputs += [paths.join(output_dir, paths.relativize(paths.replace_extension(src, ".json.map"), input_dir))]
-
+        outputs.append(paths.join(output_dir, paths.relativize(paths.replace_extension(src, ".json"), input_dir)))
+        if (schema_name not in src):
+            outputs.append(paths.join(output_dir, paths.relativize(paths.replace_extension(src, ".json.map"), input_dir)))
 
     js_run_binary(
         name = name,
