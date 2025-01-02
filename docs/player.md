@@ -27,7 +27,8 @@ create_base_config(<a href="#create_base_config-name">name</a>, <a href="#create
 ## compile
 
 <pre>
-compile(<a href="#compile-name">name</a>, <a href="#compile-node_modules">node_modules</a>, <a href="#compile-srcs">srcs</a>, <a href="#compile-input_dir">input_dir</a>, <a href="#compile-output_dir">output_dir</a>, <a href="#compile-data">data</a>, <a href="#compile-config">config</a>, <a href="#compile-skip_test">skip_test</a>, <a href="#compile-kwargs">kwargs</a>)
+compile(<a href="#compile-name">name</a>, <a href="#compile-node_modules">node_modules</a>, <a href="#compile-srcs">srcs</a>, <a href="#compile-input_dir">input_dir</a>, <a href="#compile-output_dir">output_dir</a>, <a href="#compile-data">data</a>, <a href="#compile-config">config</a>, <a href="#compile-skip_test">skip_test</a>, <a href="#compile-schema_name">schema_name</a>,
+        <a href="#compile-kwargs">kwargs</a>)
 </pre>
 
 Run the src or src_dir through the player compiler.
@@ -45,6 +46,7 @@ Run the src or src_dir through the player compiler.
 | <a id="compile-data"></a>data |  Additional data to pass to the compiler   |  `[]` |
 | <a id="compile-config"></a>config |  A config override to use   |  `None` |
 | <a id="compile-skip_test"></a>skip_test |  Flag to skip generating the *_test target   |  `False` |
+| <a id="compile-schema_name"></a>schema_name |  Name of the file containing the schema, defaults to "schema.ts"   |  `"schema.ts"` |
 | <a id="compile-kwargs"></a>kwargs |  Additonal args to pass to the js_run_binary cmd   |  none |
 
 
@@ -53,7 +55,8 @@ Run the src or src_dir through the player compiler.
 ## dsl_compile
 
 <pre>
-dsl_compile(<a href="#dsl_compile-name">name</a>, <a href="#dsl_compile-node_modules">node_modules</a>, <a href="#dsl_compile-srcs">srcs</a>, <a href="#dsl_compile-input_dir">input_dir</a>, <a href="#dsl_compile-output_dir">output_dir</a>, <a href="#dsl_compile-data">data</a>, <a href="#dsl_compile-config">config</a>, <a href="#dsl_compile-skip_test">skip_test</a>, <a href="#dsl_compile-kwargs">kwargs</a>)
+dsl_compile(<a href="#dsl_compile-name">name</a>, <a href="#dsl_compile-node_modules">node_modules</a>, <a href="#dsl_compile-srcs">srcs</a>, <a href="#dsl_compile-input_dir">input_dir</a>, <a href="#dsl_compile-output_dir">output_dir</a>, <a href="#dsl_compile-data">data</a>, <a href="#dsl_compile-config">config</a>, <a href="#dsl_compile-skip_test">skip_test</a>, <a href="#dsl_compile-schema_name">schema_name</a>,
+            <a href="#dsl_compile-kwargs">kwargs</a>)
 </pre>
 
 Run the src or src_dir through the player compiler.
@@ -71,6 +74,7 @@ Run the src or src_dir through the player compiler.
 | <a id="dsl_compile-data"></a>data |  Additional data to pass to the compiler   |  `[]` |
 | <a id="dsl_compile-config"></a>config |  A config override to use   |  `None` |
 | <a id="dsl_compile-skip_test"></a>skip_test |  Flag to skip generating the *_test target   |  `False` |
+| <a id="dsl_compile-schema_name"></a>schema_name |  Name of the file containing the schema, defaults to "schema.ts"   |  `"schema.ts"` |
 | <a id="dsl_compile-kwargs"></a>kwargs |  Additonal args to pass to the js_run_binary cmd   |  none |
 
 
