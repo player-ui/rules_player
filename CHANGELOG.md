@@ -1,3 +1,28 @@
+# v1.1.6 (Thu Jan 02 2025)
+
+### Release Notes
+
+#### Collect Source Maps During DSL compilation ([#76](https://github.com/player-ui/rules_player/pull/76))
+
+Collect source maps as outputs from DSL compilation rule
+
+---
+
+#### 🐛 Bug Fix
+
+- Collect Source Maps During DSL compilation [#76](https://github.com/player-ui/rules_player/pull/76) ([@KetanReddy](https://github.com/KetanReddy))
+
+#### 📝 Documentation
+
+- docs: JavaScript linting guide [#74](https://github.com/player-ui/rules_player/pull/74) ([@cehan-Chloe](https://github.com/cehan-Chloe))
+
+#### Authors: 2
+
+- Chloeeeeeee ([@cehan-Chloe](https://github.com/cehan-Chloe))
+- Ketan Reddy ([@KetanReddy](https://github.com/KetanReddy))
+
+---
+
 # v1.1.5 (Fri Aug 30 2024)
 
 ### Release Notes
