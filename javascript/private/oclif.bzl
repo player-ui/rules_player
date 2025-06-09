@@ -79,6 +79,7 @@ def oclif_pipeline(
                 "**/__tests__/*",
                 "**/*.test.*",
             ],
+            allow_empty=True
         ),
         declaration = True,
         out_dir = "dist",
@@ -147,7 +148,7 @@ def oclif_pipeline(
         srcs = [
                    tsc_build_target,
                    package_json_target,
-               ] + native.glob(["bin/*"]) +
+               ] + native.glob(["bin/*"], allow_empty=True) +
                manifest_target,
         deps = all_deps,
     )
