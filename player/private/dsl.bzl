@@ -40,11 +40,12 @@ def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "sr
     )
 
     output_dir = output_dir if output_dir else "{}_dist".format(name)
-    outputs = []
+    json_outputs = []
+    map_outputs = []
     for src in srcs:
-        outputs.append(paths.join(output_dir, paths.relativize(paths.replace_extension(src, ".json"), input_dir)))
+        json_outputs.append(paths.join(output_dir, paths.relativize(paths.replace_extension(src, ".json"), input_dir)))
         if (schema_name not in src):
-            outputs.append(paths.join(output_dir, paths.relativize(paths.replace_extension(src, ".json.map"), input_dir)))
+            map_outputs.append(paths.join(output_dir, paths.relativize(paths.replace_extension(src, ".json.map"), input_dir)))
 
     js_run_binary(
         name = name,
@@ -62,14 +63,20 @@ def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "sr
             "-c",
             "$(rootpath {})".format(config),
         ],
-        outs = outputs,
+        outs = json_outputs + map_outputs,
         **kwargs
+    )
+
+    compiled_name = "{}_compiled".format(name)
+    native.filegroup(
+        name = compiled_name,
+        srcs = json_outputs,
     )
 
     if skip_test != True:
         js_test(
             name = js_test_bin_name,
-            data = data + [":" + name, "{}/@player-tools/cli".format(node_modules), config],
+            data = data + [":" + compiled_name, "{}/@player-tools/cli".format(node_modules), config],
             entry_point = ":{}".format(player_cli_entrypoint),
             args = [
                 "json",
@@ -77,6 +84,6 @@ def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "sr
                 "-c",
                 "$(rootpath {})".format(config),
                 "-f",
-                "$(locations {})".format(":" + name),
+                "$(locations {})".format(":" + compiled_name),
             ],
         )
