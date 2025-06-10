@@ -24,7 +24,7 @@ fi
 readonly DEPLOY_LABELS=$(bazel query --output=label 'kind("maven_publish rule", //...) - attr("tags", "\[.*do-not-publish.*\]", //...)')
 for pkg in $DEPLOY_LABELS ; do
   if [ -n "${STAGING-}" ]; then
-    bazel run "$pkg" --define=maven_repo="$STAGING" -- "$1"
+    GPG_SIGN=true bazel run "$pkg" --define=maven_repo="$STAGING" -- "$1"
   else
     bazel run "$pkg" --define=maven_repo="https://central.sonatype.com/repository/maven-snapshots/" -- "$1"
   fi
