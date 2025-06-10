@@ -121,6 +121,7 @@ def js_pipeline(
         declaration = True,
         declaration_dir = ts_types,
         emit_declaration_only = True,
+        out_dir = ts_types,
         tsconfig = ":{}".format(tsconfig),
     )
 
