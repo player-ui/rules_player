@@ -125,7 +125,10 @@ def ios_pipeline(
         deps = deps,
         data = data,
         # this define makes Bundle.module extension work from ios_bundle_module_shim
-        defines = ["BAZEL_TARGET"],
+        # TODO: Bazel upgrade requires `SWIFT_PACKAGE` to be set for our usage of it, 
+        #       should likely have a better way to dynamically configure `-DSWIFT_PACKAGE`
+        #       rather than applying it holistically to every `swift_library`
+        defines = ["BAZEL_TARGET", "SWIFT_PACKAGE"],
     )
 
     # Packages not specific to SwiftUI don't need ViewInspector
@@ -149,7 +152,7 @@ def ios_pipeline(
             srcs = native.glob(["ViewInspector/**/*.swift"]),
             minimum_os_version = "14.0",
             deps = [
-                "@swiftpkg_viewinspector//:Sources_ViewInspector",
+                "@swiftpkg_viewinspector//:ViewInspector",
                 ":" + name,
             ] + deps + test_deps,
             visibility = ["//visibility:public"],
