@@ -29,7 +29,6 @@ def js_xlr_pipeline(name = None, xlr_mode = "plugin", xlr_input_dir = "src", src
         mode = xlr_mode,
         input_dir = xlr_input_dir,
         data = [
-            "//:node_modules/dlv",
         ] + kwargs.get("deps", []) + kwargs.get("peer_deps", []),
     )
 
