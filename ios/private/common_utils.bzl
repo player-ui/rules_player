@@ -149,7 +149,7 @@ def ios_pipeline(
     if hasViewInspectorTests == True:
         ios_ui_test(
             name = name + "ViewInspectorTests",
-            srcs = native.glob(["ViewInspector/**/*.swift"]),
+            srcs = native.glob(["ViewInspector/**/*.swift"], allow_empty = True),
             minimum_os_version = "14.0",
             deps = [
                 "@swiftpkg_viewinspector//:ViewInspector",
