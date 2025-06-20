@@ -21,7 +21,7 @@ class NexusStagingCli : CliktCommand() {
     class Exception(message: String, cause: Throwable? = null) : kotlin.Exception(message, cause)
 
     val nexusUrl by option(help = "Nexus server URL").defaultLazy {
-        "https://${if (legacyNexus) "" else "s01."}oss.sonatype.org/service/local/"
+        "https://ossrh-staging-api.central.sonatype.com/service/local/"
     }
 
     val username by option(help = "Nexus server username").defaultLazy {
@@ -37,8 +37,6 @@ class NexusStagingCli : CliktCommand() {
     val connectTimeout by option(help = "Connect timeout in seconds").long()
 
     val packageGroup by option(help = "Package group to publish under")
-
-    val legacyNexus by option("--legacy").flag(default = false)
 
     val stagingRepositoryId by option("--staging-id")
 
