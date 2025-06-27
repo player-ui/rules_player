@@ -79,6 +79,7 @@ def tsup_build(
             },
             **kwargs.get("env", {})
         ),
+        mnemonic = "tsup",
         visibility = kwargs.get("visibility", []),
     )
 

@@ -3,7 +3,7 @@ Common utilities for ios builds
 """
 
 load("@build_bazel_rules_apple//apple:resources.bzl", "apple_resource_bundle")
-load("@build_bazel_rules_ios//rules:test.bzl", "ios_ui_test", "ios_unit_test")
+load("@build_bazel_rules_apple//apple:ios.bzl", "ios_ui_test", "ios_unit_test")
 load("@build_bazel_rules_swift//swift:swift.bzl", "swift_library")
 load("@rules_pkg//:mappings.bzl", "pkg_files", "strip_prefix")
 load("@rules_pkg//:pkg.bzl", "pkg_zip")
@@ -136,7 +136,7 @@ def ios_pipeline(
     if hasUnitTests == True:
         ios_unit_test(
             name = name + "Tests",
-            srcs = native.glob(["Tests/**/*.swift"]),
+            data = native.glob(["Tests/**/*.swift"]),
             minimum_os_version = "14.0",
             deps = [
                 ":" + name,
@@ -149,7 +149,7 @@ def ios_pipeline(
     if hasViewInspectorTests == True:
         ios_ui_test(
             name = name + "ViewInspectorTests",
-            srcs = native.glob(["ViewInspector/**/*.swift"], allow_empty = True),
+            data = native.glob(["ViewInspector/**/*.swift"], allow_empty = True),
             minimum_os_version = "14.0",
             deps = [
                 "@swiftpkg_viewinspector//:ViewInspector",
@@ -163,7 +163,7 @@ def ios_pipeline(
     if hasUITests == True:
         ios_ui_test(
             name = name + "UITests",
-            srcs = native.glob(["UITests/**/*.swift"]),
+            data = native.glob(["UITests/**/*.swift"]),
             minimum_os_version = "14.0",
             deps = [
             ] + deps + test_deps,

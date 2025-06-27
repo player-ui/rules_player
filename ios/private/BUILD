@@ -18,7 +18,7 @@ bzl_library(
         "@aspect_bazel_lib//lib:stamping",
         "@bazel_skylib//lib:paths",
         "@build_bazel_rules_apple//apple:resources",
-        "@build_bazel_rules_ios//rules:test",
+        "@build_bazel_rules_apple//apple:ios.bzl",
         "@rules_pkg//:mappings.bzl",
         "@rules_pkg//:pkg.bzl",
         "@rules_pkg//pkg:bzl_srcs",
