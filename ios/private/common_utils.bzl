@@ -157,6 +157,7 @@ def ios_pipeline(
                 "@swiftpkg_viewinspector//:ViewInspector",
                 ":" + name,
             ] + deps + test_deps,
+            testonly = True,
         )
         ios_ui_test(
             name = testTargetName,
