@@ -134,12 +134,22 @@ def ios_pipeline(
     # Packages not specific to SwiftUI don't need ViewInspector
     # so it can just be regular unit tests
     if hasUnitTests == True:
+        unit_test_library_name = name + "_UnitTestLibrary"
+        unit_test_library_target = ":" + unit_test_library_name
+        unit_test_name = name + "Tests"
+        swift_library(
+            name = unit_test_library_name,
+            srcs = native.glob(["Tests/**/*.swift"], allow_empty=True),
+            deps =  [
+                ":" + name,
+            ] + deps + test_deps,
+            testonly = True,
+        )
         ios_unit_test(
-            name = name + "Tests",
-            data = native.glob(["Tests/**/*.swift"]),
+            name = unit_test_name,
             minimum_os_version = "14.0",
             deps = [
-                ":" + name,
+                unit_test_library_target,
             ] + deps + test_deps,
             visibility = ["//visibility:public"],
         )
@@ -147,12 +157,12 @@ def ios_pipeline(
     # ViewInspector has to run as a UI Test to work properly
     # Some SwiftUI plugins need ViewInspector
     if hasViewInspectorTests == True:
-        libraryName = name + "TestLibrary"
-        testTargetName = name + "ViewInspectorTests"
+        viewinspector_test_library_name = name + "_ViewInspectorTestLibrary"
+        viewinspector_test_library_target = ":" + viewinspector_test_library_name
+        viewinspector_test_name = name + "ViewInspectorTests"
         swift_library(
-            name = libraryName,
-            srcs = native.glob(["ViewInspector/**/*.swift"]),
-            tags = ["manual"],
+            name = viewinspector_test_library_name,
+            srcs = native.glob(["ViewInspector/**/*.swift"], allow_empty=True),
             deps =  [
                 "@swiftpkg_viewinspector//:ViewInspector",
                 ":" + name,
@@ -160,20 +170,31 @@ def ios_pipeline(
             testonly = True,
         )
         ios_ui_test(
-            name = testTargetName,
+            name = viewinspector_test_name,
             minimum_os_version = "14.0",
-            deps = [":" + libraryName],
+            deps = [viewinspector_test_library_target],
             visibility = ["//visibility:public"],
             test_host = test_host,
         )
 
     #Some SwiftUI plugins have UI tests without ViewInspector
     if hasUITests == True:
+        ui_test_library_name = name + "_UITestLibrary"
+        ui_test_library_target = ":" + ui_test_library_name
+        ui_test_name = name + "UITests"
+        swift_library(
+            name = ui_test_library_name,
+            srcs = native.glob(["UITests/**/*.swift"], allow_empty=True),
+            deps =  [
+                ":" + name,
+            ] + deps + test_deps,
+            testonly = True,
+        )
         ios_ui_test(
-            name = name + "UITests",
-            data = native.glob(["UITests/**/*.swift"]),
+            name = ui_test_name,
             minimum_os_version = "14.0",
             deps = [
+                ui_test_library_target,
             ] + deps + test_deps,
             visibility = ["//visibility:public"],
             test_host = test_host,
