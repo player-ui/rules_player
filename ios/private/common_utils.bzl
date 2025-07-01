@@ -147,14 +147,21 @@ def ios_pipeline(
     # ViewInspector has to run as a UI Test to work properly
     # Some SwiftUI plugins need ViewInspector
     if hasViewInspectorTests == True:
-        ios_ui_test(
-            name = name + "ViewInspectorTests",
-            data = native.glob(["ViewInspector/**/*.swift"], allow_empty = True),
-            minimum_os_version = "14.0",
-            deps = [
+        libraryName = name + "TestLibrary"
+        testTargetName = name + "ViewInspectorTests"
+        swift_library(
+            name = libraryName,
+            srcs = native.glob(["ViewInspector/**/*.swift"]),
+            tags = ["manual"],
+            deps =  [
                 "@swiftpkg_viewinspector//:ViewInspector",
                 ":" + name,
             ] + deps + test_deps,
+        )
+        ios_ui_test(
+            name = testTargetName,
+            minimum_os_version = "14.0",
+            deps = [":" + libraryName],
             visibility = ["//visibility:public"],
             test_host = test_host,
         )
