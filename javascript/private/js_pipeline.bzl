@@ -10,7 +10,7 @@ load(":eslint.bzl", "eslint_test")
 load(":package_json.bzl", "create_package_json")
 load(":tsup.bzl", "tsup_build", "tsup_native_build")
 load(":utils.bzl", "filter_empty", "without_tests")
-load(":vitest.bzl", "vitest_test")
+load(":vitest.bzl", "vitest_bench", "vitest_test")
 
 test_file_pattern = [
     "_tests_",
@@ -130,6 +130,16 @@ def js_pipeline(
         node_modules = node_modules,
         data = srcs + deps + test_deps + peer_deps,
     )
+
+
+    bench_tests = native.glob(["src/**/*.bench.*"])
+    if len(bench_tests) > 0:
+        vitest_bench(
+            name = name + "_vitest_bench",
+            config = vitest_config,
+            node_modules = node_modules,
+            data = srcs + deps + test_deps + peer_deps,
+        )
 
     eslint_test(
         name = name + "_eslint",
