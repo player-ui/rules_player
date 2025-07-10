@@ -131,7 +131,6 @@ def js_pipeline(
         data = srcs + deps + test_deps + peer_deps,
     )
 
-
     bench_tests = native.glob(["src/**/*.bench.*"])
     if len(bench_tests) > 0:
         vitest_bench(
