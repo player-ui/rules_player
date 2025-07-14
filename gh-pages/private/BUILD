@@ -24,7 +24,7 @@ js_binary(
 
 filegroup(
     name = "npm_depdencies",
-    srcs = glob(["node_modules/**/*"]),
+    srcs = glob(["node_modules/**/*"], allow_empty=True),
     visibility = [
         "//visibility:public"
     ]
