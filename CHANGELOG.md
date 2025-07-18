@@ -1,3 +1,15 @@
+# v1.2.1 (Fri Jul 18 2025)
+
+#### 🐛 Bug Fix
+
+- add vitest_bench rule and add it to js_pipeline [#81](https://github.com/player-ui/rules_player/pull/81) ([@tmarmer](https://github.com/tmarmer))
+
+#### Authors: 1
+
+- Thomas Marmer ([@tmarmer](https://github.com/tmarmer))
+
+---
+
 # v1.2.0 (Tue Jun 10 2025)
 
 #### 🚀 Enhancement
