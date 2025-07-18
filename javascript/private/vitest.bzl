@@ -3,7 +3,7 @@ Implementation for the test macro for vitest
 """
 
 load("@aspect_bazel_lib//lib:directory_path.bzl", "directory_path")
-load("@aspect_rules_js//js:defs.bzl", "js_test")
+load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_test")
 
 def vitest_test(
         name,
@@ -35,5 +35,38 @@ def vitest_test(
         entry_point = ":{}".format(vitest_cli_entry),
         args = ["run", "--color"],
         data = data + [config],
+        **kwargs
+    )
+
+def vitest_bench(
+        name,
+        config,
+        data = [],
+        node_modules = "//:node_modules",
+        **kwargs):
+    """Run vitest benchmark tests.
+
+    Args:
+        name: The name of the test.
+        config: The vite config target.
+        data: The list of data dependencies.
+        node_modules: The node_modules target.
+        **kwargs: Additional arguments to pass to the test.
+    """
+
+    vitest_cli_entry = "{}_vitest_entrypoint".format(name)
+
+    directory_path(
+        name = vitest_cli_entry,
+        directory = "{}/vitest/dir".format(node_modules),
+        path = "vitest.mjs",
+    )
+
+    js_binary(
+        name = name,
+        entry_point = ":{}".format(vitest_cli_entry),
+        args = ["bench", "--run"],
+        data = data + [config],
+        testonly = True,
         **kwargs
     )
