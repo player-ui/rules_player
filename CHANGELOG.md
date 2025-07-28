@@ -1,3 +1,15 @@
+# v1.2.0 (Tue Jun 10 2025)
+
+#### 🚀 Enhancement
+
+- Central Portal Support [#80](https://github.com/player-ui/rules_player/pull/80) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v1.1.6 (Thu Jan 02 2025)
 
 ### Release Notes
