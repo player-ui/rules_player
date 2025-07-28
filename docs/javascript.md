@@ -7,6 +7,8 @@ Public API for JavaScript based project rules
 ## create_package_json
 
 <pre>
+load("@rules_player//javascript:defs.bzl", "create_package_json")
+
 create_package_json(<a href="#create_package_json-name">name</a>, <a href="#create_package_json-additional_exports">additional_exports</a>, <a href="#create_package_json-base_package_json">base_package_json</a>, <a href="#create_package_json-custom_entrypoints">custom_entrypoints</a>, <a href="#create_package_json-dependencies">dependencies</a>,
                     <a href="#create_package_json-native_bundle">native_bundle</a>, <a href="#create_package_json-peer_dependencies">peer_dependencies</a>, <a href="#create_package_json-placeholder_version">placeholder_version</a>, <a href="#create_package_json-root_package_json">root_package_json</a>, <a href="#create_package_json-stamp">stamp</a>,
                     <a href="#create_package_json-substitutions">substitutions</a>)
@@ -37,7 +39,9 @@ create_package_json(<a href="#create_package_json-name">name</a>, <a href="#crea
 ## eslint_test
 
 <pre>
-eslint_test(<a href="#eslint_test-name">name</a>, <a href="#eslint_test-data">data</a>, <a href="#eslint_test-srcs">srcs</a>, <a href="#eslint_test-node_modules">node_modules</a>, <a href="#eslint_test-lint_exts">lint_exts</a>, <a href="#eslint_test-kwargs">kwargs</a>)
+load("@rules_player//javascript:defs.bzl", "eslint_test")
+
+eslint_test(<a href="#eslint_test-name">name</a>, <a href="#eslint_test-data">data</a>, <a href="#eslint_test-srcs">srcs</a>, <a href="#eslint_test-node_modules">node_modules</a>, <a href="#eslint_test-lint_exts">lint_exts</a>, <a href="#eslint_test-kwargs">**kwargs</a>)
 </pre>
 
 A test target that runs eslint on the given sources.
@@ -60,6 +64,8 @@ A test target that runs eslint on the given sources.
 ## js_pipeline
 
 <pre>
+load("@rules_player//javascript:defs.bzl", "js_pipeline")
+
 js_pipeline(<a href="#js_pipeline-package_name">package_name</a>, <a href="#js_pipeline-name">name</a>, <a href="#js_pipeline-srcs">srcs</a>, <a href="#js_pipeline-package_json">package_json</a>, <a href="#js_pipeline-root_package_json">root_package_json</a>, <a href="#js_pipeline-vitest_config">vitest_config</a>, <a href="#js_pipeline-tsup_config">tsup_config</a>,
             <a href="#js_pipeline-node_modules">node_modules</a>, <a href="#js_pipeline-deps">deps</a>, <a href="#js_pipeline-native_bundle">native_bundle</a>, <a href="#js_pipeline-private">private</a>, <a href="#js_pipeline-peer_deps">peer_deps</a>, <a href="#js_pipeline-create_package_json_args">create_package_json_args</a>,
             <a href="#js_pipeline-include_packaging_targets">include_packaging_targets</a>, <a href="#js_pipeline-test_deps">test_deps</a>, <a href="#js_pipeline-lint_deps">lint_deps</a>, <a href="#js_pipeline-build_deps">build_deps</a>)
@@ -99,6 +105,8 @@ Creates a js_library, npm_package, and test targets for a given package.
 ## oclif_pipeline
 
 <pre>
+load("@rules_player//javascript:defs.bzl", "oclif_pipeline")
+
 oclif_pipeline(<a href="#oclif_pipeline-package_name">package_name</a>, <a href="#oclif_pipeline-name">name</a>, <a href="#oclif_pipeline-srcs">srcs</a>, <a href="#oclif_pipeline-manifest">manifest</a>, <a href="#oclif_pipeline-node_modules">node_modules</a>, <a href="#oclif_pipeline-deps">deps</a>, <a href="#oclif_pipeline-peer_deps">peer_deps</a>, <a href="#oclif_pipeline-build_deps">build_deps</a>)
 </pre>
 
@@ -127,7 +135,9 @@ Creates a js_library, npm_package, and test targets for a given package.
 ## tsup_build
 
 <pre>
-tsup_build(<a href="#tsup_build-name">name</a>, <a href="#tsup_build-srcs">srcs</a>, <a href="#tsup_build-config">config</a>, <a href="#tsup_build-data">data</a>, <a href="#tsup_build-node_modules">node_modules</a>, <a href="#tsup_build-substitutions">substitutions</a>, <a href="#tsup_build-outs">outs</a>, <a href="#tsup_build-kwargs">kwargs</a>)
+load("@rules_player//javascript:defs.bzl", "tsup_build")
+
+tsup_build(<a href="#tsup_build-name">name</a>, <a href="#tsup_build-srcs">srcs</a>, <a href="#tsup_build-config">config</a>, <a href="#tsup_build-data">data</a>, <a href="#tsup_build-node_modules">node_modules</a>, <a href="#tsup_build-substitutions">substitutions</a>, <a href="#tsup_build-outs">outs</a>, <a href="#tsup_build-kwargs">**kwargs</a>)
 </pre>
 
 Run a vite test.
@@ -152,7 +162,9 @@ Run a vite test.
 ## vitest_test
 
 <pre>
-vitest_test(<a href="#vitest_test-name">name</a>, <a href="#vitest_test-config">config</a>, <a href="#vitest_test-data">data</a>, <a href="#vitest_test-node_modules">node_modules</a>, <a href="#vitest_test-kwargs">kwargs</a>)
+load("@rules_player//javascript:defs.bzl", "vitest_test")
+
+vitest_test(<a href="#vitest_test-name">name</a>, <a href="#vitest_test-config">config</a>, <a href="#vitest_test-data">data</a>, <a href="#vitest_test-node_modules">node_modules</a>, <a href="#vitest_test-kwargs">**kwargs</a>)
 </pre>
 
 Run a vite test.

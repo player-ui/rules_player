@@ -36,6 +36,15 @@ bzl_library(
     ],
 )
 
+bzl_library(
+    name = "mocks",
+    srcs = ["mocks.bzl"],
+    visibility = ["//player:__subpackages__"],
+    deps = [
+        "dsl.bzl",
+    ],
+)
+
 exports_files([
     "player.config.js.template",
 ])

@@ -15,5 +15,6 @@ bzl_library(
         "//player/private:config",
         "//player/private:dsl",
         "//player/private:xlr",
+        "//player/private:mocks",
     ],
 )
