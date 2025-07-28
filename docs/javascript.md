@@ -157,6 +157,28 @@ Run a vite test.
 | <a id="tsup_build-kwargs"></a>kwargs |  Additional arguments to pass to the test.   |  none |
 
 
+<a id="vitest_bench"></a>
+
+## vitest_bench
+
+<pre>
+vitest_bench(<a href="#vitest_bench-name">name</a>, <a href="#vitest_bench-config">config</a>, <a href="#vitest_bench-data">data</a>, <a href="#vitest_bench-node_modules">node_modules</a>, <a href="#vitest_bench-kwargs">kwargs</a>)
+</pre>
+
+Run vitest benchmark tests.
+
+**PARAMETERS**
+
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="vitest_bench-name"></a>name |  The name of the test.   |  none |
+| <a id="vitest_bench-config"></a>config |  The vite config target.   |  none |
+| <a id="vitest_bench-data"></a>data |  The list of data dependencies.   |  `[]` |
+| <a id="vitest_bench-node_modules"></a>node_modules |  The node_modules target.   |  `"//:node_modules"` |
+| <a id="vitest_bench-kwargs"></a>kwargs |  Additional arguments to pass to the test.   |  none |
+
+
 <a id="vitest_test"></a>
 
 ## vitest_test
