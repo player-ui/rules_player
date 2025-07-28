@@ -12,6 +12,6 @@ bzl_library(
     srcs = ["defs.bzl"],
     visibility = ["//visibility:public"],
     deps = [
-        "//shell/shell:sh_configure",
+        "//shell/private:shell",
     ],
 )
