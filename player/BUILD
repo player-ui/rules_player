@@ -16,5 +16,6 @@ bzl_library(
         "//player/private:dsl",
         "//player/private:xlr",
         "//player/private:mocks",
+        "//player/private:kt_player_plugin_wrapper",
     ],
 )

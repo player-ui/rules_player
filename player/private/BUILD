@@ -45,6 +45,19 @@ bzl_library(
     ],
 )
 
+bzl_library(
+    name = "kt_player_plugin_wrapper",
+    srcs = ["kt_player_plugin_wrapper.bzl"],
+    visibility = ["//player:__subpackages__"],
+    deps = [
+        "@bazel_skylib//lib:dicts",
+        "@rules_jvm_external//:defs",
+        "//kotlin:defs", "kt_jvm",
+    ],
+)
+
 exports_files([
     "player.config.js.template",
+    "plugin_wrapper_template.kt.tpl",
+    "plugin_wrapper_test_template.kt.tpl",
 ])
