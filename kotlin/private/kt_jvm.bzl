@@ -103,16 +103,16 @@ def kt_jvm(
     """
 
     if main_srcs == None:
-        main_srcs = native.glob(["src/main/kotlin/**/*.kt"])
+        main_srcs = native.glob(["src/main/kotlin/**/*.kt"], allow_empty = True)
 
     if main_resources == None:
-        main_resources = native.glob(["src/main/resources/**/*"])
+        main_resources = native.glob(["src/main/resources/**/*"], allow_empty = True)
 
     if test_srcs == None:
-        test_srcs = native.glob(["src/test/kotlin/**/*.kt"])
+        test_srcs = native.glob(["src/test/kotlin/**/*.kt"], allow_empty = True)
 
     if test_resources == None:
-        test_resources = native.glob(["src/test/resources/**/*"])
+        test_resources = native.glob(["src/test/resources/**/*"], allow_empty = True)
 
     should_publish = group or version
     required_info_to_publish = group and version
