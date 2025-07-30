@@ -189,7 +189,7 @@ def kt_android(
     if should_publish:
         distribution(
             name = name,
-            maven_coordinates = maven_coordinates,
+            maven_coordinates = "%s:%s:%s" % (group, name, version if version else "{pom_version}"),
             deploy_env = deploy_env,
             excluded_workspaces = excluded_workspaces,
             pom_template = pom_template,
