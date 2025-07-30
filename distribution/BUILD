@@ -16,3 +16,18 @@ sh_binary(
     name = "staged-maven-deploy",
     srcs = [":staged-maven-deploy.sh"],
 )
+
+bzlformat_pkg(name = "bzlformat")
+
+bzlformat_missing_pkgs(name = "bzlformat_missing_pkgs")
+
+exports_files(["defs.bzl"])
+
+bzl_library(
+    name = "defs",
+    srcs = ["defs.bzl"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//distribution/private:build_constants",
+    ],
+)
