@@ -3,14 +3,16 @@ Macro implementation for building, testing, and deploying kotlin code
 """
 
 load(":distribution.bzl", "distribution")
-load(":kt_jvm_library_and_test.bzl", "kt_jvm_library_and_test")
+load(":kt_android_library_and_test.bzl", "kt_android_library_and_test")
 load(":lint.bzl", "lint")
 
-def kt_jvm(
+def kt_android(
         *,
 
         # Artifact ID
         name,
+        manifest = None,
+        custom_package = None,
 
         # Project level config
         lint_config = None,
@@ -23,25 +25,31 @@ def kt_jvm(
         pom_template = None,
 
         # Package level config
+        plugins = None,
         module_name = None,
         main_opts = None,
         main_srcs = None,
         main_resources = None,
-        main_resource_jars = None,
-        main_resource_strip_prefix = None,
+        main_res = None,
+        main_assets = None,
         main_associates = None,
         main_deps = [],
-        main_exports = None,
-        main_runtime_deps = None,
-        test_package = None,
-        test_opts = None,
-        test_srcs = None,
-        test_resources = None,
-        test_resource_jars = None,
-        test_resource_strip_prefix = None,
-        test_associates = None,
-        test_deps = [],
-        test_runtime_deps = None):
+        main_exports = [],
+        unit_test_package = None,
+        unit_test_opts = None,
+        unit_test_srcs = None,
+        unit_test_resources = None,
+        unit_test_resource_jars = None,
+        unit_test_resource_strip_prefix = None,
+        unit_test_associates = None,
+        unit_test_deps = [],
+        unit_test_runtime_deps = None,
+        instrumented_test_opts = None,
+        instrumented_test_srcs = None,
+        instrumented_test_resources = None,
+        instrumented_test_associates = None,
+        instrumented_test_deps = [],
+        ):
     """Generic Kotlin JVM macro for conditionally configuring build & test targets, linting, and publishing.
 
     # Building + Testing
@@ -102,17 +110,32 @@ def kt_jvm(
         test_runtime_deps: (optional) depencies of the test source set that are provided at runtime
     """
 
+    if manifest == None:
+        manifest = ":src/main/AndroidManifest.xml"
+
     if main_srcs == None:
         main_srcs = native.glob(["src/main/kotlin/**/*.kt"], allow_empty = True)
 
     if main_resources == None:
         main_resources = native.glob(["src/main/resources/**/*"], allow_empty = True)
 
-    if test_srcs == None:
-        test_srcs = native.glob(["src/test/kotlin/**/*.kt"], allow_empty = True)
+    if main_res == None:
+        main_res = native.glob(["src/main/res/**/*"], allow_empty = True)
 
-    if test_resources == None:
-        test_resources = native.glob(["src/test/resources/**/*"], allow_empty = True)
+    if main_assets == None:
+        main_assets = native.glob(["src/main/assets/**/*"], allow_empty = True)
+
+    if unit_test_srcs == None:
+        unit_test_srcs = native.glob(["src/test/kotlin/**/*.kt"], allow_empty = True)
+
+    if unit_test_resources == None:
+        unit_test_resources = native.glob(["src/test/resources/**/*"], allow_empty = True)
+
+    if instrumented_test_srcs == None:
+        instrumented_test_srcs = native.glob(["src/androidTest/kotlin/**/*.kt"], allow_empty = True)
+
+    if instrumented_test_resources == None:
+        instrumented_test_resources = native.glob(["src/androidTest/resources/**/*"], allow_empty = True)
 
     should_publish = group or version
     required_info_to_publish = group and version
@@ -120,36 +143,46 @@ def kt_jvm(
     if should_publish and not required_info_to_publish:
         fail("publishing info not fully provided. to enable publishing, ensure group and version are provided: %s, %s" % (group, version))
 
-    maven_coordinates = "%s:%s:%s" % (group, name, version if version else "{pom_version}") if should_publish else None
+    maven_coordinates = "%s:%s:aar:%s" % (group, name, version if version else "{pom_version}") if should_publish else None
 
-    kt_jvm_library_and_test(
+    kt_android_library_and_test(
         name = name,
+        package = group,
+        manifest = manifest,
+        custom_package = custom_package,
         tags = ["maven_coordinates=%s" % (maven_coordinates)] if maven_coordinates else None,
+        plugins = plugins,
         module_name = module_name,
         main_opts = main_opts,
         main_srcs = main_srcs,
         main_resources = main_resources,
-        main_resource_jars = main_resource_jars,
-        main_resource_strip_prefix = main_resource_strip_prefix,
+        main_res = main_res,
+        main_assets = main_assets,
+        
         main_associates = main_associates,
         main_deps = main_deps,
         main_exports = main_exports,
-        main_runtime_deps = main_runtime_deps,
-        test_package = test_package,
-        test_opts = test_opts,
-        test_srcs = test_srcs,
-        test_resources = test_resources,
-        test_resource_jars = test_resource_jars,
-        test_resource_strip_prefix = test_resource_strip_prefix,
-        test_associates = test_associates,
-        test_deps = test_deps,
-        test_runtime_deps = test_runtime_deps,
+        unit_test_package = unit_test_package if unit_test_package else group,
+        unit_test_opts = unit_test_opts,
+        unit_test_srcs = unit_test_srcs,
+        unit_test_resources = unit_test_resources,
+        unit_test_resource_jars = unit_test_resource_jars,
+        unit_test_resource_strip_prefix = unit_test_resource_strip_prefix,
+        unit_test_associates = unit_test_associates,
+        unit_test_deps = unit_test_deps,
+        unit_test_runtime_deps = unit_test_runtime_deps,
+        instrumented_test_opts = instrumented_test_opts,
+        instrumented_test_srcs = instrumented_test_srcs,
+        instrumented_test_resources = instrumented_test_resources,
+        instrumented_test_associates = instrumented_test_associates,
+        instrumented_test_deps = instrumented_test_deps,
+        
     )
 
     if lint_config:
         lint(
             name = name,
-            srcs = main_srcs + test_srcs,
+            srcs = main_srcs + unit_test_srcs + instrumented_test_srcs,
             lint_config = lint_config,
         )
 

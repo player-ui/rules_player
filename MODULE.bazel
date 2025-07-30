@@ -50,6 +50,8 @@ maven.install(
 )
 use_repo(maven, "rules_player_maven")
 
+bazel_dep(name = "rules_android", version = "0.6.5")
+
 ## Rule Dependencies
 bazel_dep(name = "rules_swift", version = "2.9.0", repo_name = "build_bazel_rules_swift")
 bazel_dep(name = "rules_apple", version = "3.22.0", repo_name = "build_bazel_rules_apple")
