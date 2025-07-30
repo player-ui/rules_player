@@ -417,6 +417,22 @@
         ]
       }
     },
+    "@@rules_android+//rules/android_sdk_repository:rule.bzl%android_sdk_repository_extension": {
+      "general": {
+        "bzlTransitiveDigest": "NAy+0M15JNVEBb8Tny6t7j3lKqTnsAMjoBB6LJ+C370=",
+        "usagesDigest": "Tpfoy1yTXozGPr2TKk4Rfv3OuLHFCj+2Hehpu7sY5DQ=",
+        "recordedFileInputs": {},
+        "recordedDirentsInputs": {},
+        "envVariables": {},
+        "generatedRepoSpecs": {
+          "androidsdk": {
+            "repoRuleId": "@@rules_android+//rules/android_sdk_repository:rule.bzl%_android_sdk_repository",
+            "attributes": {}
+          }
+        },
+        "recordedRepoMappingEntries": []
+      }
+    },
     "@@rules_bazel_integration_test+//:extensions.bzl%bazel_binaries": {
       "general": {
         "bzlTransitiveDigest": "ruMfvWwZzwPPkk+exdpYAe94RD+4erzc4ePrZ08MuKc=",
@@ -468,65 +484,6 @@
             "rules_bazel_integration_test+",
             "cgrindel_bazel_starlib",
             "cgrindel_bazel_starlib+"
-          ]
-        ]
-      }
-    },
-    "@@rules_go+//go:extensions.bzl%go_sdk": {
-      "general": {
-        "bzlTransitiveDigest": "S+FL22r1Q/yFtJRBMgaGm9/KJc7Iu4+6mZJ6UVGCs24=",
-        "usagesDigest": "dd2sRQ1UF7wKpbqar8G3qfMLYABXIdmiAgcfTUHIwSk=",
-        "recordedFileInputs": {},
-        "recordedDirentsInputs": {},
-        "envVariables": {},
-        "generatedRepoSpecs": {
-          "go_default_sdk": {
-            "repoRuleId": "@@rules_go+//go/private:sdk.bzl%go_download_sdk_rule",
-            "attributes": {
-              "goos": "",
-              "goarch": "",
-              "sdks": {},
-              "urls": [
-                "https://dl.google.com/go/{}"
-              ],
-              "version": "1.20.2"
-            }
-          },
-          "go_host_compatible_sdk_label": {
-            "repoRuleId": "@@rules_go+//go/private:extensions.bzl%host_compatible_toolchain",
-            "attributes": {
-              "toolchain": "@go_default_sdk//:ROOT"
-            }
-          },
-          "go_toolchains": {
-            "repoRuleId": "@@rules_go+//go/private:sdk.bzl%go_multiple_toolchains",
-            "attributes": {
-              "prefixes": [
-                "_0000_go_default_sdk_"
-              ],
-              "geese": [
-                ""
-              ],
-              "goarchs": [
-                ""
-              ],
-              "sdk_repos": [
-                "go_default_sdk"
-              ],
-              "sdk_types": [
-                "remote"
-              ],
-              "sdk_versions": [
-                "1.20.2"
-              ]
-            }
-          }
-        },
-        "recordedRepoMappingEntries": [
-          [
-            "rules_go+",
-            "bazel_tools",
-            "bazel_tools"
           ]
         ]
       }
