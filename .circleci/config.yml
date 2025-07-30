@@ -80,18 +80,13 @@ workflows:
           requires:
             - install
 
-      - build:
-          requires:
-            - install
-
       - test:
           requires:
-            - build
+            - install
 
       - release:
           context:
             - Publish
           requires:
             - test
-            - build
             - checkLabels
