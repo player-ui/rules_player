@@ -26,6 +26,8 @@ use_repo(rules_ts_ext, "npm_typescript")
 bazel_dep(name = "rules_kotlin", version = "2.1.7")
 bazel_dep(name = "rules_java", version = "7.2.0")
 bazel_dep(name = "rules_jvm_external", version = "6.7")
+# Force upgrade to avoid polluting @maven scope
+bazel_dep(name = "bazel_worker_java", version = "0.0.6")
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(

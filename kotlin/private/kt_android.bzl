@@ -152,7 +152,6 @@ def kt_android(
 
     kt_android_library_and_test(
         name = name,
-        package = group,
         manifest = manifest,
         tags = ["maven_coordinates=%s" % (maven_coordinates)] if maven_coordinates else None,
         plugins = plugins,
