@@ -61,7 +61,7 @@ def kt_android_library_and_test(
         instrumented_test_associates = [],
         instrumented_test_deps = []):
     base_name = scope_name(name, "base")
-    associates = ["%s_kt" % base_name]
+    associates = [base_name]
     kt_android_library(
         name = base_name,
         manifest = manifest,

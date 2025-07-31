@@ -23,7 +23,7 @@ rules_ts_ext.deps(
 
 use_repo(rules_ts_ext, "npm_typescript")
 
-bazel_dep(name = "rules_kotlin", version = "2.1.7")
+bazel_dep(name = "rules_kotlin", version = "2.1.8")
 bazel_dep(name = "rules_java", version = "7.2.0")
 bazel_dep(name = "rules_jvm_external", version = "6.7")
 # Force upgrade to avoid polluting @maven scope
