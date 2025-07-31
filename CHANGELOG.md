@@ -1,3 +1,17 @@
+# v2.0.0 (Thu Jul 31 2025)
+
+#### 💥 Breaking Change
+
+- Bazel 8 Support [#83](https://github.com/player-ui/rules_player/pull/83) ([@KetanReddy](https://github.com/KetanReddy) [@sugarmanz](https://github.com/sugarmanz) [@KVSRoyal](https://github.com/KVSRoyal))
+
+#### Authors: 3
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+- Ketan Reddy ([@KetanReddy](https://github.com/KetanReddy))
+- Koriann South ([@KVSRoyal](https://github.com/KVSRoyal))
+
+---
+
 # v1.2.1 (Fri Jul 18 2025)
 
 #### 🐛 Bug Fix
