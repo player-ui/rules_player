@@ -46,19 +46,6 @@ jobs:
           name: Check SemVer label
           command: yarn auto pr-check --url $CIRCLE_BUILD_URL
 
-  build:
-    executor: base
-    steps:
-      - attach_workspace:
-          at: ~/rules_player
-      - run:
-          name: Build
-          command: bazel sync
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-
   test:
     executor: base
     steps:
@@ -93,18 +80,13 @@ workflows:
           requires:
             - install
 
-      - build:
-          requires:
-            - install
-
       - test:
           requires:
-            - build
+            - install
 
       - release:
           context:
             - Publish
           requires:
             - test
-            - build
             - checkLabels

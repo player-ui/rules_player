@@ -15,10 +15,11 @@ bzl_library(
         "//ios:__subpackages__",
     ],
     deps = [
+        "@@rules_cc+//cc/common",
         "@aspect_bazel_lib//lib:stamping",
         "@bazel_skylib//lib:paths",
+        "@build_bazel_rules_apple//apple:ios",
         "@build_bazel_rules_apple//apple:resources",
-        "@build_bazel_rules_ios//rules:test",
         "@rules_pkg//:mappings.bzl",
         "@rules_pkg//:pkg.bzl",
         "@rules_pkg//pkg:bzl_srcs",

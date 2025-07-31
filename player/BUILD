@@ -14,6 +14,8 @@ bzl_library(
     deps = [
         "//player/private:config",
         "//player/private:dsl",
+        "//player/private:kt_player_plugin_wrapper",
+        "//player/private:mocks",
         "//player/private:xlr",
     ],
 )

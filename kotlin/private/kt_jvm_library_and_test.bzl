@@ -1,5 +1,5 @@
 """
-Macro implementation for building and testing kotlin libraries
+Private macro implementation for building and testing kotlin libraries
 """
 
 load("@rules_kotlin//kotlin:jvm.bzl", "kt_jvm_library")

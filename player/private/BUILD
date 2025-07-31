@@ -36,6 +36,28 @@ bzl_library(
     ],
 )
 
+bzl_library(
+    name = "mocks",
+    srcs = ["mocks.bzl"],
+    visibility = ["//player:__subpackages__"],
+    deps = [
+        "dsl.bzl",
+    ],
+)
+
+bzl_library(
+    name = "kt_player_plugin_wrapper",
+    srcs = ["kt_player_plugin_wrapper.bzl"],
+    visibility = ["//player:__subpackages__"],
+    deps = [
+        "//kotlin:defs",
+        "@bazel_skylib//lib:dicts",
+        "@rules_jvm_external//:implementation",
+    ],
+)
+
 exports_files([
     "player.config.js.template",
+    "plugin_wrapper_template.kt.tpl",
+    "plugin_wrapper_test_template.kt.tpl",
 ])

@@ -30,7 +30,7 @@ def kt_jvm(
         main_resource_jars = None,
         main_resource_strip_prefix = None,
         main_associates = None,
-        main_deps = None,
+        main_deps = [],
         main_exports = None,
         main_runtime_deps = None,
         test_package = None,
@@ -40,14 +40,14 @@ def kt_jvm(
         test_resource_jars = None,
         test_resource_strip_prefix = None,
         test_associates = None,
-        test_deps = None,
+        test_deps = [],
         test_runtime_deps = None):
     """Generic Kotlin JVM macro for conditionally configuring build & test targets, linting, and publishing.
 
     # Building + Testing
 
     Most kt_jvm_library parameters can be forwarded for either the main or test
-    set by prefixing the paremeter with `main` or `test`, i.e. `main_srcs`, `test_deps`
+    set by prefixing the parameter with `main` or `test`, i.e. `main_srcs`, `test_deps`
 
     If `srcs` or `resources` are undefined, they will default to globbing the
     files grouped under Maven convention, i.e. `src/main/kotlin` and `src/main/resources`
@@ -103,16 +103,16 @@ def kt_jvm(
     """
 
     if main_srcs == None:
-        main_srcs = native.glob(["src/main/kotlin/**/*.kt"])
+        main_srcs = native.glob(["src/main/kotlin/**/*.kt"], allow_empty = True)
 
     if main_resources == None:
-        main_resources = native.glob(["src/main/resources/**/*"])
+        main_resources = native.glob(["src/main/resources/**/*"], allow_empty = True)
 
     if test_srcs == None:
-        test_srcs = native.glob(["src/test/kotlin/**/*.kt"])
+        test_srcs = native.glob(["src/test/kotlin/**/*.kt"], allow_empty = True)
 
     if test_resources == None:
-        test_resources = native.glob(["src/test/resources/**/*"])
+        test_resources = native.glob(["src/test/resources/**/*"], allow_empty = True)
 
     should_publish = group or version
     required_info_to_publish = group and version

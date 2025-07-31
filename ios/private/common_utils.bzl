@@ -2,8 +2,8 @@
 Common utilities for ios builds
 """
 
+load("@build_bazel_rules_apple//apple:ios.bzl", "ios_ui_test", "ios_unit_test")
 load("@build_bazel_rules_apple//apple:resources.bzl", "apple_resource_bundle")
-load("@build_bazel_rules_ios//rules:test.bzl", "ios_ui_test", "ios_unit_test")
 load("@build_bazel_rules_swift//swift:swift.bzl", "swift_library")
 load("@rules_pkg//:mappings.bzl", "pkg_files", "strip_prefix")
 load("@rules_pkg//:pkg.bzl", "pkg_zip")
@@ -125,18 +125,31 @@ def ios_pipeline(
         deps = deps,
         data = data,
         # this define makes Bundle.module extension work from ios_bundle_module_shim
-        defines = ["BAZEL_TARGET"],
+        # TODO: Bazel upgrade requires `SWIFT_PACKAGE` to be set for our usage of it,
+        #       should likely have a better way to dynamically configure `-DSWIFT_PACKAGE`
+        #       rather than applying it holistically to every `swift_library`
+        defines = ["BAZEL_TARGET", "SWIFT_PACKAGE"],
     )
 
     # Packages not specific to SwiftUI don't need ViewInspector
     # so it can just be regular unit tests
     if hasUnitTests == True:
-        ios_unit_test(
-            name = name + "Tests",
-            srcs = native.glob(["Tests/**/*.swift"]),
-            minimum_os_version = "14.0",
+        unit_test_library_name = name + "_UnitTestLibrary"
+        unit_test_library_target = ":" + unit_test_library_name
+        unit_test_name = name + "Tests"
+        swift_library(
+            name = unit_test_library_name,
+            srcs = native.glob(["Tests/**/*.swift"], allow_empty = True),
             deps = [
                 ":" + name,
+            ] + deps + test_deps,
+            testonly = True,
+        )
+        ios_unit_test(
+            name = unit_test_name,
+            minimum_os_version = "14.0",
+            deps = [
+                unit_test_library_target,
             ] + deps + test_deps,
             visibility = ["//visibility:public"],
         )
@@ -144,25 +157,44 @@ def ios_pipeline(
     # ViewInspector has to run as a UI Test to work properly
     # Some SwiftUI plugins need ViewInspector
     if hasViewInspectorTests == True:
-        ios_ui_test(
-            name = name + "ViewInspectorTests",
-            srcs = native.glob(["ViewInspector/**/*.swift"]),
-            minimum_os_version = "14.0",
+        viewinspector_test_library_name = name + "_ViewInspectorTestLibrary"
+        viewinspector_test_library_target = ":" + viewinspector_test_library_name
+        viewinspector_test_name = name + "ViewInspectorTests"
+        swift_library(
+            name = viewinspector_test_library_name,
+            srcs = native.glob(["ViewInspector/**/*.swift"], allow_empty = True),
             deps = [
-                "@swiftpkg_viewinspector//:Sources_ViewInspector",
+                "@swiftpkg_viewinspector//:ViewInspector",
                 ":" + name,
             ] + deps + test_deps,
+            testonly = True,
+        )
+        ios_ui_test(
+            name = viewinspector_test_name,
+            minimum_os_version = "14.0",
+            deps = [viewinspector_test_library_target],
             visibility = ["//visibility:public"],
             test_host = test_host,
         )
 
     #Some SwiftUI plugins have UI tests without ViewInspector
     if hasUITests == True:
+        ui_test_library_name = name + "_UITestLibrary"
+        ui_test_library_target = ":" + ui_test_library_name
+        ui_test_name = name + "UITests"
+        swift_library(
+            name = ui_test_library_name,
+            srcs = native.glob(["UITests/**/*.swift"], allow_empty = True),
+            deps = [
+                ":" + name,
+            ] + deps + test_deps,
+            testonly = True,
+        )
         ios_ui_test(
-            name = name + "UITests",
-            srcs = native.glob(["UITests/**/*.swift"]),
+            name = ui_test_name,
             minimum_os_version = "14.0",
             deps = [
+                ui_test_library_target,
             ] + deps + test_deps,
             visibility = ["//visibility:public"],
             test_host = test_host,
