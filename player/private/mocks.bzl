@@ -1,3 +1,7 @@
+"""
+Implementation for compiling a collection of DSL mocks and generating a corresponding manifest.json
+"""
+
 load("dsl.bzl", compile_dsl = "compile")
 
 def compile_mocks(mock_dirs, dsl_config, data, name = "mocks"):

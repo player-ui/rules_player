@@ -1,5 +1,5 @@
 """
-Macro implementation for building, testing, and deploying kotlin code
+Macro implementation for building, testing, and deploying Android Kotlin code
 """
 
 load(":distribution.bzl", "distribution")
@@ -11,8 +11,6 @@ def kt_android(
 
         # Artifact ID
         name,
-        manifest = None,
-        custom_package = None,
 
         # Project level config
         lint_config = None,
@@ -25,6 +23,7 @@ def kt_android(
         pom_template = None,
 
         # Package level config
+        manifest = None,
         plugins = None,
         module_name = None,
         main_opts = None,
@@ -46,6 +45,7 @@ def kt_android(
         unit_test_runtime_deps = None,
         instrumented_test_opts = None,
         instrumented_test_srcs = None,
+        instrumented_test_classes = None,
         instrumented_test_resources = None,
         instrumented_test_associates = None,
         instrumented_test_deps = []):
@@ -53,10 +53,10 @@ def kt_android(
 
     # Building + Testing
 
-    Most kt_jvm_library parameters can be forwarded for either the main or test
-    set by prefixing the paremeter with `main` or `test`, i.e. `main_srcs`, `test_deps`
+    Most kt_jvm_library parameters can be forwarded for either the main, unit_test, or instrumented_test,
+    set by prefixing the parameter with `main` or `test`, i.e. `main_srcs`, `unit_test_deps`
 
-    If `srcs` or `resources` are undefined, they will default to globbing the
+    If `srcs`, `resources`, `res`, `assets`, or `manifest` are undefined, they will default to globbing the
     files grouped under Maven convention, i.e. `src/main/kotlin` and `src/main/resources`
 
     # Linting
@@ -77,10 +77,9 @@ def kt_android(
     - {name}-install: Exectuable target to locally install the artifacts
 
     Args:
-        name: used for the underlying `kt_jvm_library` rule
+        name: used for the underlying `kt_android_library` rule
 
         lint_config: project level KtLint config
-
 
         group: (optional) group identifier for publishing
         version: (optional) version to publish under
@@ -88,25 +87,32 @@ def kt_android(
         excluded_workspaces: (optional) dict of workspace names to replace, or remove, from transitive closure
         pom_template: (optional) file override to use while generating the pom file
 
+        manifest: (optional) Android manifest for this module -- defaults to `:src/main/AndroidManifest.xml`
+        plugins: (optional) Kotlin compiler plugins to pass to all kt_ build targets
         module_name: (optional) Kotlin module name
         main_opts: (optional) Kotlin compiler options used to compile the main source set
         main_srcs: (optional) main source set -- defaults to `glob(["src/main/kotlin/**/*.kt"])`
         main_resources: (optional) main resources -- defaults to `glob(["src/main/resources/**/*"])`
-        main_resource_jars: (optional) additional resource JARs for the main sources
-        main_resource_strip_prefix: (optional) remove prefix from resources
+        main_res: (optional) main Android resources -- defaults to `glob(["src/main/res/**/*"])`
+        main_assets: (optional) main Android assets -- defaults to `glob(["src/main/assets/**/*"])`
         main_associates: (optional) Kotlin module dependencies to treat as associates of the same module
         main_deps: (optional) dependencies of the main source set
         main_exports: (optional) dependencies that should be exported as apart of this module
-        main_runtime_deps: (optional) depencies of the main source set that are provided at runtime
-        test_package: (required if test sources are provided) package containing tests
-        test_opts: (optional) Kotlin compiler options used to compile the test source set
-        test_srcs: (optional) test source set -- defaults to `glob(["src/test/kotlin/**/*.kt"])`
-        test_resources: (optional) main resources -- defaults to `glob(["src/test/resources/**/*"])`
-        test_resource_jars: (optional) additional resource JARs for the test sources
-        test_resource_strip_prefix: (optional) remove prefix from resources
-        test_associates: (optional) Kotlin module dependencies to treat as associates of the same module
-        test_deps: (optional) dependencies of the test source set
-        test_runtime_deps: (optional) depencies of the test source set that are provided at runtime
+        unit_test_package: (required if test sources are provided) package containing unit tests
+        unit_test_opts: (optional) Kotlin compiler options used to compile the unit test source set
+        unit_test_srcs: (optional) unit test source set -- defaults to `glob(["src/test/kotlin/**/*.kt"])`
+        unit_test_resources: (optional) unit test resources resources -- defaults to `glob(["src/test/resources/**/*"])`
+        unit_test_resource_jars: (optional) additional resource JARs for unit test sources
+        unit_test_resource_strip_prefix: (optional) remove prefix from unit test resources
+        unit_test_associates: (optional) Kotlin module dependencies to treat as associates of the same module
+        unit_test_deps: (optional) dependencies of the unit test source set
+        unit_test_runtime_deps: (optional) dependencies of the unit test source set that are provided at runtime
+        instrumented_test_opts: (optional) Kotlin compiler options used to compile the instrumented test source set
+        instrumented_test_srcs: (optional) instrumented test source set -- defaults to `glob(["src/androidTest/kotlin/**/*.kt"])`
+        instrumented_test_classes: (optional) instrumented test classes to test -- will infer based on source set, explicitly pass if getting unexpected failures
+        instrumented_test_resources: (optional) unit test resources resources -- defaults to `glob(["src/androidTest/resources/**/*"])`
+        instrumented_test_associates: (optional) Kotlin module dependencies to treat as associates of the same module
+        instrumented_test_deps: (optional) dependencies of the instrumented test source set
     """
 
     if manifest == None:
@@ -148,7 +154,6 @@ def kt_android(
         name = name,
         package = group,
         manifest = manifest,
-        custom_package = custom_package,
         tags = ["maven_coordinates=%s" % (maven_coordinates)] if maven_coordinates else None,
         plugins = plugins,
         module_name = module_name,
@@ -171,6 +176,7 @@ def kt_android(
         unit_test_runtime_deps = unit_test_runtime_deps,
         instrumented_test_opts = instrumented_test_opts,
         instrumented_test_srcs = instrumented_test_srcs,
+        instrumented_test_classes = instrumented_test_classes,
         instrumented_test_resources = instrumented_test_resources,
         instrumented_test_associates = instrumented_test_associates,
         instrumented_test_deps = instrumented_test_deps,

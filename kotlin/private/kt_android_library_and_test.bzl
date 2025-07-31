@@ -1,5 +1,5 @@
 """
-Macro implementation for building and testing Android Kotlin libraries
+Private macro implementation for building and testing Android Kotlin libraries
 """
 
 load("@rules_android//rules:rules.bzl", "android_library")
@@ -7,14 +7,13 @@ load("@rules_kotlin//kotlin:android.bzl", "kt_android_library", "kt_android_loca
 load(":junit_test.bzl", "kt_jvm_junit5_test")
 load(":scope_name.bzl", "scope_name")
 
+# buildifier: disable=function-docstring
 # No project specific defaults here
 def kt_android_library_and_test(
         *,
         # Generic parameters
         name,
-        package,
         manifest,
-        custom_package = None,
         tags = None,
         plugins = [],
 
@@ -61,7 +60,6 @@ def kt_android_library_and_test(
         # Instrumented test dependencies
         instrumented_test_associates = [],
         instrumented_test_deps = []):
-    """"""
     base_name = scope_name(name, "base")
     associates = ["%s_kt" % base_name]
     kt_android_library(
@@ -77,7 +75,6 @@ def kt_android_library_and_test(
         deps = main_deps,
         exports = main_exports,
         plugins = plugins,
-        custom_package = custom_package,
     )
 
     # Actual publishable target
@@ -88,7 +85,6 @@ def kt_android_library_and_test(
         exports = [":%s" % base_name] + main_exports,
         deps = main_deps,
         visibility = ["//visibility:public"],
-        custom_package = custom_package,
     )
 
     if len(unit_test_srcs) != 0:

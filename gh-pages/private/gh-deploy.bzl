@@ -1,6 +1,7 @@
 """
 gh_pages is a rule for publishing some source to a GitHub pages branch
 """
+
 load("@aspect_rules_js//js:defs.bzl", "js_binary")
 
 def gh_pages(repo, version, gh_name = "intuit-svc", gh_email = "opensource-svc@intuit.com", source_dir = "src", branch = "main", **kwargs):

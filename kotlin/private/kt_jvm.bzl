@@ -47,7 +47,7 @@ def kt_jvm(
     # Building + Testing
 
     Most kt_jvm_library parameters can be forwarded for either the main or test
-    set by prefixing the paremeter with `main` or `test`, i.e. `main_srcs`, `test_deps`
+    set by prefixing the parameter with `main` or `test`, i.e. `main_srcs`, `test_deps`
 
     If `srcs` or `resources` are undefined, they will default to globbing the
     files grouped under Maven convention, i.e. `src/main/kotlin` and `src/main/resources`

@@ -1,3 +1,7 @@
+"""
+Implementation of `kt_player_plugin_wrapper` for generating a Kotlin Player plugin wrapper
+"""
+
 load("@bazel_skylib//lib:dicts.bzl", "dicts")
 load("@rules_jvm_external//:defs.bzl", "artifact")
 load("//kotlin:defs.bzl", "kt_jvm")
