@@ -1,11 +1,13 @@
+"""
+Implementation for the repo rule `local_shell_config` provided as a module extension through `sh_configure`
+"""
 def _is_windows(repository_ctx):
     """Returns true if the host OS is Windows."""
     return repository_ctx.os.name.startswith("windows")
 
 def _local_shell_config_impl(repository_ctx):
     """
-    Detects the path of the shell interpreter via a env var
-    and stores it in a sh_toolchain rule.
+    Detects the path of the shell interpreter via a env var and stores it in a sh_toolchain rule.
     """
     sh_path = repository_ctx.os.environ.get("SHELL")
     if not sh_path:

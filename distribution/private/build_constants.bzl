@@ -1,3 +1,12 @@
+"""
+build_constants is a repo rule to configure constants for use in the Bazel ecosystem.
+
+Ex:
+```python
+load("@build_constants//:constants.bzl", "VERSION")
+```
+"""
+
 def _build_constants_impl(repository_ctx):
     _BUILD_FILE = """
 # DO NOT EDIT: automatically generated for _build_constants rule
