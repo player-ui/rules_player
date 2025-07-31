@@ -162,7 +162,9 @@ Run a vite test.
 ## vitest_bench
 
 <pre>
-vitest_bench(<a href="#vitest_bench-name">name</a>, <a href="#vitest_bench-config">config</a>, <a href="#vitest_bench-data">data</a>, <a href="#vitest_bench-node_modules">node_modules</a>, <a href="#vitest_bench-kwargs">kwargs</a>)
+load("@rules_player//javascript:defs.bzl", "vitest_bench")
+
+vitest_bench(<a href="#vitest_bench-name">name</a>, <a href="#vitest_bench-config">config</a>, <a href="#vitest_bench-data">data</a>, <a href="#vitest_bench-node_modules">node_modules</a>, <a href="#vitest_bench-kwargs">**kwargs</a>)
 </pre>
 
 Run vitest benchmark tests.

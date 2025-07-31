@@ -63,6 +63,24 @@ bzl_library(
 )
 
 bzl_library(
+    name = "kt_android",
+    srcs = ["kt_android.bzl"],
+    visibility = [
+        "//kotlin:__subpackages__",
+    ],
+    deps = [
+        ":distribution",
+        ":junit",
+        ":kt_android_library_and_test.bzl",
+        ":lint",
+        # "@rules_android//rules:bzl",
+        "@rules_java//java:rules",
+        "@rules_jvm_external//:implementation",
+        "@rules_kotlin//kotlin",
+    ],
+)
+
+bzl_library(
     name = "scope_name",
     srcs = ["scope_name.bzl"],
     visibility = [

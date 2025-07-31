@@ -51,8 +51,8 @@ bzl_library(
     visibility = ["//player:__subpackages__"],
     deps = [
         "@bazel_skylib//lib:dicts",
-        "@rules_jvm_external//:defs",
-        "//kotlin:defs", "kt_jvm",
+        "@rules_jvm_external//:implementation",
+        "//kotlin:defs",
     ],
 )
 
