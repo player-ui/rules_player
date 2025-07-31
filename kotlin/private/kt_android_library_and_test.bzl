@@ -49,19 +49,18 @@ def kt_android_library_and_test(
         unit_test_associates = [],
         unit_test_deps = [],
         unit_test_runtime_deps = [],
-        
+
         # Instrumented test parameters
         instrumented_test_opts = None,
         instrumented_test_classes = None,
 
-        # Instrumented test sources 
+        # Instrumented test sources
         instrumented_test_srcs = [],
         instrumented_test_resources = [],
 
         # Instrumented test dependencies
         instrumented_test_associates = [],
-        instrumented_test_deps = [],
-        ):
+        instrumented_test_deps = []):
     """"""
     base_name = scope_name(name, "base")
     associates = ["%s_kt" % base_name]
@@ -106,7 +105,7 @@ def kt_android_library_and_test(
             runtime_deps = unit_test_runtime_deps,
         )
 
-    # Need to build a test target per class 
+    # Need to build a test target per class
     if instrumented_test_classes == None:
         instrumented_test_classes = []
 
@@ -115,8 +114,10 @@ def kt_android_library_and_test(
         for test_src in instrumented_test_srcs:
             # Trim src/androidTest/main
             parts = test_src.split("/")[3:]
+
             # Trim .kt from classname
             classname = parts.pop()[:-3]
+
             # Create test_class
             test_class = ".".join(parts + [classname])
             instrumented_test_classes.append(test_class)
@@ -133,4 +134,3 @@ def kt_android_library_and_test(
             test_class = test_class,
             deps = instrumented_test_deps,
         )
-        

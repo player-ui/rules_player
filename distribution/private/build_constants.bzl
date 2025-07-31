@@ -29,13 +29,13 @@ VERSION = \"{version}\"
 build_constants = repository_rule(
     implementation = _build_constants_impl,
     attrs = {
+        "constants": attr.string_dict(
+            allow_empty = True,
+        ),
         "version_file": attr.label(
             mandatory = True,
             allow_single_file = True,
             default = Label("//:VERSION"),
-        ),
-        "constants": attr.string_dict(
-            allow_empty = True,
         ),
     },
 )

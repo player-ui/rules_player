@@ -1,4 +1,5 @@
 load("@bazel_binaries//:defs.bzl", "bazel_binaries")
+load("@cgrindel_bazel_starlib//bzlformat:defs.bzl", "bzlformat_pkg")
 load("@rules_bazel_integration_test//bazel_integration_test:defs.bzl", "bazel_integration_test", "default_test_runner", "integration_test_utils")
 
 default_test_runner(name = "simple_test_runner")
@@ -33,3 +34,5 @@ test_suite(
         ":ts-monorepo-test",
     ],
 )
+
+bzlformat_pkg(name = "bzlformat")

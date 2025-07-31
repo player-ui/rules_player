@@ -1,6 +1,6 @@
-load("@rules_kotlin//kotlin:jvm.bzl", "kt_jvm_binary")
-load("@cgrindel_bazel_starlib//bzlformat:defs.bzl", "bzlformat_missing_pkgs", "bzlformat_pkg")
 load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
+load("@cgrindel_bazel_starlib//bzlformat:defs.bzl", "bzlformat_missing_pkgs", "bzlformat_pkg")
+load("@rules_kotlin//kotlin:jvm.bzl", "kt_jvm_binary")
 
 # TODO: We should probably build this for the archive
 kt_jvm_binary(

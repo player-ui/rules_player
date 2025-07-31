@@ -38,9 +38,8 @@ def compile_mocks(mock_dirs, dsl_config, data, name = "mocks"):
         srcs = [
             ":compiled_mocks",
         ] + dsl_srcs,
-        visibility = ["//visibility:public"]
+        visibility = ["//visibility:public"],
     )
-
 
 def _determine_mock_info(file):
     return file.path.split("/")[-3:]

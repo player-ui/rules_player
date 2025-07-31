@@ -1,4 +1,5 @@
 load("@aspect_bazel_lib//lib:docs.bzl", "stardoc_with_diff_test", "update_docs")
+load("@cgrindel_bazel_starlib//bzlformat:defs.bzl", "bzlformat_pkg")
 
 stardoc_with_diff_test(
     name = "javascript",
@@ -26,3 +27,5 @@ stardoc_with_diff_test(
 )
 
 update_docs(name = "update")
+
+bzlformat_pkg(name = "bzlformat")

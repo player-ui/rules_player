@@ -2,8 +2,8 @@
 Common utilities for ios builds
 """
 
-load("@build_bazel_rules_apple//apple:resources.bzl", "apple_resource_bundle")
 load("@build_bazel_rules_apple//apple:ios.bzl", "ios_ui_test", "ios_unit_test")
+load("@build_bazel_rules_apple//apple:resources.bzl", "apple_resource_bundle")
 load("@build_bazel_rules_swift//swift:swift.bzl", "swift_library")
 load("@rules_pkg//:mappings.bzl", "pkg_files", "strip_prefix")
 load("@rules_pkg//:pkg.bzl", "pkg_zip")
@@ -125,7 +125,7 @@ def ios_pipeline(
         deps = deps,
         data = data,
         # this define makes Bundle.module extension work from ios_bundle_module_shim
-        # TODO: Bazel upgrade requires `SWIFT_PACKAGE` to be set for our usage of it, 
+        # TODO: Bazel upgrade requires `SWIFT_PACKAGE` to be set for our usage of it,
         #       should likely have a better way to dynamically configure `-DSWIFT_PACKAGE`
         #       rather than applying it holistically to every `swift_library`
         defines = ["BAZEL_TARGET", "SWIFT_PACKAGE"],
@@ -139,8 +139,8 @@ def ios_pipeline(
         unit_test_name = name + "Tests"
         swift_library(
             name = unit_test_library_name,
-            srcs = native.glob(["Tests/**/*.swift"], allow_empty=True),
-            deps =  [
+            srcs = native.glob(["Tests/**/*.swift"], allow_empty = True),
+            deps = [
                 ":" + name,
             ] + deps + test_deps,
             testonly = True,
@@ -162,8 +162,8 @@ def ios_pipeline(
         viewinspector_test_name = name + "ViewInspectorTests"
         swift_library(
             name = viewinspector_test_library_name,
-            srcs = native.glob(["ViewInspector/**/*.swift"], allow_empty=True),
-            deps =  [
+            srcs = native.glob(["ViewInspector/**/*.swift"], allow_empty = True),
+            deps = [
                 "@swiftpkg_viewinspector//:ViewInspector",
                 ":" + name,
             ] + deps + test_deps,
@@ -184,8 +184,8 @@ def ios_pipeline(
         ui_test_name = name + "UITests"
         swift_library(
             name = ui_test_library_name,
-            srcs = native.glob(["UITests/**/*.swift"], allow_empty=True),
-            deps =  [
+            srcs = native.glob(["UITests/**/*.swift"], allow_empty = True),
+            deps = [
                 ":" + name,
             ] + deps + test_deps,
             testonly = True,

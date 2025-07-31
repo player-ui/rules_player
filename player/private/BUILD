@@ -50,9 +50,9 @@ bzl_library(
     srcs = ["kt_player_plugin_wrapper.bzl"],
     visibility = ["//player:__subpackages__"],
     deps = [
+        "//kotlin:defs",
         "@bazel_skylib//lib:dicts",
         "@rules_jvm_external//:implementation",
-        "//kotlin:defs",
     ],
 )
 

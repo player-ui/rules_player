@@ -48,8 +48,7 @@ def kt_android(
         instrumented_test_srcs = None,
         instrumented_test_resources = None,
         instrumented_test_associates = None,
-        instrumented_test_deps = [],
-        ):
+        instrumented_test_deps = []):
     """Generic Kotlin JVM macro for conditionally configuring build & test targets, linting, and publishing.
 
     # Building + Testing
@@ -158,7 +157,6 @@ def kt_android(
         main_resources = main_resources,
         main_res = main_res,
         main_assets = main_assets,
-        
         main_associates = main_associates,
         main_deps = main_deps,
         main_exports = main_exports,
@@ -176,7 +174,6 @@ def kt_android(
         instrumented_test_resources = instrumented_test_resources,
         instrumented_test_associates = instrumented_test_associates,
         instrumented_test_deps = instrumented_test_deps,
-        
     )
 
     if lint_config:
