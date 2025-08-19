@@ -15,7 +15,9 @@ def kt_player_plugin_wrapper(
         plugin_name,
         plugin_source,
         resources,
-        plugin_constructor = None):
+        plugin_constructor = None,
+        
+        **kwargs):
     generate_plugin_wrapper(
         name = "%s-gen" % name,
         package = package,
@@ -30,16 +32,21 @@ def kt_player_plugin_wrapper(
         plugin_name = plugin_name,
     )
 
+    main_deps = kwargs.pop('main_deps')
+    main_exports = kwargs.pop('main_exports')
+    test_deps = kwargs.pop('test_deps')
+
     kt_jvm(
         name = name,
         main_srcs = ["%s-gen" % name],
         # TODO: Should we pull these from @maven for user defined packages? Or @rules_player_maven for low-config needed?
-        main_deps = [artifact("com.intuit.playerui:core")],
-        main_exports = [artifact("com.intuit.playerui:core")],
+        main_deps = main_deps if main_deps else [artifact("com.intuit.playerui:core")],
+        main_exports = main_exports if main_exports else [artifact("com.intuit.playerui:core")],
         main_resources = resources,
         test_srcs = ["%s-gen-test" % name],
-        test_deps = [artifact("com.intuit.playerui:testutils")],
+        test_deps = test_deps if test_deps else [artifact("com.intuit.playerui:testutils")],
         test_package = package,
+        **kwargs,
     )
 
 def _generate_file(context):
