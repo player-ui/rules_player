@@ -19,11 +19,9 @@ def kt_player_plugin_wrapper(
         plugin_source,
         resources,
         plugin_constructor = None,
-
         main_deps = DEFAULT_DEPS,
         main_exports = DEFAULT_DEPS,
         test_deps = DEFAULT_TEST_DEPS,
-        
         **kwargs):
     generate_plugin_wrapper(
         name = "%s-gen" % name,
@@ -48,7 +46,7 @@ def kt_player_plugin_wrapper(
         test_srcs = ["%s-gen-test" % name],
         test_deps = test_deps,
         test_package = package,
-        **kwargs,
+        **kwargs
     )
 
 def _generate_file(context):
