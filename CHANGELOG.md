@@ -1,3 +1,48 @@
+# v2.0.1 (Fri Aug 22 2025)
+
+### Release Notes
+
+#### allow `kt_jvm` configuration to be overridden for `kt_player_plugin_wrapper` ([#85](https://github.com/player-ui/rules_player/pull/85))
+
+`kt_player_plugin_wrapper` now accepts arbitrary parameters (via `kwargs`) that are passed into `kt_jvm` for granular configuration control — see [`kt_jvm` documentation](https://github.com/player-ui/rules_player/blob/main/docs/kotlin.md#kt_jvm) for information on what parameters are accepted.
+
+```python
+kt_player_plugin_wrapper(
+    # main params (required)
+    name = "example-plugin",
+    package = "com.intuit.playerui.plugins.example",
+    plugin_name = "ExamplePlugin",
+    plugin_source = "plugins/example/core/dist/ExamplePlugin.native.js",
+    resources = ["//plugins/example/core:core_native_bundle"],
+    
+    # override dependencies (optional)
+    main_exports = ["//jvm/core"],
+    main_deps = ["//jvm/core"],
+    test_deps = ["//jvm/testutils"],
+    
+    # enable publishing (optional)
+    group = GROUP,
+    version = VERSION,
+    pom_template = "//jvm:pom.tpl",
+    
+    # provide compiler opts (optional)
+    main_opts = "//jvm:main_options",
+    test_opts = "//jvm:test_options",
+)
+```
+
+---
+
+#### 🐛 Bug Fix
+
+- allow `kt_jvm` configuration to be overridden for `kt_player_plugin_wrapper` [#85](https://github.com/player-ui/rules_player/pull/85) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v2.0.0 (Thu Jul 31 2025)
 
 #### 💥 Breaking Change
