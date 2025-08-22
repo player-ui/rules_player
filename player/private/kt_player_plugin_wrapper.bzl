@@ -23,6 +23,31 @@ def kt_player_plugin_wrapper(
         main_exports = DEFAULT_DEPS,
         test_deps = DEFAULT_TEST_DEPS,
         **kwargs):
+    """Macro for generating a JVM wrapper of a platform-agnostic TS plugin.
+
+    Currently,this is only supported for plugins that meet the following criteria:
+     - Doesn't require constructor parameters
+     - Doesn't expose additional APIs
+
+    If your platform agnostic plugin requires constructor parameters, it'll need to be
+    wrapped manually. You could use this macro to generate the JVM wrapper and expose
+    additional APIs through extensions, but it's likely best to wrap manually to preserve
+    platform parity as it relates to member functions.
+
+    Args:
+        name: used for the underlying `kt_jvm` rule, used as artifact ID
+        package: scope to generate the plugin under
+        plugin_name: name of plugin bundle
+        plugin_source: path to plugin bundle
+        resources: resources containing plugin bundle to pass to `kt_jvm`
+        plugin_constructor: (optional) reference to instantiate plugin with
+                                       -- defaults to ${plugin_name}.${plugin_name}
+
+        main_deps: (optional) main deps to compile wrapper with -- defaults to [artifact("com.intuit.playerui:core")]
+        main_exports: (optional) main deps to compile wrapper with -- defaults to [artifact("com.intuit.playerui:core")]
+        test_deps: (optional) test deps to compile wrapper tests with -- defaults to [artifact("com.intuit.playerui:testutils")]
+        **kwargs: (optional) arbitrary parameters to pass into `kt_jvm` -- see `kt_jvm` docs <https://github.com/player-ui/rules_player/blob/main/docs/kotlin.md#kt_jvm>
+    """
     generate_plugin_wrapper(
         name = "%s-gen" % name,
         package = package,
