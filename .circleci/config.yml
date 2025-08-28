@@ -52,6 +52,13 @@ jobs:
       - attach_workspace:
           at: ~/rules_player
       - run:
+          name: Install BATS
+          command: |
+            # Install BATS for shell script testing
+            git clone https://github.com/bats-core/bats-core.git /tmp/bats-core
+            cd /tmp/bats-core
+            sudo ./install.sh /usr/local
+      - run:
           name: Test
           command: bazel test //...
       - run:

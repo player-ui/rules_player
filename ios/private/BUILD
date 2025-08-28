@@ -9,7 +9,6 @@ bzl_library(
     name = "common_utils",
     srcs = [
         "common_utils.bzl",
-        "publishing.bzl",
     ],
     visibility = [
         "//ios:__subpackages__",
@@ -26,6 +25,44 @@ bzl_library(
     ],
 )
 
+bzl_library(
+    name = "spm_publishing",
+    srcs = ["spm_publishing.bzl"],
+    visibility = [
+        "//ios:__subpackages__",
+    ],
+    deps = [
+        "@aspect_bazel_lib//lib:stamping",
+        "@rules_pkg//:mappings.bzl",
+        "@rules_pkg//:pkg.bzl",
+        "@rules_pkg//pkg:bzl_srcs",
+    ],
+)
+
+bzl_library(
+    name = "cocoapods_publishing",
+    srcs = ["cocoapods_publishing.bzl"],
+    visibility = [
+        "//ios:__subpackages__",
+    ],
+    deps = [
+        "@aspect_bazel_lib//lib:stamping",
+    ],
+)
+
+bzl_library(
+    name = "zip",
+    srcs = ["zip.bzl"],
+    visibility = [
+        "//ios:__subpackages__",
+    ],
+    deps = [
+        "@rules_pkg//:mappings.bzl",
+        "@rules_pkg//:pkg.bzl",
+        "@rules_pkg//pkg:bzl_srcs",
+    ],
+)
+
 exports_files([
     "ResourceShimTemplate.swift",
     "Info.plist",
@@ -33,4 +70,6 @@ exports_files([
     "pod_trunk_push.sh",
     "unzip_and_tag.sh",
     "push.sh",
+    "discover-ios-targets.sh",
+    "validate-release-package.sh",
 ])
