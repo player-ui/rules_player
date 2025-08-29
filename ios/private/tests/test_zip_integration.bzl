@@ -34,44 +34,46 @@ def define_test_targets():
     assemble_package(
         name = "test_package_basic",
         package_swift = "resources/Package.swift",
-        plugins = [],
-        assets = [],
+        sources = [],
     )
 
-    # Test assemble_package with simple plugin targets
+    # Test assemble_package with simple source targets
     assemble_package(
-        name = "test_package_with_plugins",
+        name = "test_package_with_sources",
         package_swift = "resources/Package.swift",
-        plugins = ["resources/TestSource.swift"],  # Use file directly for simplicity
-        assets = [],
+        sources = ["resources/TestSource.swift"],  # Use file directly for simplicity
     )
 
-    # Test assemble_package with dict plugin configurations
+    # Test assemble_package with dict source configurations
     assemble_package(
         name = "test_package_with_dict_config",
         package_swift = "resources/Package.swift",
-        plugins = [{
-            "path": "plugins/test",
-            "target": "resources/TestSource.swift",
-        }],
-        assets = [{
-            "path": "assets/test",
-            "target": "resources/TestSource.swift",
-        }],
+        sources = [
+            {
+                "path": "plugins/test",
+                "target": "resources/TestSource.swift",
+            },
+            {
+                "path": "assets/test",
+                "target": "resources/TestSource.swift",
+            },
+        ],
     )
 
     # Test assemble_package with resourceTargets
     assemble_package(
         name = "test_package_with_resources",
         package_swift = "resources/Package.swift",
-        plugins = [{
-            "path": "plugins/fancy",
-            "resourceTarget": "resources/TestResource.txt",
-            "target": "resources/TestSource.swift",
-        }],
-        assets = [{
-            "path": "assets/fancy",
-            "resourceTarget": "resources/TestResource.txt",
-            "target": "resources/TestSource.swift",
-        }],
+        sources = [
+            {
+                "path": "plugins/fancy",
+                "resourceTarget": "resources/TestResource.txt",
+                "target": "resources/TestSource.swift",
+            },
+            {
+                "path": "assets/fancy",
+                "resourceTarget": "resources/TestResource.txt",
+                "target": "resources/TestSource.swift",
+            },
+        ],
     )

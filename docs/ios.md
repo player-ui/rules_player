@@ -105,12 +105,12 @@ Compiles and links Swift code into a static library and Swift module.
 <pre>
 load("@rules_player//ios:defs.bzl", "assemble_package")
 
-assemble_package(<a href="#assemble_package-name">name</a>, <a href="#assemble_package-package_swift">package_swift</a>, <a href="#assemble_package-plugins">plugins</a>, <a href="#assemble_package-assets">assets</a>)
+assemble_package(<a href="#assemble_package-name">name</a>, <a href="#assemble_package-package_swift">package_swift</a>, <a href="#assemble_package-sources">sources</a>)
 </pre>
 
 Assembles an iOS Swift Package Manager package zip.
 
-This creates the proper directory structure with Package.swift, plugins, and assets
+This creates the proper directory structure with Package.swift and source files
 that matches SPM expectations.
 
 
@@ -121,8 +121,7 @@ that matches SPM expectations.
 | :------------- | :------------- | :------------- |
 | <a id="assemble_package-name"></a>name |  Name of the package target   |  none |
 | <a id="assemble_package-package_swift"></a>package_swift |  The Package.swift file to include   |  none |
-| <a id="assemble_package-plugins"></a>plugins |  <b>List of plugin configurations.</b> Each can be either: <ul>   <li>A string: The Bazel target (path will be auto-deduced)</li>   <li>     A dict with:     <ul>       <li><b>target</b>: The Bazel target (e.g., <code>//plugins/fancy/swiftui:ExampleFancyPlugin_Sources</code>)</li>       <li><b>path</b>: The path in Package.swift (optional, auto-deduced if not provided)</li>       <li><b>resourceTarget</b>: The JS bundle target for this plugin (optional, e.g., <code>//plugins/fancy/core:core_native_bundle</code>)</li>     </ul>   </li> </ul>   |  `[]` |
-| <a id="assemble_package-assets"></a>assets |  <b>List of asset configurations.</b> Each can be either: <ul>   <li>A string: The Bazel target (path will be auto-deduced)</li>   <li>     A dict with:     <ul>       <li><b>target</b>: The Bazel target (e.g., <code>//assets/fancy-dog/swiftui:ExampleFancyDogAsset_Sources</code>)</li>       <li><b>path</b>: The path in Package.swift (optional, auto-deduced if not provided)</li>       <li><b>resourceTarget</b>: The JS bundle target for this asset (optional, e.g., <code>//assets/fancy-dog/core:core_native_bundle</code>)</li>     </ul>   </li> </ul>   |  `[]` |
+| <a id="assemble_package-sources"></a>sources |  <b>List of source configurations.</b> Each can be either: <ul>   <li>A string: The Bazel target (path will be auto-deduced)</li>   <li>     A dict with:     <ul>       <li><b>target</b>: The Bazel target (e.g., <code>//plugins/fancy/swiftui:ExampleFancyPlugin_Sources</code>)</li>       <li><b>path</b>: The path expected by the Package.swift (optional, auto-deduced if not provided)</li>       <li><b>resourceTarget</b>: The JS bundle target for this plugin (optional, e.g., <code>//plugins/fancy/core:core_native_bundle</code>)</li>     </ul>   </li> </ul>   |  `[]` |
 
 
 <a id="assemble_pod"></a>

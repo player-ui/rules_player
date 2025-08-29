@@ -80,9 +80,9 @@ teardown() {
     [[ "$output" == *"swift-tools-version"* ]]
 }
 
-@test "assemble_package with plugins creates structured zip" {
+@test "assemble_package with sources creates structured zip" {
     # Find the pre-built zip file in runfiles
-    local zip_file="$RUNFILES_DIR/ios/private/tests/test_package_with_plugins.zip"
+    local zip_file="$RUNFILES_DIR/ios/private/tests/test_package_with_sources.zip"
     [ -f "$zip_file" ]
     
     # Extract and verify contents
@@ -93,11 +93,11 @@ teardown() {
     # Check that Package.swift is present at the root level
     [ -f "resources/Package.swift" ]
     
-    # Check that the plugin file is placed in the correct structure
-    # Plugin path: "resources/TestSource.swift" -> resources/TestSource.swift/resources/TestSource.swift
+    # Check that the source file is placed in the correct structure
+    # Source path: "resources/TestSource.swift" -> resources/TestSource.swift/resources/TestSource.swift
     [ -f "resources/TestSource.swift/resources/TestSource.swift" ]
     
-    # Verify the plugin directory structure exists
+    # Verify the source directory structure exists
     [ -d "resources/TestSource.swift" ]
     [ -d "resources/TestSource.swift/resources" ]
     
@@ -105,7 +105,7 @@ teardown() {
     run find . -type f | sort
     echo "Files in zip: $output"
     
-    # Verify we have exactly the expected files (Package.swift + plugin file)
+    # Verify we have exactly the expected files (Package.swift + source file)
     local file_count=$(find . -type f | wc -l)
     [ "$file_count" -eq 2 ]
 }
@@ -123,13 +123,13 @@ teardown() {
     # Check that Package.swift is present at the root level
     [ -f "resources/Package.swift" ]
     
-    # Verify plugin structure with custom path "plugins/test"
+    # Verify first source structure with custom path "plugins/test"
     [ -d "plugins" ]
     [ -d "plugins/test" ]
     [ -d "plugins/test/resources" ]
     [ -f "plugins/test/resources/TestSource.swift" ]
     
-    # Verify asset structure with custom path "assets/test"
+    # Verify second source structure with custom path "assets/test"
     [ -d "assets" ]
     [ -d "assets/test" ]
     [ -d "assets/test/resources" ]
@@ -139,7 +139,7 @@ teardown() {
     run find . -type f | sort
     echo "Files in zip: $output"
     
-    # Verify we have exactly the expected files (Package.swift + plugin + asset)
+    # Verify we have exactly the expected files (Package.swift + 2 sources)
     local file_count=$(find . -type f | wc -l)
     [ "$file_count" -eq 3 ]
 }
@@ -157,7 +157,7 @@ teardown() {
     # Check that Package.swift is present at the root level
     [ -f "resources/Package.swift" ]
     
-    # Verify plugin structure with main target and resourceTarget
+    # Verify first source structure with main target and resourceTarget
     [ -d "plugins/fancy" ]
     [ -d "plugins/fancy/resources" ]
     [ -f "plugins/fancy/resources/TestSource.swift" ]
@@ -165,7 +165,7 @@ teardown() {
     [ -d "plugins/fancy/Resources/resources" ]
     [ -f "plugins/fancy/Resources/resources/TestResource.txt" ]
     
-    # Verify asset structure with main target and resourceTarget
+    # Verify second source structure with main target and resourceTarget
     [ -d "assets/fancy" ]
     [ -d "assets/fancy/resources" ]
     [ -f "assets/fancy/resources/TestSource.swift" ]
@@ -178,7 +178,7 @@ teardown() {
     echo "Files in zip: $output"
     
     # Verify we have exactly the expected files:
-    # Package.swift + plugin source + plugin resource + asset source + asset resource = 5
+    # Package.swift + first source + first resource + second source + second resource = 5
     local file_count=$(find . -type f | wc -l)
     [ "$file_count" -eq 5 ]
     

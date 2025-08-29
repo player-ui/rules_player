@@ -129,37 +129,24 @@ def _create_pkg_files_for_targets(name_prefix, targets):
 def assemble_package(
         name,
         package_swift,
-        plugins = [],
-        assets = []):
+        sources = []):
     """Assembles an iOS Swift Package Manager package zip.
 
-    This creates the proper directory structure with Package.swift, plugins, and assets
+    This creates the proper directory structure with Package.swift and source files
     that matches SPM expectations.
 
     Args:
       name: Name of the package target
       package_swift: The Package.swift file to include
-      plugins: <b>List of plugin configurations.</b> Each can be either:
+      sources: <b>List of source configurations.</b> Each can be either:
         <ul>
           <li>A string: The Bazel target (path will be auto-deduced)</li>
           <li>
             A dict with:
             <ul>
               <li><b>target</b>: The Bazel target (e.g., <code>//plugins/fancy/swiftui:ExampleFancyPlugin_Sources</code>)</li>
-              <li><b>path</b>: The path in Package.swift (optional, auto-deduced if not provided)</li>
+              <li><b>path</b>: The path expected by the Package.swift (optional, auto-deduced if not provided)</li>
               <li><b>resourceTarget</b>: The JS bundle target for this plugin (optional, e.g., <code>//plugins/fancy/core:core_native_bundle</code>)</li>
-            </ul>
-          </li>
-        </ul>
-      assets: <b>List of asset configurations.</b> Each can be either:
-        <ul>
-          <li>A string: The Bazel target (path will be auto-deduced)</li>
-          <li>
-            A dict with:
-            <ul>
-              <li><b>target</b>: The Bazel target (e.g., <code>//assets/fancy-dog/swiftui:ExampleFancyDogAsset_Sources</code>)</li>
-              <li><b>path</b>: The path in Package.swift (optional, auto-deduced if not provided)</li>
-              <li><b>resourceTarget</b>: The JS bundle target for this asset (optional, e.g., <code>//assets/fancy-dog/core:core_native_bundle</code>)</li>
             </ul>
           </li>
         </ul>
@@ -174,14 +161,11 @@ def assemble_package(
 
     # Normalize and create pkg_files for plugins and assets
     # This now automatically handles resources via the resourceTarget field
-    normalized_plugins = [_normalize_target_config(p) for p in plugins]
-    normalized_assets = [_normalize_target_config(a) for a in assets]
-
-    plugin_targets = _create_pkg_files_for_targets(name + "_plugin", normalized_plugins)
-    asset_targets = _create_pkg_files_for_targets(name + "_asset", normalized_assets)
+    normalized_sources = [_normalize_target_config(r) for r in sources]
+    source_targets = _create_pkg_files_for_targets(name + "_targets", normalized_sources)
 
     # Create the zip package with all sources and resources
     pkg_zip(
         name = name,
-        srcs = [":" + name + "_package_swift"] + plugin_targets + asset_targets,
+        srcs = [":" + name + "_package_swift"] + source_targets,
     )
