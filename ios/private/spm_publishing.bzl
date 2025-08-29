@@ -42,7 +42,7 @@ spm_publish = rule(
     Publishes an iOS Swift Package Manager release package.
     
     This rule takes a pre-built zip file and publishes it to the specified repository.
-    Use the assemble_spm_package macro from zip.bzl to create the zip first.
+    Use the assemble_package macro from zip.bzl to create the zip first.
     """,
     executable = True,
     attrs = dict({
@@ -56,7 +56,7 @@ spm_publish = rule(
         "zip": attr.label(
             allow_single_file = True,
             mandatory = True,
-            doc = "The zip file to publish (created by assemble_spm_package)",
+            doc = "The zip file to publish (created by assemble_package)",
         ),
         "_publishTemplate": attr.label(
             default = _TEMPLATE_SPM_PUBLISH,

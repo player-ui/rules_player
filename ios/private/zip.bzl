@@ -139,18 +139,30 @@ def assemble_package(
     Args:
       name: Name of the package target
       package_swift: The Package.swift file to include
-      plugins: List of plugin configurations. Each can be either:
-        - A string: The Bazel target (path will be auto-deduced)
-        - A dict with:
-          - target: The Bazel target (e.g., "//plugins/fancy/swiftui:ExampleFancyPlugin_Sources")
-          - path: The path in Package.swift (optional, auto-deduced if not provided)
-          - resourceTarget: The JS bundle target for this plugin (optional, e.g., "//plugins/fancy/core:core_native_bundle")
-      assets: List of asset configurations. Each can be either:
-        - A string: The Bazel target (path will be auto-deduced)
-        - A dict with:
-          - target: The Bazel target (e.g., "//assets/fancy-dog/swiftui:ExampleFancyDogAsset_Sources")
-          - path: The path in Package.swift (optional, auto-deduced if not provided)
-          - resourceTarget: The JS bundle target for this asset (optional, e.g., "//assets/fancy-dog/core:core_native_bundle")
+      plugins: <b>List of plugin configurations.</b> Each can be either:
+        <ul>
+          <li>A string: The Bazel target (path will be auto-deduced)</li>
+          <li>
+            A dict with:
+            <ul>
+              <li><b>target</b>: The Bazel target (e.g., <code>//plugins/fancy/swiftui:ExampleFancyPlugin_Sources</code>)</li>
+              <li><b>path</b>: The path in Package.swift (optional, auto-deduced if not provided)</li>
+              <li><b>resourceTarget</b>: The JS bundle target for this plugin (optional, e.g., <code>//plugins/fancy/core:core_native_bundle</code>)</li>
+            </ul>
+          </li>
+        </ul>
+      assets: <b>List of asset configurations.</b> Each can be either:
+        <ul>
+          <li>A string: The Bazel target (path will be auto-deduced)</li>
+          <li>
+            A dict with:
+            <ul>
+              <li><b>target</b>: The Bazel target (e.g., <code>//assets/fancy-dog/swiftui:ExampleFancyDogAsset_Sources</code>)</li>
+              <li><b>path</b>: The path in Package.swift (optional, auto-deduced if not provided)</li>
+              <li><b>resourceTarget</b>: The JS bundle target for this asset (optional, e.g., <code>//assets/fancy-dog/core:core_native_bundle</code>)</li>
+            </ul>
+          </li>
+        </ul>
     """
 
     # Package.swift file at root
