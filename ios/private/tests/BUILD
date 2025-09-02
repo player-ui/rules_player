@@ -1,3 +1,4 @@
+load("@aspect_rules_js//js:defs.bzl", "js_test")
 load("@cgrindel_bazel_starlib//bzlformat:defs.bzl", "bzlformat_pkg")
 load(":test_zip_integration.bzl", "define_test_targets")
 
@@ -6,10 +7,9 @@ bzlformat_pkg(name = "bzlformat")
 # Define integration test targets
 define_test_targets()
 
-# BATS test for zip assembly functions
-sh_test(
+# BATS test for zip assembly functions using js_test
+js_test(
     name = "zip_assembly_test",
-    srcs = ["run_bats_test.sh"],
     args = ["$(location test_zip_assembly.bats)"],
     data = [
         "resources/Package.swift",
@@ -24,12 +24,12 @@ sh_test(
         ":test_pod_basic",
         ":test_pod_with_data",
     ],
+    entry_point = "run_bats_test.mjs",
     tags = ["integration"],
-    deps = ["@bazel_tools//tools/bash/runfiles"],
 )
 
 exports_files([
     "test_zip_assembly.bats",
-    "run_bats_test.sh",
+    "run_bats_test.mjs",
     "test_zip_integration.bzl",
 ])

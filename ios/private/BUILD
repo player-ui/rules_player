@@ -70,6 +70,4 @@ exports_files([
     "pod_trunk_push.sh",
     "unzip_and_tag.sh",
     "push.sh",
-    "discover-ios-targets.sh",
-    "validate-release-package.sh",
 ])
