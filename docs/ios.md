@@ -42,7 +42,10 @@ load("@rules_player//ios:defs.bzl", "spm_publish")
 spm_publish(<a href="#spm_publish-name">name</a>, <a href="#spm_publish-repository">repository</a>, <a href="#spm_publish-stamp">stamp</a>, <a href="#spm_publish-target_branch">target_branch</a>, <a href="#spm_publish-zip">zip</a>)
 </pre>
 
+Publishes an iOS Swift Package Manager release package.
 
+This rule takes a pre-built zip file and publishes it to the specified repository.
+Use the assemble_package macro from zip.bzl to create the zip first.
 
 **ATTRIBUTES**
 
@@ -52,8 +55,8 @@ spm_publish(<a href="#spm_publish-name">name</a>, <a href="#spm_publish-reposito
 | <a id="spm_publish-name"></a>name |  A unique name for this target.   | <a href="https://bazel.build/concepts/labels#target-names">Name</a> | required |  |
 | <a id="spm_publish-repository"></a>repository |  The git repository to publish spm zip contents to   | String | optional |  `""`  |
 | <a id="spm_publish-stamp"></a>stamp |  Whether to encode build information into the output. Possible values:<br><br>- `stamp = 1`: Always stamp the build information into the output, even in     [--nostamp](https://docs.bazel.build/versions/main/user-manual.html#flag--stamp) builds.     This setting should be avoided, since it is non-deterministic.     It potentially causes remote cache misses for the target and     any downstream actions that depend on the result. - `stamp = 0`: Never stamp, instead replace build information by constant values.     This gives good build result caching. - `stamp = -1`: Embedding of build information is controlled by the     [--[no]stamp](https://docs.bazel.build/versions/main/user-manual.html#flag--stamp) flag.     Stamped targets are not rebuilt unless their dependencies change.   | Integer | optional |  `-1`  |
-| <a id="spm_publish-target_branch"></a>target_branch |  The branch to use for stable releases   | String | optional |  `"main"`  |
-| <a id="spm_publish-zip"></a>zip |  The zip to publish the contents of   | <a href="https://bazel.build/concepts/labels">Label</a> | optional |  `None`  |
+| <a id="spm_publish-target_branch"></a>target_branch |  The branch to push the zipped files to   | String | optional |  `"main"`  |
+| <a id="spm_publish-zip"></a>zip |  The zip file to publish (created by assemble_package)   | <a href="https://bazel.build/concepts/labels">Label</a> | required |  |
 
 
 <a id="swift_library"></a>
@@ -95,6 +98,82 @@ Compiles and links Swift code into a static library and Swift module.
 | <a id="swift_library-swiftc_inputs"></a>swiftc_inputs |  Additional files that are referenced using `$(location ...)` in attributes that support location expansion.   | <a href="https://bazel.build/concepts/labels">List of labels</a> | optional |  `[]`  |
 
 
+<a id="assemble_ios_release"></a>
+
+## assemble_ios_release
+
+<pre>
+load("@rules_player//ios:defs.bzl", "assemble_ios_release")
+
+assemble_ios_release(<a href="#assemble_ios_release-name">name</a>, <a href="#assemble_ios_release-data">data</a>)
+</pre>
+
+Assembles an iOS release zip file for either CocoaPods or Swift Package Manager (SPM).
+
+This unified function creates properly structured zip files that can be used for:
+- CocoaPods distribution (with `ios_publish`)
+- Swift Package Manager distribution (with `spm_publish`)
+
+The function uses a simple dictionary-based approach where all files are specified
+in the `data` parameter with their destination paths within the zip.
+
+CocoaPods Example:
+
+```python
+assemble_ios_release(
+    name = "MyLibraryPod",
+    data = {
+        "MyLibrary.podspec": "",  # Root level
+        "Sources/MyLibrary/MyLibrary.swift": "Sources/MyLibrary/",
+        "Sources/MyLibrary/Internal.swift": "Sources/MyLibrary/",
+        "Resources/config.json": "Resources/",
+        "LICENSE": "",
+        "README.md": "",
+    },
+)
+```
+
+Swift Package Manager Example:
+
+```python
+assemble_ios_release(
+    name = "MyLibrarySPM",
+    data = {
+        "Package.swift": "",  # Root level
+        "Sources/MyLibrary/MyLibrary.swift": "Sources/MyLibrary/",
+        "Sources/MyLibrary/Internal.swift": "Sources/MyLibrary/",
+        "Resources/config.json": "Resources/",
+        "LICENSE": "",
+        "README.md": "",
+    },
+)
+```
+
+Both examples create similar zip structures:
+```
+CocoaPods:                     SPM:
+MyLibraryPod.zip               MyLibrarySPM.zip
+├── MyLibrary.podspec          ├── Package.swift
+├── Sources/                   ├── Sources/
+│   └── MyLibrary/             │   └── MyLibrary/
+│       ├── MyLibrary.swift    │       ├── MyLibrary.swift
+│       └── Internal.swift     │       └── Internal.swift
+├── Resources/                 ├── Resources/
+│   └── config.json            │   └── config.json
+├── LICENSE                    ├── LICENSE
+└── README.md                  └── README.md
+```
+
+
+**PARAMETERS**
+
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="assemble_ios_release-name"></a>name |  Name of the target   |  none |
+| <a id="assemble_ios_release-data"></a>data |  Dictionary mapping files to their destination paths within the zip. Keys are Bazel targets (source file paths). Values are destination directory paths. Use empty string ("") for root level placement.   |  `{}` |
+
+
 <a id="assemble_pod"></a>
 
 ## assemble_pod
@@ -105,7 +184,11 @@ load("@rules_player//ios:defs.bzl", "assemble_pod")
 assemble_pod(<a href="#assemble_pod-name">name</a>, <a href="#assemble_pod-podspec">podspec</a>, <a href="#assemble_pod-srcs">srcs</a>, <a href="#assemble_pod-data">data</a>)
 </pre>
 
-Assemble a zip file for a podspec and related sources
+Assemble a zip file for a podspec and related sources.
+
+> [!WARNING]
+> This function is deprecated and will be removed in v3. Use `assemble_ios_release` instead.
+
 
 **PARAMETERS**
 
@@ -115,7 +198,12 @@ Assemble a zip file for a podspec and related sources
 | <a id="assemble_pod-name"></a>name |  Name of the target   |  none |
 | <a id="assemble_pod-podspec"></a>podspec |  The podspec file   |  `""` |
 | <a id="assemble_pod-srcs"></a>srcs |  Source files for the pod   |  `[]` |
-| <a id="assemble_pod-data"></a>data |  Other dependencies   |  `{}` |
+| <a id="assemble_pod-data"></a>data |  Other dependencies (dictionary mapping files to destination paths)   |  `{}` |
+
+**DEPRECATED**
+
+This will be removed in v3. Use `assemble_ios_release` which provides a unified interface for both
+  CocoaPods and Swift Package Manager releases.
 
 
 <a id="ios_pipeline"></a>
