@@ -9,7 +9,6 @@ bzl_library(
     name = "common_utils",
     srcs = [
         "common_utils.bzl",
-        "publishing.bzl",
     ],
     visibility = [
         "//ios:__subpackages__",
@@ -20,6 +19,44 @@ bzl_library(
         "@bazel_skylib//lib:paths",
         "@build_bazel_rules_apple//apple:ios",
         "@build_bazel_rules_apple//apple:resources",
+        "@rules_pkg//:mappings.bzl",
+        "@rules_pkg//:pkg.bzl",
+        "@rules_pkg//pkg:bzl_srcs",
+    ],
+)
+
+bzl_library(
+    name = "spm_publishing",
+    srcs = ["spm_publishing.bzl"],
+    visibility = [
+        "//ios:__subpackages__",
+    ],
+    deps = [
+        "@aspect_bazel_lib//lib:stamping",
+        "@rules_pkg//:mappings.bzl",
+        "@rules_pkg//:pkg.bzl",
+        "@rules_pkg//pkg:bzl_srcs",
+    ],
+)
+
+bzl_library(
+    name = "cocoapods_publishing",
+    srcs = ["cocoapods_publishing.bzl"],
+    visibility = [
+        "//ios:__subpackages__",
+    ],
+    deps = [
+        "@aspect_bazel_lib//lib:stamping",
+    ],
+)
+
+bzl_library(
+    name = "zip",
+    srcs = ["zip.bzl"],
+    visibility = [
+        "//ios:__subpackages__",
+    ],
+    deps = [
         "@rules_pkg//:mappings.bzl",
         "@rules_pkg//:pkg.bzl",
         "@rules_pkg//pkg:bzl_srcs",
