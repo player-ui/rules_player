@@ -63,6 +63,14 @@ bzl_library(
     ],
 )
 
+bzl_library(
+    name = "discover_ios_targets",
+    srcs = ["discover_ios_targets.bzl"],
+    visibility = [
+        "//ios:__subpackages__",
+    ],
+)
+
 exports_files([
     "ResourceShimTemplate.swift",
     "Info.plist",
@@ -70,4 +78,5 @@ exports_files([
     "pod_trunk_push.sh",
     "unzip_and_tag.sh",
     "push.sh",
+    "discover_ios_targets.sh",
 ])

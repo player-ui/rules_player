@@ -7,9 +7,8 @@ Thank you for your interest in contributing to rules_player! This document provi
 ### Prerequisites
 
 1. **Bazel**: Install the version specified in `.bazelversion`
-2. **[BATS](https://github.com/bats-core/bats-core)**: Required for running shell script tests
-3. **Node.js and yarn**: For JavaScript/TypeScript development
-4. **Java**: For Kotlin development
+2. **Node.js and yarn**: For JavaScript/TypeScript development
+3. **Java**: For Kotlin development
 
 
 ### Development Workflow
@@ -22,19 +21,12 @@ Thank you for your interest in contributing to rules_player! This document provi
 
 2. **Install Dependencies**
    ```bash
-   yarn install
+   pnpm i
    ```
 
 3. **Run Tests**
    ```bash
-   # Run all tests
    bazel test //...
-   
-   # Run integration tests
-   bazel test //examples:all_integration_tests
-   
-   # Run BATS tests for shell scripts
-   bats ios/private/tests/test_discover_ios_targets_simple.bats
    ```
 
 4. **Code Formatting**
@@ -65,25 +57,11 @@ The primary testing strategy uses `bazel_integration_test` to validate rules wor
 - `//examples:kotlin-test` - Tests Kotlin rules
 - `//examples:ts-monorepo-test` - Tests JavaScript/TypeScript rules
 
-### Shell Script Tests
-
-Shell scripts are tested using BATS:
-
-- Located in `*/private/tests/` directories
-- Run with `bats <test_file>.bats`
-- Integrated with Bazel via `sh_test` rules
-
 ### Adding New Tests
 
 1. **For Bazel Rules**: Add integration tests in `examples/`
 2. **For Shell Scripts**: Add BATS tests in appropriate `*/private/tests/` directory
 3. **For Utilities**: Add unit tests as appropriate for the language
-
-## Code Style
-
-- **Bazel files**: Use `bzlformat` for consistent formatting
-- **Shell scripts**: Follow Google Shell Style Guide
-- **Documentation**: Update relevant README files and inline docs
 
 ## Submitting Changes
 
@@ -99,14 +77,7 @@ Shell scripts are tested using BATS:
 
 3. **Test Your Changes**
    ```bash
-   # Run all tests
    bazel test //...
-   
-   # Run formatting checks
-   bazel test //... --test_tag_filters=bzlformat
-   
-   # Run BATS tests if you modified shell scripts
-   bats ios/private/tests/*.bats
    ```
 
 4. **Commit and Push**
@@ -128,7 +99,6 @@ The project uses CircleCI for continuous integration:
 - **Format checks**: Validates code formatting
 - **Unit tests**: Runs `bazel test //...`
 - **Integration tests**: Runs example project tests
-- **Shell script tests**: Runs BATS tests for shell scripts
 
 ## Release Process
 
