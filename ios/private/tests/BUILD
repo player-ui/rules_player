@@ -23,6 +23,7 @@ js_test(
         ":test_package_with_sources",
         ":test_pod_basic",
         ":test_pod_with_data",
+        "//:bats_binary",  # Include bats binary via js_library
     ],
     entry_point = "run_bats_test.mjs",
     tags = ["integration"],

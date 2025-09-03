@@ -7,8 +7,8 @@
 
 import { spawn } from 'child_process';
 import { fileURLToPath } from 'url';
-import { dirname, join, resolve } from 'path';
-import { access, constants } from 'fs';
+import { dirname, join, resolve, parse } from 'path';
+import { access, constants, accessSync } from 'fs';
 import { promisify } from 'util';
 
 const accessAsync = promisify(access);
@@ -53,45 +53,21 @@ async function runBatsTest() {
       workspaceRoot = join(process.env.RUNFILES_DIR, '_main');
     }
 
-    // Try different approaches to run bats
-    let batsCommand;
-    let batsArgs;
-    let cwd = process.cwd(); // Use current working directory by default
-
-    // First try direct bats command (most likely to work in Bazel environment)
+    // Use the bats binary from runfiles (explicitly added as data dependency)
+    const runfilesBatsPath = join(workspaceRoot, 'node_modules', 'bats', 'bin', 'bats');
+    
     try {
-      await new Promise((resolve, reject) => {
-        const testProcess = spawn('bats', ['--version'], { stdio: 'pipe' });
-        testProcess.on('close', (code) => {
-          if (code === 0) resolve();
-          else reject(new Error('bats not available'));
-        });
-        testProcess.on('error', reject);
-      });
-      
-      batsCommand = 'bats';
-      batsArgs = [absoluteBatsFile];
-    } catch {
-      // Fall back to pnpm exec if bats is not directly available
-      try {
-        await new Promise((resolve, reject) => {
-          const testProcess = spawn('pnpm', ['--version'], { stdio: 'pipe', cwd: workspaceRoot });
-          testProcess.on('close', (code) => {
-            if (code === 0) resolve();
-            else reject(new Error('pnpm not available'));
-          });
-          testProcess.on('error', reject);
-        });
-        
-        batsCommand = 'pnpm';
-        batsArgs = ['exec', 'bats', absoluteBatsFile];
-        cwd = workspaceRoot; // Use workspace root for pnpm
-      } catch {
-        console.error('Neither bats nor pnpm command is available');
-        console.error('Make sure bats is installed globally or as a devDependency');
-        process.exit(1);
-      }
+      await accessAsync(runfilesBatsPath, constants.F_OK);
+      console.log(`Using runfiles bats binary: ${runfilesBatsPath}`);
+    } catch (error) {
+      console.error(`Error: Could not find bats binary at expected path: ${runfilesBatsPath}`);
+      console.error('Make sure //:bats_binary is included in the test data dependencies.');
+      process.exit(1);
     }
+
+    const batsCommand = runfilesBatsPath;
+    const batsArgs = [absoluteBatsFile];
+    const cwd = workspaceRoot; // Use workspaceRoot for cwd
 
     console.log(`Executing: ${batsCommand} ${batsArgs.join(' ')}`);
 
@@ -112,8 +88,8 @@ async function runBatsTest() {
     });
 
     batsProcess.on('error', (error) => {
-      console.error('Failed to start pnpm exec bats process:', error.message);
-      console.error('Make sure bats is installed as a devDependency and pnpm is available');
+      console.error('Failed to start bats process:', error.message);
+      console.error('Make sure //:bats_binary is included in test data dependencies');
       process.exit(1);
     });
 
