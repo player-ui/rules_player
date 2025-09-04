@@ -8,9 +8,9 @@ def discover_ios_targets(
         output = "ios_targets.bzl",
         variable_name = "sources"):
     """Automatically generate `sources` for `assemble_package`.
-    
+
     > [!NOTE]
-    > This will discover Swift targets created by `ios_pipeline` and their corresponding JS "core_native_bundle"s. 
+    > This will discover Swift targets created by `ios_pipeline` and their corresponding JS "core_native_bundle"s.
     > If you need any other files, you will need to manually supply those to `assemble_package`.
 
     This macro creates an sh_binary that directly executes the discover_ios_targets.sh script.
@@ -45,7 +45,7 @@ def discover_ios_targets(
         sources = sources,
     )
     ```
-    
+
     Advanced Example:
     ```python
     # Custom output file and variable name
@@ -64,7 +64,7 @@ def discover_ios_targets(
         sources = custom_sources,
     )
     ```
-    
+
     Args:
         name: Name of the sh_binary target to create
         output: The file the ios targets will be written to (default: "ios_targets.bzl")

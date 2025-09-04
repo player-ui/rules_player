@@ -1,7 +1,6 @@
-load("@aspect_rules_js//js:defs.bzl", "js_test")
+load("@bazel_bats//:rules.bzl", "bats_test")
 load("@cgrindel_bazel_starlib//bzlformat:defs.bzl", "bzlformat_pkg")
 load(":test_zip_assembly.bzl", "define_test_targets")
-load("@bazel_bats//:rules.bzl", "bats_test")
 
 bzlformat_pkg(name = "bzlformat")
 
