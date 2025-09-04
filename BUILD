@@ -8,6 +8,11 @@ bzlformat_pkg(name = "bzlformat")
 
 bzlformat_missing_pkgs(name = "bzlformat_missing_pkgs")
 
+exports_files([
+    "package.json",
+    "pnpm-lock.yaml",
+])
+
 filegroup(
     name = "all_files",
     srcs = glob(["*"]),

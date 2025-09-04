@@ -6,7 +6,6 @@ load("@build_bazel_rules_apple//apple:ios.bzl", "ios_ui_test", "ios_unit_test")
 load("@build_bazel_rules_apple//apple:resources.bzl", "apple_resource_bundle")
 load("@build_bazel_rules_swift//swift:swift.bzl", "swift_library")
 load("@rules_pkg//:mappings.bzl", "pkg_files", "strip_prefix")
-load("@rules_pkg//:pkg.bzl", "pkg_zip")
 
 def ios_bundle_module_shim(name):
     native.genrule(
@@ -14,49 +13,6 @@ def ios_bundle_module_shim(name):
         srcs = ["@rules_player//ios/private:ResourceShimTemplate.swift"],
         outs = [name + "ResourceShim.swift"],
         cmd = "sed 's/PLACEHOLDER/" + name + "/g' < $< > $@",
-    )
-
-def assemble_pod(
-        name,
-        podspec = "",
-        srcs = [],
-        data = {}):
-    """
-    Assemble a zip file for a podspec and related sources
-
-    Args:
-      name: Name of the target
-      podspec: The podspec file
-      srcs: Source files for the pod
-      data: Other dependencies
-    """
-
-    pkg_files(
-        name = "podspec",
-        srcs = [podspec],
-        strip_prefix = strip_prefix.from_pkg(),
-    )
-
-    pkg_files(
-        name = "srcs",
-        srcs = srcs,
-        strip_prefix = strip_prefix.from_pkg(),
-    )
-
-    data_pkgs = []
-    for target in data:
-        ident = "data_%d" % len(data_pkgs)
-        pkg_files(
-            name = ident,
-            srcs = [target],
-            strip_prefix = strip_prefix.from_pkg(),
-            prefix = data[target],
-        )
-        data_pkgs.append(ident)
-
-    pkg_zip(
-        name = name,
-        srcs = ["podspec", "srcs"] + data_pkgs,
     )
 
 def ios_pipeline(

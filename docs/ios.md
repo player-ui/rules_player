@@ -42,7 +42,10 @@ load("@rules_player//ios:defs.bzl", "spm_publish")
 spm_publish(<a href="#spm_publish-name">name</a>, <a href="#spm_publish-repository">repository</a>, <a href="#spm_publish-stamp">stamp</a>, <a href="#spm_publish-target_branch">target_branch</a>, <a href="#spm_publish-zip">zip</a>)
 </pre>
 
+Publishes an iOS Swift Package Manager release package.
 
+This rule takes a pre-built zip file and publishes it to the specified repository.
+Use the assemble_package macro from zip.bzl to create the zip first.
 
 **ATTRIBUTES**
 
@@ -52,8 +55,8 @@ spm_publish(<a href="#spm_publish-name">name</a>, <a href="#spm_publish-reposito
 | <a id="spm_publish-name"></a>name |  A unique name for this target.   | <a href="https://bazel.build/concepts/labels#target-names">Name</a> | required |  |
 | <a id="spm_publish-repository"></a>repository |  The git repository to publish spm zip contents to   | String | optional |  `""`  |
 | <a id="spm_publish-stamp"></a>stamp |  Whether to encode build information into the output. Possible values:<br><br>- `stamp = 1`: Always stamp the build information into the output, even in     [--nostamp](https://docs.bazel.build/versions/main/user-manual.html#flag--stamp) builds.     This setting should be avoided, since it is non-deterministic.     It potentially causes remote cache misses for the target and     any downstream actions that depend on the result. - `stamp = 0`: Never stamp, instead replace build information by constant values.     This gives good build result caching. - `stamp = -1`: Embedding of build information is controlled by the     [--[no]stamp](https://docs.bazel.build/versions/main/user-manual.html#flag--stamp) flag.     Stamped targets are not rebuilt unless their dependencies change.   | Integer | optional |  `-1`  |
-| <a id="spm_publish-target_branch"></a>target_branch |  The branch to use for stable releases   | String | optional |  `"main"`  |
-| <a id="spm_publish-zip"></a>zip |  The zip to publish the contents of   | <a href="https://bazel.build/concepts/labels">Label</a> | optional |  `None`  |
+| <a id="spm_publish-target_branch"></a>target_branch |  The branch to push the zipped files to   | String | optional |  `"main"`  |
+| <a id="spm_publish-zip"></a>zip |  The zip file to publish (created by assemble_package)   | <a href="https://bazel.build/concepts/labels">Label</a> | required |  |
 
 
 <a id="swift_library"></a>
@@ -95,6 +98,32 @@ Compiles and links Swift code into a static library and Swift module.
 | <a id="swift_library-swiftc_inputs"></a>swiftc_inputs |  Additional files that are referenced using `$(location ...)` in attributes that support location expansion.   | <a href="https://bazel.build/concepts/labels">List of labels</a> | optional |  `[]`  |
 
 
+<a id="assemble_package"></a>
+
+## assemble_package
+
+<pre>
+load("@rules_player//ios:defs.bzl", "assemble_package")
+
+assemble_package(<a href="#assemble_package-name">name</a>, <a href="#assemble_package-package_swift">package_swift</a>, <a href="#assemble_package-sources">sources</a>)
+</pre>
+
+Assembles an iOS Swift Package Manager package zip.
+
+This creates the proper directory structure with Package.swift and source files
+that matches SPM expectations.
+
+
+**PARAMETERS**
+
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="assemble_package-name"></a>name |  Name of the package target   |  none |
+| <a id="assemble_package-package_swift"></a>package_swift |  The Package.swift file to include   |  none |
+| <a id="assemble_package-sources"></a>sources |  <b>List of source configurations.</b> Each can be either: <ul>   <li>A string: The Bazel target (path will be auto-deduced)</li>   <li>     A dict with:     <ul>       <li><b>target</b>: The Bazel target (e.g., <code>//plugins/fancy/swiftui:ExampleFancyPlugin_Sources</code>)</li>       <li><b>path</b>: The path expected by the Package.swift (optional, auto-deduced if not provided)</li>       <li><b>resourceTarget</b>: The JS bundle target for this plugin (optional, e.g., <code>//plugins/fancy/core:core_native_bundle</code>)</li>     </ul>   </li> </ul>   |  `[]` |
+
+
 <a id="assemble_pod"></a>
 
 ## assemble_pod
@@ -116,6 +145,85 @@ Assemble a zip file for a podspec and related sources
 | <a id="assemble_pod-podspec"></a>podspec |  The podspec file   |  `""` |
 | <a id="assemble_pod-srcs"></a>srcs |  Source files for the pod   |  `[]` |
 | <a id="assemble_pod-data"></a>data |  Other dependencies   |  `{}` |
+
+
+<a id="discover_ios_targets"></a>
+
+## discover_ios_targets
+
+<pre>
+load("@rules_player//ios:defs.bzl", "discover_ios_targets")
+
+discover_ios_targets(<a href="#discover_ios_targets-name">name</a>, <a href="#discover_ios_targets-output">output</a>, <a href="#discover_ios_targets-variable_name">variable_name</a>)
+</pre>
+
+Automatically generate `sources` for `assemble_package`.
+
+> [!NOTE]
+> This will discover Swift targets created by `ios_pipeline` and their corresponding JS "core_native_bundle"s.
+> If you need any other files, you will need to manually supply those to `assemble_package`.
+
+This macro creates an sh_binary that directly executes the discover_ios_targets.sh script.
+The discovery script automatically finds all Swift source targets with iOS tags and
+JS native bundles in your workspace, then pairs them appropriately.
+
+The script automatically:
+
+- Finds all Swift source targets ending in "_Sources". I.e. all sources generated by `ios_pipeline`.
+- Identifies corresponding JS native bundles. I.e. `core_native_bundle` targets.
+- Pairs them when both exist in the same directory
+- Generates clean BUILD-ready Starlark code
+
+Basic Example:
+```python
+# In your BUILD file
+load("@rules_player//ios:defs.bzl", "discover_ios_targets", "assemble_package")
+
+# Create the discovery rule
+discover_ios_targets(name = "discover")
+
+# Run discovery to generate ios_targets.bzl
+# $ bazel run //:discover
+
+# Load the generated sources
+load(":ios_targets.bzl", "sources")
+
+# Use with assemble_package
+assemble_package(
+    name = "ios_package",
+    package_swift = "Package.swift",
+    sources = sources,
+)
+```
+
+Advanced Example:
+```python
+# Custom output file and variable name
+discover_ios_targets(
+    name = "discover_ios_sources",
+    output = "my_ios_targets.bzl",
+    variable_name = "custom_sources",
+)
+
+# Load the custom variable
+load(":my_ios_targets.bzl", "custom_sources")
+
+assemble_package(
+    name = "spm_publish_zip",
+    package_swift = "//:Package.swift",
+    sources = custom_sources,
+)
+```
+
+
+**PARAMETERS**
+
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="discover_ios_targets-name"></a>name |  Name of the sh_binary target to create   |  none |
+| <a id="discover_ios_targets-output"></a>output |  The file the ios targets will be written to (default: "ios_targets.bzl")   |  `"ios_targets.bzl"` |
+| <a id="discover_ios_targets-variable_name"></a>variable_name |  Name of the variable to create in the .bzl file (default: "sources")   |  `"sources"` |
 
 
 <a id="ios_pipeline"></a>

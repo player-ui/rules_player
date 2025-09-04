@@ -12,6 +12,10 @@ bzl_library(
     srcs = ["defs.bzl"],
     visibility = ["//visibility:public"],
     deps = [
+        "//ios/private:cocoapods_publishing",
         "//ios/private:common_utils",
+        "//ios/private:discover_ios_targets",
+        "//ios/private:spm_publishing",
+        "//ios/private:zip",
     ],
 )
