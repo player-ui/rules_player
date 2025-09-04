@@ -12,10 +12,10 @@
 #
 # Manual Discovery Commands:
 #   # Find all Swift source targets:
-#   bazel query "//..." | grep "_Sources$" | grep -E "(swiftui|ios)"
+#   bazel query 'filter(".*_Sources$", filter("(swiftui|ios)", "//..."))'
 #
-#   # Find all JS native bundles:
-#   bazel query "//..." | grep ":core_native_bundle$"
+#   # Find all JS native bundles (core_native_bundle targets only):
+#   bazel query 'filter(".*:core_native_bundle$", "//...") - filter(".*:core_native_bundle_.*", "//...")'
 #
 #   # Find all targets in workspace:
 #   bazel query "//..."
@@ -46,7 +46,7 @@ fi
 # Find all Swift source targets across the entire workspace
 echo "📱 All Swift Source Targets:"
 echo "============================"
-ALL_SWIFT_SOURCES=$(bazel query "//..." 2>/dev/null | grep "_Sources$" | grep -E "(swiftui|ios)" | sort)
+ALL_SWIFT_SOURCES=$(bazel query 'attr(name, "_Sources", filter("(swiftui|ios)", "//..."))' 2>/dev/null | sort)
 
 if [[ -n "$ALL_SWIFT_SOURCES" ]]; then
     echo "$ALL_SWIFT_SOURCES"
@@ -59,7 +59,7 @@ echo ""
 # Find all JS native bundles that could be used as resourceTargets
 echo "📦 All JS Native Bundles:"
 echo "========================="
-ALL_JS_BUNDLES=$(bazel query "//..." 2>/dev/null | grep ":core_native_bundle$" | sort)
+ALL_JS_BUNDLES=$(bazel query 'filter(".*:core_native_bundle$", "//...") - filter(".*:core_native_bundle_.*", "//...")' 2>/dev/null | sort)
 
 if [[ -n "$ALL_JS_BUNDLES" ]]; then
     echo "$ALL_JS_BUNDLES"
@@ -84,8 +84,7 @@ EOF
 if [[ -n "$ALL_SWIFT_SOURCES" ]]; then
     while IFS= read -r source_target; do
         if [[ -n "$source_target" ]]; then
-            # Try to find corresponding JS bundle by extracting the base path
-            # This handles patterns like:
+            # Try to find corresponding JS bundle by extracting the base path. For example:
             # //plugins/fancy/swiftui:ExampleFancyPlugin_Sources -> //plugins/fancy/core:core_native_bundle
             # //assets/fancy-dog/swiftui:ExampleFancyDogAsset_Sources -> //assets/fancy-dog/core:core_native_bundle
             

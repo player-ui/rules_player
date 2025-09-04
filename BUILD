@@ -14,18 +14,6 @@ exports_files([
     "pnpm-lock.yaml",
 ])
 
-# Internal js_library wrapper for the bats binary and all its dependencies
-# This is used by internal tests and should not be used by external users
-js_library(
-    name = "bats_binary",
-    srcs = glob([
-        "node_modules/bats/bin/**",
-        "node_modules/bats/lib/**",
-        "node_modules/bats/libexec/**",
-    ]),
-    visibility = ["//:__subpackages__"],  # Only visible within this project
-)
-
 filegroup(
     name = "all_files",
     srcs = glob(["*"]),

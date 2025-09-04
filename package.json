@@ -29,8 +29,7 @@
   "devDependencies": {
     "@auto-it/git-tag": "^11.2.0",
     "@auto-it/released": "^11.2.0",
-    "auto": "^11.2.0",
-    "bats": "^1.12.0"
+    "auto": "^11.2.0"
   },
   "volta": {
     "node": "20.17.0",
