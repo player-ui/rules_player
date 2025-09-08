@@ -1,3 +1,15 @@
+# v2.1.0 (Mon Sep 08 2025)
+
+#### 🚀 Enhancement
+
+- Add assemble_ios_release; deprecate assemble_pod [#89](https://github.com/player-ui/rules_player/pull/89) ([@KVSRoyal](https://github.com/KVSRoyal))
+
+#### Authors: 1
+
+- Koriann South ([@KVSRoyal](https://github.com/KVSRoyal))
+
+---
+
 # v2.0.1 (Fri Aug 22 2025)
 
 ### Release Notes
