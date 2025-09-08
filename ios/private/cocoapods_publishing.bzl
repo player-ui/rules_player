@@ -9,32 +9,6 @@ _TEMPLATE_TRUNK_PUSH = Label("//ios/private:pod_trunk_push.sh")
 _TEMPLATE_SPM_PUBLISH = Label("//ios/private:unzip_and_tag.sh")
 _TEMPLATE_PUSH = Label("//ios/private:push.sh")
 
-def _spm_publish_impl(ctx):
-    output = ctx.actions.declare_file("publish.sh")
-
-    stamp = maybe_stamp(ctx)
-
-    stamp_inputs = []
-
-    if stamp:
-        stamp_inputs = [stamp.stable_status_file]
-
-    ctx.actions.expand_template(
-        template = ctx.file._publishTemplate,
-        output = output,
-        is_executable = True,
-        substitutions = {
-            "{REPOSITORY}": ctx.attr.repository,
-            "{TARGET_BRANCH}": ctx.attr.target_branch,
-            "{ZIP}": ctx.file.zip.basename,
-        },
-    )
-
-    return DefaultInfo(
-        executable = output,
-        runfiles = ctx.runfiles(files = [ctx.file.zip] + stamp_inputs),
-    )
-
 def _ios_publish_impl(ctx):
     output = ctx.actions.declare_file("publish.sh")
 
@@ -90,29 +64,6 @@ def _ios_publish_impl(ctx):
         executable = output,
         runfiles = ctx.runfiles(files = [ctx.file.zip, spm, pod] + stamp_inputs),
     )
-
-spm_publish = rule(
-    implementation = _spm_publish_impl,
-    executable = True,
-    attrs = dict({
-        "repository": attr.string(
-            doc = "The git repository to publish spm zip contents to",
-        ),
-        "target_branch": attr.string(
-            default = "main",
-            doc = "The branch to use for stable releases",
-        ),
-        "zip": attr.label(
-            allow_single_file = True,
-            doc = "The zip to publish the contents of",
-        ),
-        "_publishTemplate": attr.label(
-            default = _TEMPLATE_SPM_PUBLISH,
-            allow_single_file = True,
-            doc = "The template shell script for publishing the zip contents to a git repository",
-        ),
-    }, **STAMP_ATTRS),
-)
 
 ios_publish = rule(
     implementation = _ios_publish_impl,
