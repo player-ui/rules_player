@@ -81,6 +81,8 @@ def kt_android_library_and_test(
     android_library(
         name = name,
         manifest = manifest,
+        resource_files = main_res,
+        assets = main_assets,
         tags = tags,
         exports = [":%s" % base_name] + main_exports,
         deps = main_deps,
