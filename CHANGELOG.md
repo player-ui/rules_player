@@ -1,3 +1,23 @@
+# v2.1.1 (Thu Sep 11 2025)
+
+### Release Notes
+
+#### Add Android resources when publishing `kt_android` artifacts ([#90](https://github.com/player-ui/rules_player/pull/90))
+
+Propagate Android resources to published `kt_android` artifacts
+
+---
+
+#### 🐛 Bug Fix
+
+- Add Android resources when publishing `kt_android` artifacts [#90](https://github.com/player-ui/rules_player/pull/90) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v2.1.0 (Mon Sep 08 2025)
 
 #### 🚀 Enhancement
