@@ -7,7 +7,6 @@ const REQUIREMENTSREGEX =
 
 /** Adds support for replacing process.env.* references with stamped values from bazel */
 function getStampedSubstitutions(
-  customSubstitutions,
   stableStatusFile,
   volatileStatusFile
 ) {
@@ -28,12 +27,7 @@ function getStampedSubstitutions(
       const firstSpace = statusLine.indexOf(" ");
       const varName = statusLine.substring(0, firstSpace);
       const varVal = statusLine.substring(firstSpace + 1);
-
-      Object.entries(customSubstitutions).forEach(([key, value]) => {
-        if (value === `{${varName}}`) {
-          substitutions[key] = varVal;
-        }
-      });
+      substitutions[varName] = varVal;
     });
   });
 
@@ -44,13 +38,6 @@ function getStampVars({
   BAZEL_STABLE_STATUS_FILE,
   BAZEL_VOLATILE_STATUS_FILE,
 }) {
-  if (
-    Object.keys(substitutions).length === 0 ||
-    !BAZEL_STABLE_STATUS_FILE ||
-    !BAZEL_VOLATILE_STATUS_FILE
-  ) {
-    return (obj) => obj;
-  }
 
   const stableStatusFile = path.join(
     process.env.JS_BINARY__EXECROOT,
@@ -79,20 +66,18 @@ async function main(args) {
   const { 
     input, 
     output, 
-    package_names, 
-    substitutions,   
+    package_names,  
     BAZEL_STABLE_STATUS_FILE,
     BAZEL_VOLATILE_STATUS_FILE
   } = args;
 
   // Get stamp vars
   const stampVars = getStampVars({
-    substitutions,
     BAZEL_STABLE_STATUS_FILE,
     BAZEL_VOLATILE_STATUS_FILE,
   });
 
-  const local_version = stampVars['STABLE_STATUS'] ?? "0.0.0"
+  const local_version = stampVars['STABLE_VERSION'] ?? "0.0.0"
   
   // clean up canary names to follow pep
   local_version.replace("--",".").replace("-",".")
