@@ -78,16 +78,6 @@ def py_pipeline(
     )
 
 
-    package_name = "{}_pkg".format(name)
-    package_target = ":{}".format(package_name)
-
-    py_package(
-        name = package_name,
-        # Only include these Python packages.
-        packages = deps,
-        deps = [library_target],
-    )
-
     requirements_name = "{}_requirements".format(name)
     requirements_target = ":{}".format(requirements_name)
 
@@ -102,7 +92,7 @@ def py_pipeline(
         distribution = name,
         python_tag = "py3",
         version = "$("+ version_arg + ")",
-        deps = [package_target],
+        deps = [library_target],
         requires_file = requirements_target,
         strip_path_prefixes = [(native.package_name() + "/src")],
         **kwargs
