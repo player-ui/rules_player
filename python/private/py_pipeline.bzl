@@ -44,7 +44,7 @@ def py_pipeline(
     
     srcs = native.glob(include = ["src/**/*.py"], exclude = ["**/__tests__/**/*"])
     test_files = native.glob(["src/**/__tests__/**/*.py"])
-    all_files = native.glob(["src/**/__tests__/**/*"])
+    all_files = test_files + native.glob(["src/**/__tests__/__helpers__/*"], allow_empty=True)
 
     library_name = "{}_library".format(name)
     library_target = ":{}".format(library_name)
@@ -79,14 +79,13 @@ def py_pipeline(
         name = test_name,
         srcs = [
             "@rules_player//python/private:pytest_wrapper.py",
-        ] + test_files,
+        ] + all_files,
         main = "@rules_player//python/private:pytest_wrapper.py",
         args = [
             "--capture=no",
-        ] + ["$(location :%s)" % x for x in all_files],
+        ] + ["$(location :%s)" % x for x in test_files],
         python_version = "PY3",
         srcs_version = "PY3",
-        data = all_files,
         deps = deps + test_deps
     )
 
