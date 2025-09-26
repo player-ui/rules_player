@@ -39,6 +39,10 @@ function getStampVars({
   BAZEL_VOLATILE_STATUS_FILE,
 }) {
 
+  if(!BAZEL_STABLE_STATUS_FILE || !BAZEL_VOLATILE_STATUS_FILE){
+    return {}
+  }
+
   const stableStatusFile = path.join(
     process.env.JS_BINARY__EXECROOT,
     BAZEL_STABLE_STATUS_FILE
@@ -49,7 +53,7 @@ function getStampVars({
   );
 
   if (!fs.existsSync(stableStatusFile) || !fs.existsSync(volatileStatusFile)) {
-    return (obj) => obj;
+    return {}
   }
 
   const customSubstitutions = getStampedSubstitutions(
