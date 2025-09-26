@@ -42,14 +42,14 @@ def _build_requirements_impl(ctx):
 build_requirements = rule(
     implementation = _build_requirements_impl,
     attrs = dict({
+        "package_names": attr.string_list(
+            doc = "A list of packages to parse out of the requirements.txt file.",
+            mandatory = True,
+        ),
         "root_requirements": attr.label(
             mandatory = True,
             doc = "The root requirements.txt for the project. Used to get the versions of dependencies",
             allow_single_file = ["requirements.txt"],
-        ),
-        "package_names": attr.string_list(
-            doc = "A list of packages to parse out of the requirements.txt file.",
-            mandatory = True,
         ),
         "substitutions": attr.string_dict(default = {}),
         "_build_requirements": attr.label(

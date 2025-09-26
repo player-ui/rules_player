@@ -1,6 +1,6 @@
+load("@aspect_rules_js//js:defs.bzl", "js_binary")
 load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
 load("@cgrindel_bazel_starlib//bzlformat:defs.bzl", "bzlformat_missing_pkgs", "bzlformat_pkg")
-load("@aspect_rules_js//js:defs.bzl", "js_binary")
 
 bzlformat_pkg(name = "bzlformat")
 
@@ -24,7 +24,10 @@ exports_files(
 )
 
 exports_files(
-    ["pytest_wrapper.py.tmpl", "pytest_wrapper.py"],
+    [
+        "pytest_wrapper.py.tmpl",
+        "pytest_wrapper.py",
+    ],
     visibility = ["//visibility:public"],
 )
 
