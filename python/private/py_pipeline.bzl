@@ -8,6 +8,16 @@ load("@rules_python//python:packaging.bzl", "py_wheel", "py_package")
 load(":build_requirements.bzl", "build_requirements")
 load("@bazel_skylib//rules:copy_directory.bzl", "copy_directory")
 
+def clean_version(semver_string):
+    version = semver_string
+    # Handle next/canaries
+    if '-' in semver_string:
+        base_version, pre_release = semver_string.split('-', 1)
+        pre_release = pre_release.replace('canary', 'dev').replace('next', 'rc').replace("-","").replace(".","")
+        pep440_string = base_version+pre_release
+
+    return str(version)
+
 # temp macro for python pipeline while its being developed
 def py_pipeline(
         name, 
@@ -110,7 +120,7 @@ def py_pipeline(
         name = "wheel",
         distribution = name,
         python_tag = "py3",
-        version = version,
+        version = clean_version(version),
         deps = [library_target],
         requires_file = requirements_target,
         strip_path_prefixes = [(native.package_name() + "/src")],
