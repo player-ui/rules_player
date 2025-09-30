@@ -35,6 +35,7 @@ def py_pipeline(
         test_deps = [],
         lint_deps = [],
         requirements_file = "//:requirements.txt",
+        lint_config = ["//:.pylintrc"],
         **kwargs):
     """
     The main entry point for any python project. `python_pipeline` should be the only thing you need in your BUILD file.
@@ -48,13 +49,14 @@ def py_pipeline(
         lint_deps: lint dependencies (min: pytest, pytest-list)
         version: the make variable that should be expanded for the whl version when published
         requirements_file: (default is "//:requirements.txt") base requirements.txt file
+        lint_config: (default "//:.pylintrc) lint config
         **kwargs: additional args to pass into py_wheel for publishing info
     """
 
     srcs = native.glob(include = ["src/**/*.py"], exclude = ["**/__tests__/**/*"])
     test_files = native.glob(["src/**/__tests__/**/*.py"])
-    all_files = test_files + native.glob(["src/**/__tests__/__helpers__/*"], allow_empty = True)
-
+    all_files = native.glob(["src/**/*"], allow_empty = True)
+    
     library_name = "{}_library".format(name)
     library_target = ":{}".format(library_name)
 
@@ -112,6 +114,7 @@ def py_pipeline(
         python_version = "PY3",
         srcs_version = "PY3",
         deps = deps + lint_deps,
+        data = lint_config
     )
 
     requirements_name = "{}_requirements".format(name)
