@@ -90,14 +90,15 @@ def py_pipeline(
         name = test_name,
         srcs = [
             "@rules_player//python/private:pytest_wrapper.py",
-        ] + all_files,
+        ] + test_files,
         main = "@rules_player//python/private:pytest_wrapper.py",
         args = [
             "--capture=no",
         ] + ["$(location :%s)" % x for x in test_files],
         python_version = "PY3",
         srcs_version = "PY3",
-        deps = deps + test_deps,
+        deps = deps + test_deps + [library_target],
+        data = coverage_config,
     )
 
     lint_name = "{}_pytest_lint".format(name)
