@@ -55,7 +55,7 @@ def py_pipeline(
 
     srcs = native.glob(include = ["src/**/*.py"], exclude = ["**/__tests__/**/*"])
     test_files = native.glob(["src/**/__tests__/**/*.py"])
-    all_files = native.glob(["src/**/*"], allow_empty = True)
+    helpers = native.glob(["src/**/__tests__/__helpers__/*"], allow_empty = True)
 
     library_name = "{}_library".format(name)
     library_target = ":{}".format(library_name)
@@ -98,7 +98,7 @@ def py_pipeline(
         python_version = "PY3",
         srcs_version = "PY3",
         deps = deps + test_deps + [library_target],
-        data = coverage_config,
+        data = helpers,
     )
 
     lint_name = "{}_pytest_lint".format(name)
