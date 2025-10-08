@@ -2,7 +2,7 @@
 Macro for a standard and easy approach for python development
 """
 
-load("@bazel_skylib//rules:copy_directory.bzl", "copy_directory")
+load("@aspect_bazel_lib//lib:copy_to_directory.bzl", "copy_to_directory")
 load("@rules_python//python:packaging.bzl", "py_wheel")
 load("@rules_python//python:py_library.bzl", "py_library")
 load("@rules_python//python:py_test.bzl", "py_test")
@@ -57,31 +57,26 @@ def py_pipeline(
     test_files = native.glob(["src/**/__tests__/**/*.py"])
     helpers = native.glob(["src/**/__tests__/__helpers__/*"], allow_empty = True)
 
-    library_name = "{}_library".format(name)
-    library_target = ":{}".format(library_name)
-
-    # Publishable target
-    py_library(
-        name = library_name,
-        srcs = srcs,
-        deps = deps,
-        visibility = ["//visibility:public"],
-    )
-
     # Copy files into directory named after package to be able to link locally
     local_name = "{}_local".format(name)
     local_target = ":{}".format(local_name)
-    copy_directory(
+    copy_to_directory(
         name = local_name,
-        src = "src",
+        srcs = ["src"],
+        exclude_srcs_patterns = ["**/__tests__/**/*"],
         out = name,
+        verbose = 1,
+        replace_prefixes = {"src":"/"},
+        hardlink = "off",
+        preserve_mtime = True
     )
-
-    # Target for local use
+    
+    
     py_library(
         name = name,
         srcs = [local_target],
         imports = ["."],
+        deps = deps,
         visibility = ["//visibility:public"],
     )
 
@@ -90,14 +85,14 @@ def py_pipeline(
         name = test_name,
         srcs = [
             "@rules_player//python/private:pytest_wrapper.py",
-        ] + test_files,
+        ] + srcs + test_files,
         main = "@rules_player//python/private:pytest_wrapper.py",
         args = [
             "--capture=no",
         ] + ["$(location :%s)" % x for x in test_files],
         python_version = "PY3",
         srcs_version = "PY3",
-        deps = deps + test_deps + [library_target],
+        deps = deps + test_deps,
         data = helpers,
     )
 
@@ -135,8 +130,8 @@ def py_pipeline(
         distribution = name,
         python_tag = "py3",
         version = build_version,
-        deps = [library_target],
+        deps = [local_target],
         requires_file = requirements_target,
-        strip_path_prefixes = [(native.package_name() + "/src")],
+        strip_path_prefixes = [(native.package_name())],
         **kwargs
     )
