@@ -25,7 +25,6 @@ exports_files(
 
 exports_files(
     [
-        "pytest_wrapper.py.tmpl",
         "pytest_wrapper.py",
     ],
     visibility = ["//visibility:public"],

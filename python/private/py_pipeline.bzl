@@ -121,17 +121,20 @@ def py_pipeline(
     requirements_name = "{}_requirements".format(name)
     requirements_target = ":{}".format(requirements_name)
 
+    build_version = clean_version(version)
+
     build_requirements(
         name = requirements_name,
         root_requirements = requirements_file,
         package_names = deps,
+        local_version = build_version
     )
 
     py_wheel(
         name = "wheel",
         distribution = name,
         python_tag = "py3",
-        version = clean_version(version),
+        version = build_version,
         deps = [library_target],
         requires_file = requirements_target,
         strip_path_prefixes = [(native.package_name() + "/src")],

@@ -16,6 +16,7 @@ def _build_requirements_impl(ctx):
         "output": output_file.short_path,
         "package_names": ctx.attr.package_names,
         "substitutions": ctx.attr.substitutions,
+        "local_version": ctx.attr.local_version
     }
 
     if stamp:
@@ -52,6 +53,9 @@ build_requirements = rule(
             allow_single_file = ["requirements.txt"],
         ),
         "substitutions": attr.string_dict(default = {}),
+        "local_version": attr.string(
+            doc = "The version to use for local packages",
+        ),
         "_build_requirements": attr.label(
             executable = True,
             cfg = "exec",
