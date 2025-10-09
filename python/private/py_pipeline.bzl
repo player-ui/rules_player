@@ -66,12 +66,11 @@ def py_pipeline(
         exclude_srcs_patterns = ["**/__tests__/**/*"],
         out = name,
         verbose = 1,
-        replace_prefixes = {"src":"/"},
+        replace_prefixes = {"src": "/"},
         hardlink = "off",
-        preserve_mtime = True
+        preserve_mtime = True,
     )
-    
-    
+
     py_library(
         name = name,
         srcs = [local_target],
@@ -122,7 +121,7 @@ def py_pipeline(
         name = requirements_name,
         root_requirements = requirements_file,
         package_names = deps,
-        local_version = build_version
+        local_version = build_version,
     )
 
     py_wheel(
