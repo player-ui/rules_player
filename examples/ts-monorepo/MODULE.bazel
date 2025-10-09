@@ -30,7 +30,6 @@ npm.npm_translate_lock(
         "//:package.json",
     ],
     pnpm_lock = "//:pnpm-lock.yaml",
-    verify_node_modules_ignored = "//:.bazelignore",
     npm_package_target_name = "{dirname}"
 )
 use_repo(npm, "npm")

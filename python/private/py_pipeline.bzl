@@ -65,7 +65,6 @@ def py_pipeline(
         srcs = ["src"],
         exclude_srcs_patterns = ["**/__tests__/**/*"],
         out = name,
-        verbose = 1,
         replace_prefixes = {"src": "/"},
         hardlink = "off",
         preserve_mtime = True,
