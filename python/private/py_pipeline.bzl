@@ -57,7 +57,7 @@ def py_pipeline(
     test_files = native.glob(["src/**/__tests__/**/*.py"])
     helpers = native.glob(["src/**/__tests__/__helpers__/*"], allow_empty = True)
 
-    # Copy files into directory named after package to be able to link locally
+    # Copy files into directory named after package to reference correctly
     local_name = "{}_local".format(name)
     local_target = ":{}".format(local_name)
     copy_to_directory(
@@ -70,12 +70,24 @@ def py_pipeline(
         preserve_mtime = True,
     )
 
+    # Used for inter-repository references
+    external_library_name = name
     py_library(
-        name = name,
+        name = external_library_name,
         srcs = [local_target],
         imports = ["."],
         deps = deps,
         visibility = ["//visibility:public"],
+    )
+
+    # Used locally for test coverage
+    internal_library_name = "{}_internal".format(name)
+    internal_library_target = ":{}".format(internal_library_name)
+    py_library(
+        name = internal_library_name,
+        srcs = srcs,
+        deps = deps,
+        visibility = ["//visibility:private"],
     )
 
     test_name = "{}_pytest".format(name)
@@ -83,14 +95,14 @@ def py_pipeline(
         name = test_name,
         srcs = [
             "@rules_player//python/private:pytest_wrapper.py",
-        ] + srcs + test_files,
+        ] + test_files,
         main = "@rules_player//python/private:pytest_wrapper.py",
         args = [
             "--capture=no",
         ] + ["$(location :%s)" % x for x in test_files],
         python_version = "PY3",
         srcs_version = "PY3",
-        deps = deps + test_deps,
+        deps = deps + test_deps + [internal_library_target],
         data = helpers,
     )
 
