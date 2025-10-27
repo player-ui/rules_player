@@ -25,6 +25,7 @@ def js_pipeline(
         root_package_json = "//:package.json",
         vitest_config = ":vitest_config",
         tsup_config = ":tsup_config",
+        tsconfig = None,
         node_modules = "//:node_modules",
         deps = [],
         native_bundle = None,
@@ -48,6 +49,7 @@ def js_pipeline(
       root_package_json: The root package.json file for the package (defaults to //:package.json).
       vitest_config: The vitest config for the package (defaults to None).
       tsup_config: The tsup config for the package (defaults to None).
+      tsconfig: Custom tsconfig target to use (defaults to None, which generates one from template).
       node_modules: The base node_modules to pull dependencies from (defaults to //:node_modules).
       deps: The dependencies for the package.
       native_bundle: The name for the native bundle global if defined.
@@ -99,17 +101,21 @@ def js_pipeline(
             node_modules = node_modules,
         )
 
-    tsconfig = "{}_tsconfig".format(name)
-    prefix = "../" * len(native.package_name().split("/"))
+    if tsconfig == None:
+        tsconfig_name = "{}_tsconfig".format(name)
+        prefix = "../" * len(native.package_name().split("/"))
 
-    expand_template(
-        name = tsconfig,
-        out = "tsconfig.json",
-        substitutions = {
-            "%PREFIX%": prefix,
-        },
-        template = "@rules_player//javascript/private:tsconfig.json.tmpl",
-    )
+        expand_template(
+            name = tsconfig_name,
+            out = "tsconfig.json",
+            substitutions = {
+                "%PREFIX%": prefix,
+            },
+            template = "@rules_player//javascript/private:tsconfig.json.tmpl",
+        )
+        tsconfig_target = ":{}".format(tsconfig_name)
+    else:
+        tsconfig_target = tsconfig
 
     ts_types = "{}_ts_types".format(name)
     ts_types_target = ":" + ts_types
@@ -122,7 +128,7 @@ def js_pipeline(
         declaration_dir = ts_types,
         emit_declaration_only = True,
         out_dir = ts_types,
-        tsconfig = ":{}".format(tsconfig),
+        tsconfig = tsconfig_target,
     )
 
     vitest_test(
