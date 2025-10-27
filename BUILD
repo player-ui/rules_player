@@ -28,6 +28,8 @@ filegroup(
         "//javascript/private:all_files",
         "//kotlin:all_files",
         "//kotlin/private:all_files",
+        "//python:all_files",
+        "//python/private:all_files",
     ],
     visibility = ["//:__subpackages__"],
 )
