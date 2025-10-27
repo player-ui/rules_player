@@ -1,3 +1,15 @@
+# v2.2.0 (Mon Oct 27 2025)
+
+#### 🚀 Enhancement
+
+- feat: add Support for Custom tsconfig in js_pipeline [#99](https://github.com/player-ui/rules_player/pull/99) ([@rafbcampos](https://github.com/rafbcampos))
+
+#### Authors: 1
+
+- Rafael Campos ([@rafbcampos](https://github.com/rafbcampos))
+
+---
+
 # v2.1.1 (Thu Sep 11 2025)
 
 ### Release Notes
