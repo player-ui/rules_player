@@ -1,3 +1,15 @@
+# v2.2.1 (Fri Nov 21 2025)
+
+#### 🐛 Bug Fix
+
+- add  --config=release to staged-maven-deploy.sh [#100](https://github.com/player-ui/rules_player/pull/100) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v2.2.0 (Mon Oct 27 2025)
 
 #### 🚀 Enhancement
