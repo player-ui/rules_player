@@ -17,22 +17,22 @@ if [ "$RELEASE_TYPE" == "snapshot" ]; then
   echo -n -SNAPSHOT >> VERSION
 elif [ "$RELEASE_TYPE" == "release" ]; then
   # Prep staging repo
-  readonly STAGING=$(bazel run @rules_player//distribution:nexus-staging-cli -- "${@:2}")
+  readonly STAGING=$(bazel run --config=release @rules_player//distribution:nexus-staging-cli -- "${@:2}")
 fi
 
 # Find all the maven packages in the repo
 readonly DEPLOY_LABELS=$(bazel query --output=label 'kind("maven_publish rule", //...) - attr("tags", "\[.*do-not-publish.*\]", //...)')
 for pkg in $DEPLOY_LABELS ; do
   if [ -n "${STAGING-}" ]; then
-    GPG_SIGN=true bazel run "$pkg" --define=maven_repo="$STAGING" -- "$1"
+    GPG_SIGN=true bazel run --config=release "$pkg" --define=maven_repo="$STAGING" -- "$1"
   else
-    bazel run "$pkg" --define=maven_repo="https://central.sonatype.com/repository/maven-snapshots/" -- "$1"
+    bazel run --config=release "$pkg" --define=maven_repo="https://central.sonatype.com/repository/maven-snapshots/" -- "$1"
   fi
 done
 
 if [ -n "${STAGING-}" ]; then
   # Close and release staging repo
-  bazel run @rules_player//distribution:nexus-staging-cli -- "${@:2}" --staging-id="${STAGING##*/}"
+  bazel run --config=release @rules_player//distribution:nexus-staging-cli -- "${@:2}" --staging-id="${STAGING##*/}"
 fi
 
 # Cleanup
