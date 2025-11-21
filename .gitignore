@@ -30,3 +30,4 @@ user.bazelrc
 
 **/.DS_Store
 .bazelrc.local
+.env
