@@ -13,7 +13,7 @@ def kt_android_library_and_test(
         *,
         # Generic parameters
         name,
-        manifest,
+        manifest = None,
         tags = None,
         plugins = [],
 
@@ -60,6 +60,9 @@ def kt_android_library_and_test(
         # Instrumented test dependencies
         instrumented_test_associates = [],
         instrumented_test_deps = []):
+    if manifest == None:
+        manifest = ":src/main/AndroidManifest.xml"
+
     base_name = scope_name(name, "base")
     associates = [base_name]
     kt_android_library(
@@ -123,6 +126,7 @@ def kt_android_library_and_test(
     for test_class in instrumented_test_classes:
         kt_android_local_test(
             name = scope_name(name, "%s-instrumented-test" % test_class.split(".")[-1]),
+            manifest = manifest,
             # Need to pass all sources so that it can reference other sources
             srcs = instrumented_test_srcs,
             resources = instrumented_test_resources,
