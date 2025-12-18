@@ -26,11 +26,23 @@ bazel_integration_test(
     workspace_path = "kotlin",
 )
 
+bazel_integration_test(
+    name = "python-test",
+    bazel_binaries = bazel_binaries,
+    bazel_version = bazel_binaries.versions.current,
+    test_runner = ":simple_test_runner",
+    workspace_files = integration_test_utils.glob_workspace_files("python") + [
+        "//:local_repository_files",
+    ],
+    workspace_path = "python",
+)
+
 test_suite(
     name = "all_integration_tests",
     tags = integration_test_utils.DEFAULT_INTEGRATION_TEST_TAGS,
     tests = [
         ":kotlin-test",
+        ":python-test",
         ":ts-monorepo-test",
     ],
 )
