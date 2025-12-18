@@ -1,3 +1,15 @@
+# v2.2.2 (Thu Dec 18 2025)
+
+#### 🐛 Bug Fix
+
+- Pass AndroidManifest into kt_android_local_test [#101](https://github.com/player-ui/rules_player/pull/101) ([@brocollie08](https://github.com/brocollie08))
+
+#### Authors: 1
+
+- [@brocollie08](https://github.com/brocollie08)
+
+---
+
 # v2.2.1 (Fri Nov 21 2025)
 
 #### 🐛 Bug Fix
