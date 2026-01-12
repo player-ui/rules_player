@@ -1,3 +1,15 @@
+# v2.2.3 (Mon Jan 12 2026)
+
+#### 🐛 Bug Fix
+
+- Update rules_swift/apple; xcode26 compatible [#102](https://github.com/player-ui/rules_player/pull/102) ([@KVSRoyal](https://github.com/KVSRoyal))
+
+#### Authors: 1
+
+- Koriann South ([@KVSRoyal](https://github.com/KVSRoyal))
+
+---
+
 # v2.2.2 (Thu Dec 18 2025)
 
 #### 🐛 Bug Fix
