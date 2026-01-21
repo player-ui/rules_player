@@ -1,3 +1,51 @@
+# v2.2.3 (Mon Jan 12 2026)
+
+#### 🐛 Bug Fix
+
+- Update rules_swift/apple; xcode26 compatible [#102](https://github.com/player-ui/rules_player/pull/102) ([@KVSRoyal](https://github.com/KVSRoyal))
+
+#### Authors: 1
+
+- Koriann South ([@KVSRoyal](https://github.com/KVSRoyal))
+
+---
+
+# v2.2.2 (Thu Dec 18 2025)
+
+#### 🐛 Bug Fix
+
+- Pass AndroidManifest into kt_android_local_test [#101](https://github.com/player-ui/rules_player/pull/101) ([@brocollie08](https://github.com/brocollie08))
+
+#### Authors: 1
+
+- [@brocollie08](https://github.com/brocollie08)
+
+---
+
+# v2.2.1 (Fri Nov 21 2025)
+
+#### 🐛 Bug Fix
+
+- add  --config=release to staged-maven-deploy.sh [#100](https://github.com/player-ui/rules_player/pull/100) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
+# v2.2.0 (Mon Oct 27 2025)
+
+#### 🚀 Enhancement
+
+- feat: add Support for Custom tsconfig in js_pipeline [#99](https://github.com/player-ui/rules_player/pull/99) ([@rafbcampos](https://github.com/rafbcampos))
+
+#### Authors: 1
+
+- Rafael Campos ([@rafbcampos](https://github.com/rafbcampos))
+
+---
+
 # v2.1.1 (Thu Sep 11 2025)
 
 ### Release Notes
