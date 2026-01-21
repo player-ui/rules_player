@@ -1,3 +1,23 @@
+# v2.3.0 (Wed Jan 21 2026)
+
+### Release Notes
+
+#### Feature: Python Rules ([#92](https://github.com/player-ui/rules_player/pull/92))
+
+Add `py_pipeline` macro to offer a simple, slightly opinionated, pipeline for building/testing Python libraries.
+
+---
+
+#### 🚀 Enhancement
+
+- Feature: Python Rules [#92](https://github.com/player-ui/rules_player/pull/92) ([@KetanReddy](https://github.com/KetanReddy))
+
+#### Authors: 1
+
+- Ketan Reddy ([@KetanReddy](https://github.com/KetanReddy))
+
+---
+
 # v2.2.3 (Mon Jan 12 2026)
 
 #### 🐛 Bug Fix
