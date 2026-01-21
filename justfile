@@ -8,3 +8,9 @@ format:
         echo "Running bzlformat_update for $target"
         bazel run "$target"
     done
+
+update-examples:
+    bazel run @rules_bazel_integration_test//tools:update_deleted_packages
+
+update:
+    bazel run //:update_all 
