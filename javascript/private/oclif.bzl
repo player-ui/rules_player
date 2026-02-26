@@ -170,10 +170,11 @@ def oclif_pipeline(
     package_name = name
     package_target = ":" + package_name
 
+    readme_files = native.glob(["README.md"], allow_empty = True)
+
     npm_package(
         name = package_name,
-        srcs = [
-            "README.md",
+        srcs = readme_files + [
             bundle_target,
         ],
         allow_overwrites = True,

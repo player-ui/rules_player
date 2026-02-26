@@ -184,11 +184,13 @@ def js_pipeline(
     replacements[package_json_name] = "package"
     replacements[ts_types + "/src"] = "types"
 
+    readme_files = native.glob(["README.md"], allow_empty = True)
+
     npm_package(
         name = name,
         visibility = ["//visibility:public"],
         package = package_name,
-        srcs = [js_library_target, tsup_build_target] + include_packaging_targets,
+        srcs = [js_library_target, tsup_build_target] + readme_files + include_packaging_targets,
         tags = filter_empty([
             "do-not-publish" if private else None,
         ]),
