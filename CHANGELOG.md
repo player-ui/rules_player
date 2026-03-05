@@ -1,3 +1,23 @@
+# v2.3.1 (Thu Mar 05 2026)
+
+### Release Notes
+
+#### Add support for README.md files in JS Macros ([#104](https://github.com/player-ui/rules_player/pull/104))
+
+Include README.md file if present for `js_pipeline` and `oclif_pipeline` macros
+
+---
+
+#### 🐛 Bug Fix
+
+- Add support for README.md files in JS Macros [#104](https://github.com/player-ui/rules_player/pull/104) ([@KetanReddy](https://github.com/KetanReddy))
+
+#### Authors: 1
+
+- Ketan Reddy ([@KetanReddy](https://github.com/KetanReddy))
+
+---
+
 # v2.3.0 (Wed Jan 21 2026)
 
 ### Release Notes
