@@ -185,3 +185,33 @@ def ios_pipeline(
       echo "exit $$(($$LINESWITHERROR) | wc -l)" >> $(location output.sh)
   """,
     )
+
+    # Runs SwiftLint with autofix as a test calling the genrule target which outputs the result of linting
+    native.sh_test(
+        name = name + "SwiftLint_Fix",
+        srcs = [":" + name + "_LintFix"],
+        visibility = ["//visibility:public"],
+    )
+
+    # Runs SwiftLint with autofix as part of the build, if lint fails with serious violations defer the results for the test
+    native.genrule(
+        name = name + "_LintFix",
+        tools = [
+            "@SwiftLint//:swiftlint",
+        ],
+        srcs = [":" + name + "_Sources"] + ["//:.swiftlint.yml"],
+        outs = ["output_fix.sh"],
+        executable = True,
+        testonly = True,
+        visibility = ["//visibility:private"],
+        cmd = """
+      echo `$(location @SwiftLint//:swiftlint) --fix --config $(location //:.swiftlint.yml) $(SRCS) || true` > lint_results.txt
+      LINT=$$(cat lint_results.txt)
+
+      echo '#!/bin/bash' > $(location output_fix.sh)
+      echo "echo '$$LINT'" > $(location output_fix.sh)
+
+      LINESWITHERROR=$$(echo grep error lint_results.txt || true)
+      echo "exit $$(($$LINESWITHERROR) | wc -l)" >> $(location output_fix.sh)
+  """,
+    )
