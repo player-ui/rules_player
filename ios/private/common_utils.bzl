@@ -6,6 +6,7 @@ load("@build_bazel_rules_apple//apple:ios.bzl", "ios_ui_test", "ios_unit_test")
 load("@build_bazel_rules_apple//apple:resources.bzl", "apple_resource_bundle")
 load("@build_bazel_rules_swift//swift:swift.bzl", "swift_library")
 load("@rules_pkg//:mappings.bzl", "pkg_files", "strip_prefix")
+load("@rules_swift_tidy//swiftformat:defs.bzl", "swiftformat_pkg")
 
 def ios_bundle_module_shim(name):
     native.genrule(
@@ -214,4 +215,12 @@ def ios_pipeline(
       LINESWITHERROR=$$(echo grep error lint_results.txt || true)
       echo "exit $$(($$LINESWITHERROR) | wc -l)" >> $(location output_fix.sh)
   """,
+    )
+
+    # Runs SwiftFormat lint check per target (fails if files would change)
+    # and generates a .update target to apply formatting fixes
+    swiftformat_pkg(
+        name = name + "SwiftFormat",
+        srcs = [":" + name + "_Sources"],
+        config = "//:.swiftformat",
     )
