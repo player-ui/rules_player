@@ -69,9 +69,10 @@ bazel_dep(name = "bazel_bats", version = "0.35.0")
 bazel_dep(name = "rules_python", version = "1.6.1")
 
 ## iOS Formatting
-bazel_dep(name = "rules_swift_tidy", version = "0.0.0")
-git_override(
+bazel_dep(name = "rules_swift_tidy")
+archive_override(
     module_name = "rules_swift_tidy",
-    commit = "751202ff4e97afc6a749ab15de502a2a0b1ac401",
-    remote = "https://github.com/cgrindel/rules_swiftformat.git",
+    urls = ["https://github.com/cgrindel/rules_swiftformat/archive/v0.4.1.tar.gz"],
+    strip_prefix = "rules_swiftformat-0.4.1",
+    integrity = "sha256-9JZ3T1boJg4nfcFzZs9nC1Xe42FjJ6E9LQS9G2LNzIg=",
 )
