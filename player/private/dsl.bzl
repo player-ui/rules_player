@@ -36,7 +36,7 @@ def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "sr
 
     js_binary(
         name = js_bin_name,
-        data = ["{}/{}/cli".format(node_modules, cli)],
+        data = ["{}/{}".format(node_modules, cli)],
         entry_point = ":{}".format(player_cli_entrypoint),
     )
 
@@ -77,7 +77,7 @@ def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "sr
     if skip_test != True:
         js_test(
             name = js_test_bin_name,
-            data = data + [":" + compiled_name, "{}/{}".format(node_modules), config],
+            data = data + [":" + compiled_name, "{}/{}".format(node_modules, cli), config],
             entry_point = ":{}".format(player_cli_entrypoint),
             args = [
                 "json",

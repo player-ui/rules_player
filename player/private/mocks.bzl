@@ -4,7 +4,7 @@ Implementation for compiling a collection of DSL mocks and generating a correspo
 
 load("dsl.bzl", compile_dsl = "compile")
 
-def compile_mocks(mock_dirs, dsl_config, data, cli = "@player-tools/cli", name = "mocks"):
+def compile_mocks(mock_dirs, dsl_config, data, cli = "@player-tools/cli", dsl_package = "@player-tools/dsl", name = "mocks"):
     """Compiles all DSL mocks in a directory.
 
     Args:
@@ -13,6 +13,7 @@ def compile_mocks(mock_dirs, dsl_config, data, cli = "@player-tools/cli", name =
         dsl_config: The DSL config file that should be used for compilation.
         data: Any additional packages that are needed for compilation.
         cli: Player CLI to use, defaults to "@player-tools/cli
+        dsl_package: Player DSL package used for content
     """
 
     dsl_srcs = native.glob(["{}/*.tsx".format(d) for d in mock_dirs])
@@ -27,7 +28,7 @@ def compile_mocks(mock_dirs, dsl_config, data, cli = "@player-tools/cli", name =
             output_dir = mock_dir,
             config = dsl_config,
             data = data + [
-                "//:node_modules/@player-tools/dsl",
+                "//:node_modules/" + dsl_package,
                 "//:node_modules/@types/react",
                 "//:node_modules/react",
             ],
