@@ -6,7 +6,7 @@ load("@aspect_bazel_lib//lib:directory_path.bzl", "directory_path")
 load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_run_binary", "js_test")
 load("@bazel_skylib//lib:paths.bzl", "paths")
 
-def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "src", output_dir = None, data = [], config = None, skip_test = False, schema_name = "schema.ts", **kwargs):
+def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "src", output_dir = None, data = [], config = None, skip_test = False, schema_name = "schema.ts", cli = "@player-tools/cli", **kwargs):
     """Run the src or src_dir through the player compiler.
 
     Args:
@@ -19,6 +19,7 @@ def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "sr
         config: A config override to use
         skip_test: Flag to skip generating the *_test target
         schema_name: Name of the file containing the schema, defaults to "schema.ts"
+        cli: Player CLI package to use, defaults to @player-tools/cli
         **kwargs: Additonal args to pass to the js_run_binary cmd
     """
 
@@ -26,7 +27,7 @@ def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "sr
 
     directory_path(
         name = player_cli_entrypoint,
-        directory = "{}/@player-tools/cli/dir".format(node_modules),
+        directory = "{}/{}/dir".format(node_modules, cli),
         path = "bin/run",
     )
 
@@ -35,7 +36,7 @@ def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "sr
 
     js_binary(
         name = js_bin_name,
-        data = ["{}/@player-tools/cli".format(node_modules)],
+        data = ["{}/{}/cli".format(node_modules, cli)],
         entry_point = ":{}".format(player_cli_entrypoint),
     )
 
@@ -76,7 +77,7 @@ def compile(name, node_modules = "//:node_modules", srcs = None, input_dir = "sr
     if skip_test != True:
         js_test(
             name = js_test_bin_name,
-            data = data + [":" + compiled_name, "{}/@player-tools/cli".format(node_modules), config],
+            data = data + [":" + compiled_name, "{}/{}".format(node_modules), config],
             entry_point = ":{}".format(player_cli_entrypoint),
             args = [
                 "json",

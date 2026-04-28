@@ -15,6 +15,7 @@ def xlr_compile(
         config = None,
         input_dir = "src",
         mode = "plugin",
+        cli = "@player-tools/cli",
         **kwargs):
     """
         A rule for compiling files using XLR
@@ -28,6 +29,7 @@ def xlr_compile(
         input_dir: The root input directory to compile
         mode: The XLR mode to use when compiling
         **kwargs: Additional arguments to use for running the binary
+        cli: the Player cli package to use
     """
 
     player_cli_entrypoint = "{}_entrypoint".format(name)
@@ -40,7 +42,7 @@ def xlr_compile(
 
     directory_path(
         name = player_cli_entrypoint,
-        directory = "{}/@player-tools/cli/dir".format(node_modules),
+        directory = "{}/{}/dir".format(node_modules, cli),
         path = "bin/run",
     )
 
@@ -48,7 +50,7 @@ def xlr_compile(
 
     js_binary(
         name = js_bin_name,
-        data = ["{}/@player-tools/cli".format(node_modules)],
+        data = ["{}/{}".format(node_modules, cli)],
         entry_point = ":{}".format(player_cli_entrypoint),
     )
 
