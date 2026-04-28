@@ -5,7 +5,7 @@ Implementation for generating XLR files alongside the js_pipeline macro
 load("//javascript:defs.bzl", "js_pipeline")
 load("xlr.bzl", "xlr_compile")
 
-def js_xlr_pipeline(name = None, xlr_mode = "plugin", xlr_input_dir = "src", srcs = None, **kwargs):
+def js_xlr_pipeline(name = None, xlr_mode = "plugin", xlr_input_dir = "src", srcs = None, cli = "@player-tools/cli", **kwargs):
     """A rule for compiling player flows with xlr mode.
 
     Args:
@@ -13,6 +13,7 @@ def js_xlr_pipeline(name = None, xlr_mode = "plugin", xlr_input_dir = "src", src
         xlr_mode: The mode to use when compiling with XLR. Defaults to "plugin".
         xlr_input_dir: The input directory to generate XLR from. Defaults to "src".
         srcs: An optional list of src files (Defaults to src/**)
+        cli: Player CLI to use, defaults to "@player-tools/cli"
         **kwargs: Additional args to pass to the js_pipeline macro
     """
 
@@ -30,6 +31,7 @@ def js_xlr_pipeline(name = None, xlr_mode = "plugin", xlr_input_dir = "src", src
         input_dir = xlr_input_dir,
         data = [
         ] + kwargs.get("deps", []) + kwargs.get("peer_deps", []),
+        cli = cli,
     )
 
     js_pipeline(
