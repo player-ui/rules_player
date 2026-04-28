@@ -1,3 +1,23 @@
+# v2.3.2 (Tue Apr 28 2026)
+
+### Release Notes
+
+#### Make CLI Package Configurable ([#106](https://github.com/player-ui/rules_player/pull/106))
+
+Make Player CLI package configurable. Default for now is `@player-tools/cli` but will switch to `@player-cli/cli` for next major.
+
+---
+
+#### 🐛 Bug Fix
+
+- Make CLI Package Configurable [#106](https://github.com/player-ui/rules_player/pull/106) ([@KetanReddy](https://github.com/KetanReddy))
+
+#### Authors: 1
+
+- Ketan Reddy ([@KetanReddy](https://github.com/KetanReddy))
+
+---
+
 # v2.3.1 (Thu Mar 05 2026)
 
 ### Release Notes
