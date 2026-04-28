@@ -29,6 +29,7 @@ def xlr_compile(
         input_dir: The root input directory to compile
         mode: The XLR mode to use when compiling
         **kwargs: Additional arguments to use for running the binary
+        cli: the Player cli package to use
     """
 
     player_cli_entrypoint = "{}_entrypoint".format(name)
