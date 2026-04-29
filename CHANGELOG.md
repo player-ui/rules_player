@@ -1,3 +1,15 @@
+# v2.3.3 (Wed Apr 29 2026)
+
+#### 🐛 Bug Fix
+
+- Fix DSL Package Being Hardcoded [#107](https://github.com/player-ui/rules_player/pull/107) ([@KetanReddy](https://github.com/KetanReddy))
+
+#### Authors: 1
+
+- Ketan Reddy ([@KetanReddy](https://github.com/KetanReddy))
+
+---
+
 # v2.3.2 (Tue Apr 28 2026)
 
 ### Release Notes
