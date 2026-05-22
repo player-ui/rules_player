@@ -19,8 +19,7 @@ invokes each in turn.
 """
 
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
-load("//internal:defs.bzl", "RUN_ALL_OF_KIND")
-load(":scope_name.bzl", "scope_name")
+load("//internal:defs.bzl", "RUN_ALL_OF_KIND", "scope_name")
 
 # Sentinel marking "use the default api_file path" — distinct from `None`
 # which explicitly disables ABI tracking. Compared by identity via `==`.

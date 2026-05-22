@@ -18,7 +18,7 @@ bzl_library(
         "//kotlin:__subpackages__",
     ],
     deps = [
-        ":scope_name",
+        "//internal:defs",
     ],
 )
 
@@ -29,7 +29,7 @@ bzl_library(
         "//kotlin:__subpackages__",
     ],
     deps = [
-        ":scope_name",
+        "//internal:defs",
         "@bazel_skylib//rules:write_file",
     ],
 )
@@ -52,7 +52,7 @@ bzl_library(
         "//kotlin:__subpackages__",
     ],
     deps = [
-        ":scope_name",
+        "//internal:defs",
         "@rules_jvm_external//:defs.bzl",
     ],
 )
@@ -92,14 +92,5 @@ bzl_library(
         "@rules_jvm_external//:implementation",
         "@rules_kotlin//kotlin",
     ],
-)
-
-bzl_library(
-    name = "scope_name",
-    srcs = ["scope_name.bzl"],
-    visibility = [
-        "//kotlin:__subpackages__",
-    ],
-    deps = [],
 )
 

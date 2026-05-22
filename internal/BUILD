@@ -11,5 +11,8 @@ bzl_library(
     name = "defs",
     srcs = ["defs.bzl"],
     visibility = ["//visibility:public"],
-    deps = [],
+    deps = [
+        "//internal/private:scope_name",
+        "//internal/private:stamp",
+    ],
 )

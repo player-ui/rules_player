@@ -17,6 +17,13 @@ bzl_library(
     ],
 )
 
+bzl_library(
+    name = "scope_name",
+    srcs = ["scope_name.bzl"],
+    visibility = ["//internal:__subpackages__"],
+    deps = [],
+)
+
 js_binary(
     name = "stamp_replacement_script",
     entry_point = "stamp_replacement.js",

@@ -3,8 +3,7 @@ Macro implementation for linting kotlin source
 """
 
 load("@rules_kotlin//kotlin:lint.bzl", "ktlint_fix", "ktlint_test")
-load("//internal:defs.bzl", "RUN_ALL_OF_KIND")
-load(":scope_name.bzl", "scope_name")
+load("//internal:defs.bzl", "RUN_ALL_OF_KIND", "scope_name")
 
 def lint(
         *,
