@@ -2,6 +2,7 @@
 Macro implementation for building, testing, and deploying kotlin code
 """
 
+load(":abi.bzl", "ABI_FILE_DEFAULT", "abi")
 load(":distribution.bzl", "distribution")
 load(":kt_jvm_library_and_test.bzl", "kt_jvm_library_and_test")
 load(":lint.bzl", "lint")
@@ -41,7 +42,16 @@ def kt_jvm(
         test_resource_strip_prefix = None,
         test_associates = None,
         test_deps = [],
-        test_runtime_deps = None):
+        test_runtime_deps = None,
+
+        # ABI / binary-compatibility config
+        api_file = ABI_FILE_DEFAULT,
+        abi_public_packages = None,
+        abi_public_classes = None,
+        abi_public_markers = None,
+        abi_non_public_packages = None,
+        abi_non_public_classes = None,
+        abi_non_public_markers = None):
     """Generic Kotlin JVM macro for conditionally configuring build & test targets, linting, and publishing.
 
     # Building + Testing
@@ -74,7 +84,6 @@ def kt_jvm(
 
         lint_config: project level KtLint config
 
-
         group: (optional) group identifier for publishing
         version: (optional) version to publish under
         deploy_env: (optional) collection of targets to exclude from transitive closure
@@ -100,6 +109,14 @@ def kt_jvm(
         test_associates: (optional) Kotlin module dependencies to treat as associates of the same module
         test_deps: (optional) dependencies of the test source set
         test_runtime_deps: (optional) depencies of the test source set that are provided at runtime
+
+        api_file: (optional) workspace-relative path to the checked-in golden `.api` file. Omit to default to `api/{name}.api` (which generates `{name}-abi-dump`, `{name}-abi-check`, `{name}-abi-update`). Pass `None` to disable ABI tracking for this library.
+        abi_public_packages: (optional) packages explicitly retained as public ABI
+        abi_public_classes: (optional) classes explicitly retained as public ABI
+        abi_public_markers: (optional) marker annotations (JVM internal form) opting declarations into the public ABI
+        abi_non_public_packages: (optional) packages excluded from the public ABI
+        abi_non_public_classes: (optional) classes excluded from the public ABI
+        abi_non_public_markers: (optional) marker annotations (JVM internal form) excluded from the public ABI
     """
 
     if main_srcs == None:
@@ -151,6 +168,19 @@ def kt_jvm(
             name = name,
             srcs = main_srcs + test_srcs,
             lint_config = lint_config,
+        )
+
+    if api_file != None:
+        abi(
+            name = name,
+            target = ":" + name,
+            api_file = None if api_file == ABI_FILE_DEFAULT else api_file,
+            public_packages = abi_public_packages,
+            public_classes = abi_public_classes,
+            public_markers = abi_public_markers,
+            non_public_packages = abi_non_public_packages,
+            non_public_classes = abi_non_public_classes,
+            non_public_markers = abi_non_public_markers,
         )
 
     if should_publish:

@@ -18,6 +18,7 @@ bzl_library(
     srcs = ["defs.bzl"],
     visibility = ["//visibility:public"],
     deps = [
+        "//kotlin/private:abi",
         "//kotlin/private:distribution",
         "//kotlin/private:kt_android",
         "//kotlin/private:kt_jvm",

@@ -1,0 +1,4 @@
+public final class com/intuit/bazel/kotlin/LibKt {
+	public static final field HELLO Ljava/lang/String;
+}
+

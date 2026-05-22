@@ -23,6 +23,18 @@ bzl_library(
 )
 
 bzl_library(
+    name = "abi",
+    srcs = ["abi.bzl"],
+    visibility = [
+        "//kotlin:__subpackages__",
+    ],
+    deps = [
+        ":scope_name",
+        "@bazel_skylib//rules:write_file",
+    ],
+)
+
+bzl_library(
     name = "junit",
     srcs = [
         "junit5.bzl",
@@ -52,6 +64,7 @@ bzl_library(
         "//kotlin:__subpackages__",
     ],
     deps = [
+        ":abi",
         ":distribution",
         ":junit",
         ":kt_jvm_library_and_test.bzl",
@@ -69,6 +82,7 @@ bzl_library(
         "//kotlin:__subpackages__",
     ],
     deps = [
+        ":abi",
         ":distribution",
         ":junit",
         ":kt_android_library_and_test.bzl",
@@ -88,3 +102,4 @@ bzl_library(
     ],
     deps = [],
 )
+
