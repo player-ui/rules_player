@@ -77,13 +77,14 @@ abi_dump = rule(
     implementation = _abi_dump_impl,
     doc = "Emit a canonical Kotlin Binary Compatibility Validator .api dump for a JVM library.",
     attrs = {
-        "target": attr.label(
-            mandatory = True,
-            providers = [JavaInfo],
-            doc = "The kt_jvm_library (or any JavaInfo-providing target) whose ABI to dump.",
+        "non_public_classes": attr.string_list(
+            doc = "Fully qualified class names to drop from the dump (BCV `nonPublicClasses`).",
         ),
-        "public_packages": attr.string_list(
-            doc = "Packages to retain as public regardless of other filtering (BCV `publicPackages`).",
+        "non_public_markers": attr.string_list(
+            doc = "Marker annotations (JVM internal form) that exclude declarations from the public ABI.",
+        ),
+        "non_public_packages": attr.string_list(
+            doc = "Packages to drop from the dump (BCV `nonPublicPackages`).",
         ),
         "public_classes": attr.string_list(
             doc = "Fully qualified class names to retain as public (BCV `publicClasses`).",
@@ -91,14 +92,13 @@ abi_dump = rule(
         "public_markers": attr.string_list(
             doc = "Marker annotations (JVM internal form, e.g. com/example/PublicApi) opting declarations into the public ABI.",
         ),
-        "non_public_packages": attr.string_list(
-            doc = "Packages to drop from the dump (BCV `nonPublicPackages`).",
+        "public_packages": attr.string_list(
+            doc = "Packages to retain as public regardless of other filtering (BCV `publicPackages`).",
         ),
-        "non_public_classes": attr.string_list(
-            doc = "Fully qualified class names to drop from the dump (BCV `nonPublicClasses`).",
-        ),
-        "non_public_markers": attr.string_list(
-            doc = "Marker annotations (JVM internal form) that exclude declarations from the public ABI.",
+        "target": attr.label(
+            mandatory = True,
+            providers = [JavaInfo],
+            doc = "The kt_jvm_library (or any JavaInfo-providing target) whose ABI to dump.",
         ),
         "_tool": attr.label(
             default = _ABI_TOOL,

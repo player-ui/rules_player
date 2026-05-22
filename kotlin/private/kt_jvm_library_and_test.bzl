@@ -3,8 +3,8 @@ Private macro implementation for building and testing kotlin libraries
 """
 
 load("@rules_kotlin//kotlin:jvm.bzl", "kt_jvm_library")
-load(":junit_test.bzl", "kt_jvm_junit5_test")
 load("//internal:defs.bzl", "scope_name")
+load(":junit_test.bzl", "kt_jvm_junit5_test")
 
 # No project specific defaults here
 def kt_jvm_library_and_test(

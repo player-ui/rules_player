@@ -93,4 +93,3 @@ bzl_library(
         "@rules_kotlin//kotlin",
     ],
 )
-
