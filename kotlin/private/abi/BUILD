@@ -28,14 +28,6 @@ java_binary(
     runtime_deps = [":abi_cli_lib"],
 )
 
-# Launcher invoked by `abi_update_all`. Discovers every `abi_update` target in
-# the consumer's workspace via `bazel cquery` and runs each in turn.
-sh_binary(
-    name = "abi_update_all",
-    srcs = ["abi_update_all.sh"],
-    visibility = ["//visibility:public"],
-)
-
 bzlformat_pkg(name = "bzlformat")
 
 bzlformat_missing_pkgs(name = "bzlformat_missing_pkgs")

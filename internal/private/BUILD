@@ -22,3 +22,13 @@ js_binary(
     entry_point = "stamp_replacement.js",
     visibility = ["//visibility:public"],
 )
+
+# Generic `bazel cquery` + `bazel run` (or test/build) launcher used by macros
+# like `abi_update_all` and `lint_fix_all` to invoke every target of a given
+# rule kind in the consumer's workspace. Public visibility because consumers
+# load the macros, which materialize `sh_binary` targets that reference this
+# script under the consumer's repo.
+exports_files(
+    ["run_all_of_kind.sh"],
+    visibility = ["//visibility:public"],
+)

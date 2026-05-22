@@ -3,6 +3,7 @@ Macro implementation for linting kotlin source
 """
 
 load("@rules_kotlin//kotlin:lint.bzl", "ktlint_fix", "ktlint_test")
+load("//internal:defs.bzl", "RUN_ALL_OF_KIND")
 load(":scope_name.bzl", "scope_name")
 
 def lint(
@@ -20,4 +21,21 @@ def lint(
         name = scope_name(name, "lint-fix"),
         srcs = srcs,
         config = lint_config,
+    )
+
+def lint_fix_all(*, name, tags = None):
+    """Workspace-level launcher that runs every `ktlint_fix` target in turn.
+
+    Args:
+        name: name of the runnable launcher target.
+        tags: optional tags forwarded to the generated `sh_binary`.
+    """
+    native.sh_binary(
+        name = name,
+        srcs = [RUN_ALL_OF_KIND],
+        args = [
+            "--kind",
+            "ktlint_fix",
+        ],
+        tags = tags,
     )

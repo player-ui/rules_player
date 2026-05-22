@@ -19,6 +19,7 @@ invokes each in turn.
 """
 
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("//internal:defs.bzl", "RUN_ALL_OF_KIND")
 load(":scope_name.bzl", "scope_name")
 
 # Sentinel marking "use the default api_file path" — distinct from `None`
@@ -26,7 +27,6 @@ load(":scope_name.bzl", "scope_name")
 ABI_FILE_DEFAULT = "@@__abi_file_default__@@"
 
 _ABI_TOOL = Label("//kotlin/private/abi:abi_tool")
-_ABI_UPDATE_ALL_LAUNCHER = Label("//kotlin/private/abi:abi_update_all")
 
 def _comma_list(values):
     return ",".join(values) if values else ""
@@ -294,15 +294,19 @@ def abi(
         tags = tags,
     )
 
-def abi_update_all(name, **kwargs):
+def abi_update_all(name, tags = None):
     """Workspace-level launcher that runs every `abi_update` target in turn.
 
     Args:
         name: name of the runnable launcher target.
-        **kwargs: forwarded to the underlying `alias` (e.g. `tags`, `visibility`).
+        tags: optional tags forwarded to the generated `sh_binary`.
     """
-    native.alias(
+    native.sh_binary(
         name = name,
-        actual = _ABI_UPDATE_ALL_LAUNCHER,
-        **kwargs
+        srcs = [RUN_ALL_OF_KIND],
+        args = [
+            "--kind",
+            "abi_update",
+        ],
+        tags = tags,
     )
