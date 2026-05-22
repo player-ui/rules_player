@@ -8,10 +8,10 @@ ktlint_config(
 kt_jvm(
     name = "kt_lib",
     lint_config = ":lint_config",
-    main_srcs = ["lib.kt"],
+    main_srcs = ["Lib.kt"],
     test_deps = [],
     test_package = "com.intuit.bazel.kotlin",
-    test_srcs = ["libtest.kt"],
+    test_srcs = ["Tests.kt"],
 )
 
 abi_update_all(

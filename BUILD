@@ -24,10 +24,14 @@ filegroup(
     # Include every package that is required by the child workspaces.
     srcs = [
         ":all_files",
+        "//internal:all_files",
+        "//internal/private:all_files",
         "//javascript:all_files",
         "//javascript/private:all_files",
         "//kotlin:all_files",
         "//kotlin/private:all_files",
+        "//kotlin/private/abi:all_files",
+        "//private:all_files",
         "//python:all_files",
         "//python/private:all_files",
     ],

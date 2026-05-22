@@ -30,6 +30,12 @@ js_binary(
     visibility = ["//visibility:public"],
 )
 
+filegroup(
+    name = "all_files",
+    srcs = glob(["*"]),
+    visibility = ["//:__subpackages__"],
+)
+
 # Generic `bazel cquery` + `bazel run` (or test/build) launcher used by macros
 # like `abi_update_all` and `lint_fix_all` to invoke every target of a given
 # rule kind in the consumer's workspace. Public visibility because consumers
