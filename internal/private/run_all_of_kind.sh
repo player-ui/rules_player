@@ -50,7 +50,7 @@ cd "${BUILD_WORKSPACE_DIRECTORY}"
 
 bazel="${BIT_BAZEL_BINARY:-bazel}"
 
-# Enumerate every target of $KIND. `cquery --output=label` appends a
+# Enumerate every target of $KIND. `query --output=label` appends a
 # configuration hash like " (7f8856b)" to each line, so strip everything from
 # the first space onward.
 targets=()
@@ -58,7 +58,7 @@ while IFS=$'\n' read -r line; do
     label="${line%% *}"
     [[ -n "${label}" ]] && targets+=("${label}")
 done < <(
-    "${bazel}" cquery "kind(${KIND}, ${SCOPE})" --output=label 2>/dev/null | sort -u
+    "${bazel}" query "kind(${KIND}, ${SCOPE})" --output=label 2>/dev/null | sort -u
 )
 
 if [[ ${#targets[@]} -eq 0 ]]; then
