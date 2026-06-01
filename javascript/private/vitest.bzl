@@ -43,6 +43,7 @@ def vitest_bench(
         config,
         data = [],
         node_modules = "//:node_modules",
+        env = {},
         **kwargs):
     """Run vitest benchmark tests.
 
@@ -51,6 +52,7 @@ def vitest_bench(
         config: The vite config target.
         data: The list of data dependencies.
         node_modules: The node_modules target.
+        env: benchmark env values
         **kwargs: Additional arguments to pass to the test.
     """
 
@@ -66,6 +68,7 @@ def vitest_bench(
         name = name,
         entry_point = ":{}".format(vitest_cli_entry),
         args = ["bench", "--run"],
+        env = env,
         data = data + [config],
         testonly = True,
         **kwargs
