@@ -18,7 +18,19 @@ bzl_library(
         "//kotlin:__subpackages__",
     ],
     deps = [
-        ":scope_name",
+        "//internal:defs",
+    ],
+)
+
+bzl_library(
+    name = "abi",
+    srcs = ["abi.bzl"],
+    visibility = [
+        "//kotlin:__subpackages__",
+    ],
+    deps = [
+        "//internal:defs",
+        "@bazel_skylib//rules:write_file",
     ],
 )
 
@@ -40,7 +52,7 @@ bzl_library(
         "//kotlin:__subpackages__",
     ],
     deps = [
-        ":scope_name",
+        "//internal:defs",
         "@rules_jvm_external//:defs.bzl",
     ],
 )
@@ -52,6 +64,7 @@ bzl_library(
         "//kotlin:__subpackages__",
     ],
     deps = [
+        ":abi",
         ":distribution",
         ":junit",
         ":kt_jvm_library_and_test.bzl",
@@ -69,6 +82,7 @@ bzl_library(
         "//kotlin:__subpackages__",
     ],
     deps = [
+        ":abi",
         ":distribution",
         ":junit",
         ":kt_android_library_and_test.bzl",
@@ -78,13 +92,4 @@ bzl_library(
         "@rules_jvm_external//:implementation",
         "@rules_kotlin//kotlin",
     ],
-)
-
-bzl_library(
-    name = "scope_name",
-    srcs = ["scope_name.bzl"],
-    visibility = [
-        "//kotlin:__subpackages__",
-    ],
-    deps = [],
 )

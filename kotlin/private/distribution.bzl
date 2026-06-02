@@ -3,7 +3,7 @@ Utilities for deploying kotlin artifacts
 """
 
 load("@rules_jvm_external//:defs.bzl", "maven_export")
-load(":scope_name.bzl", "scope_name")
+load("//internal:defs.bzl", "scope_name")
 
 DEFAULT_DEPLOY_ENV = [
     "@rules_kotlin//kotlin/compiler:kotlin-stdlib",

@@ -25,25 +25,19 @@ use_repo(rules_ts_ext, "npm_typescript")
 
 bazel_dep(name = "rules_kotlin", version = "2.1.8")
 bazel_dep(name = "rules_java", version = "7.2.0")
-bazel_dep(name = "rules_jvm_external", version = "6.7")
+bazel_dep(name = "rules_jvm_external", version = "6.8")
 # Force upgrade to avoid polluting @maven scope
 bazel_dep(name = "bazel_worker_java", version = "0.0.6")
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+maven.from_toml(
+    name = "rules_player_maven",
+    libs_versions_toml = "//:libs.versions.toml",
+)
 maven.install(
     name = "rules_player_maven",
-    artifacts = [
-        "com.github.ajalt.clikt:clikt-jvm:3.4.0",
-        "io.github.gradle-nexus:publish-plugin:1.1.0",
-        "ch.qos.logback:logback-classic:1.2.11",
-        "org.junit.jupiter:junit-jupiter-api:5.7.2",
-        "org.junit.jupiter:junit-jupiter-params:5.7.2",
-        "org.junit.jupiter:junit-jupiter-engine:5.7.2",
-        "org.junit.platform:junit-platform-suite-api:1.7.2",
-        "org.junit.platform:junit-platform-console:1.7.2",
-        "org.junit.platform:junit-platform-launcher:1.7.2",
-    ],
     fetch_sources = True,
+    lock_file = "//:maven-lock.json",
     repositories = [
         "https://repo1.maven.org/maven2",
         "https://maven.google.com/",

@@ -4,8 +4,8 @@ Private macro implementation for building and testing Android Kotlin libraries
 
 load("@rules_android//rules:rules.bzl", "android_library")
 load("@rules_kotlin//kotlin:android.bzl", "kt_android_library", "kt_android_local_test")
+load("//internal:defs.bzl", "scope_name")
 load(":junit_test.bzl", "kt_jvm_junit5_test")
-load(":scope_name.bzl", "scope_name")
 
 # buildifier: disable=function-docstring
 # No project specific defaults here

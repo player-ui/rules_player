@@ -1,6 +1,7 @@
 load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
 load("@cgrindel_bazel_starlib//bzlformat:defs.bzl", "bzlformat_missing_pkgs", "bzlformat_pkg")
 load("@rules_kotlin//kotlin:jvm.bzl", "kt_jvm_binary")
+load("//private:maven.bzl", "artifact")
 
 # TODO: We should probably build this for the archive
 kt_jvm_binary(
@@ -8,9 +9,9 @@ kt_jvm_binary(
     srcs = ["NexusStagingCli.kt"],
     main_class = "com.intuit.player.rules.distribution.NexusStagingCliKt",
     deps = [
-        "@rules_player_maven//:ch_qos_logback_logback_classic",
-        "@rules_player_maven//:com_github_ajalt_clikt_clikt_jvm",
-        "@rules_player_maven//:io_github_gradle_nexus_publish_plugin",
+        artifact("ch.qos.logback:logback-classic"),
+        artifact("com.github.ajalt.clikt:clikt-jvm"),
+        artifact("io.github.gradle-nexus:publish-plugin"),
     ],
 )
 
