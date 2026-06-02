@@ -1,3 +1,102 @@
+# v2.4.0 (Tue Jun 02 2026)
+
+### Release Notes
+
+#### Add Support for Passing `env` Params to Vitest Benchmark Rule ([#109](https://github.com/player-ui/rules_player/pull/109))
+
+Add support for passing `env` params to vitest benchmark rule to allow env substitution for benchmark runs.
+
+#### Kotlin ABI compatibility checking ([#108](https://github.com/player-ui/rules_player/pull/108))
+
+## Kotlin ABI compatibility checking
+
+New first-class support for tracking the public ABI of Kotlin libraries, mirroring JetBrains' [Binary Compatibility Validator](https://kotlinlang.org/docs/gradle-binary-compatibility-validation.html) Gradle plugin.
+
+Enabled by default on `kt_jvm` and `kt_android`. Each library gains three sibling targets that maintain a checked-in `api/{name}.api` golden file:
+
+```python
+load("@rules_player//kotlin:defs.bzl", "kt_jvm")
+
+kt_jvm(
+    name = "my-lib",
+    # api_file = "api/custom-name.api"   # override path
+    # api_file = None                    # disable
+)
+```
+
+Generated targets:
+
+- **`:my-lib-abi-dump`** — `bazel build` emits a canonical BCV-format `.api` dump
+- **`:my-lib-abi-check`** — `bazel test` diffs the dump against the golden, failing with a unified diff on mismatch
+- **`:my-lib-abi-update`** — `bazel run` regenerates the golden file in the source tree
+
+First-time bootstrap is friction-free: if the golden file doesn't exist yet, an empty placeholder is auto-stubbed so the first `abi-check` produces a clean "everything is new" diff instead of a load-time error. Run `:my-lib-abi-update` to materialize the real file.
+
+```
+$ bazel test //my-lib:my-lib-abi-check
+FAILED — public ABI changed
+--- api/my-lib.api
++++ my-lib-abi-dump.api
+@@ -2,3 +2,4 @@
+ public final class com/example/Foo {
+   public fun <init> ()V
++  public fun newApi (Ljava/lang/String;)V
+ }
+
+Run: bazel run //my-lib:my-lib-abi-update
+```
+
+Advanced filtering matches BCV's Gradle plugin — opt declarations in/out via package, class, or annotation:
+
+```python
+kt_jvm(
+    name = "my-lib",
+    abi_public_packages = ["com.example.api"],
+    abi_public_markers = ["com/example/PublicApi"],
+    abi_non_public_packages = ["com.example.internal"],
+    abi_non_public_markers = ["kotlin/RequiresOptIn"],
+)
+```
+
+## Workspace-level batch runners
+
+Two new macros enumerate every matching target in the workspace at `bazel run` time and invoke each in turn — no `deps` list to maintain:
+
+```python
+load("@rules_player//kotlin:defs.bzl", "abi_update_all", "lint_fix_all")
+
+abi_update_all(name = "abi-update-all")
+lint_fix_all(name = "lint-fix-all")
+```
+
+```
+$ bazel run :abi-update-all
+==> run //libs/auth:auth-abi-update
+==> run //libs/parser:parser-abi-update
+...
+
+$ bazel run :lint-fix-all
+==> run //libs/auth:auth-lint-fix
+==> run //libs/parser:parser-lint-fix
+...
+```
+
+Discovery is automatic: any newly-introduced `abi_update` or `ktlint_fix` target is picked up on the next run.
+
+---
+
+#### 🚀 Enhancement
+
+- Add Support for Passing `env` Params to Vitest Benchmark Rule [#109](https://github.com/player-ui/rules_player/pull/109) ([@KetanReddy](https://github.com/KetanReddy))
+- Kotlin ABI compatibility checking [#108](https://github.com/player-ui/rules_player/pull/108) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 2
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+- Ketan Reddy ([@KetanReddy](https://github.com/KetanReddy))
+
+---
+
 # v2.3.3 (Wed Apr 29 2026)
 
 #### 🐛 Bug Fix
