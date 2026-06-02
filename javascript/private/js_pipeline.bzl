@@ -35,7 +35,8 @@ def js_pipeline(
         include_packaging_targets = [],
         test_deps = ["//:vitest_config"],
         lint_deps = ["//:eslint_config"],
-        build_deps = ["//:tsup_config", "//:typings"]):
+        build_deps = ["//:tsup_config", "//:typings"],
+        benchmark_envs = {}):
     """
     The main entry point for any JS/TS project. `js_pipeline` should be the only thing you need in your BUILD file.
 
@@ -60,6 +61,7 @@ def js_pipeline(
       test_deps: The test dependencies for the package.
       lint_deps: The lint dependencies for the package.
       build_deps: The build dependencies for the package.
+      benchmark_envs: env args for benchmark runs
     """
 
     tslib_ref = "{}/tslib".format(node_modules)
@@ -145,6 +147,7 @@ def js_pipeline(
             config = vitest_config,
             node_modules = node_modules,
             data = srcs + deps + test_deps + peer_deps,
+            env = benchmark_envs,
         )
 
     eslint_test(
