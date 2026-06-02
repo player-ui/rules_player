@@ -147,7 +147,7 @@ def js_pipeline(
             config = vitest_config,
             node_modules = node_modules,
             data = srcs + deps + test_deps + peer_deps,
-            env = benchmark_envs
+            env = benchmark_envs,
         )
 
     eslint_test(
