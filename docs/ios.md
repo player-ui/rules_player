@@ -214,7 +214,7 @@ This will be removed in v3. Use `assemble_ios_release` which provides a unified 
 load("@rules_player//ios:defs.bzl", "ios_pipeline")
 
 ios_pipeline(<a href="#ios_pipeline-name">name</a>, <a href="#ios_pipeline-resources">resources</a>, <a href="#ios_pipeline-deps">deps</a>, <a href="#ios_pipeline-test_deps">test_deps</a>, <a href="#ios_pipeline-hasUnitTests">hasUnitTests</a>, <a href="#ios_pipeline-hasViewInspectorTests">hasViewInspectorTests</a>, <a href="#ios_pipeline-test_host">test_host</a>,
-             <a href="#ios_pipeline-hasUITests">hasUITests</a>, <a href="#ios_pipeline-needsXCTest">needsXCTest</a>, <a href="#ios_pipeline-bundle_name">bundle_name</a>)
+             <a href="#ios_pipeline-hasUITests">hasUITests</a>, <a href="#ios_pipeline-needsXCTest">needsXCTest</a>, <a href="#ios_pipeline-bundle_name">bundle_name</a>, <a href="#ios_pipeline-features">features</a>)
 </pre>
 
 Packages source files, creates swift library and tests for a swift PlayerUI plugin
@@ -233,6 +233,7 @@ Packages source files, creates swift library and tests for a swift PlayerUI plug
 | <a id="ios_pipeline-test_host"></a>test_host |  The target where the tests should run (Demo app target)   |  none |
 | <a id="ios_pipeline-hasUITests"></a>hasUITests |  Whether or not to generate ios_ui_test tests   |  `False` |
 | <a id="ios_pipeline-needsXCTest"></a>needsXCTest |  Set the 'testonly' attribute on swift_library   |  `False` |
-| <a id="ios_pipeline-bundle_name"></a>bundle_name |  Pptionally override the name used for the resource bundle   |  `None` |
+| <a id="ios_pipeline-bundle_name"></a>bundle_name |  Optionally override the name used for the resource bundle   |  `None` |
+| <a id="ios_pipeline-features"></a>features |  List of features to pass to the swift_library target (e.g. ["swift.enable_testing"])   |  `[]` |
 
 

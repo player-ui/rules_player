@@ -25,7 +25,8 @@ def ios_pipeline(
         test_host,
         hasUITests = False,
         needsXCTest = False,
-        bundle_name = None):
+        bundle_name = None,
+        features = []):
     """Packages source files, creates swift library and tests for a swift PlayerUI plugin
 
     Args:
@@ -40,7 +41,8 @@ def ios_pipeline(
       test_host: The target where the tests should run (Demo app target)
       hasUITests: Whether or not to generate ios_ui_test tests
       needsXCTest: Set the 'testonly' attribute on swift_library
-      bundle_name: Pptionally override the name used for the resource bundle
+      bundle_name: Optionally override the name used for the resource bundle
+      features: List of features to pass to the swift_library target (e.g. ["swift.enable_testing"])
     """
 
     # if we are backed by a JS package, these attributes
@@ -85,6 +87,7 @@ def ios_pipeline(
         #       should likely have a better way to dynamically configure `-DSWIFT_PACKAGE`
         #       rather than applying it holistically to every `swift_library`
         defines = ["BAZEL_TARGET", "SWIFT_PACKAGE"],
+        features = features,
     )
 
     # Packages not specific to SwiftUI don't need ViewInspector
