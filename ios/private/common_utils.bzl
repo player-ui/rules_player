@@ -25,7 +25,9 @@ def ios_pipeline(
         test_host,
         hasUITests = False,
         needsXCTest = False,
-        bundle_name = None):
+        bundle_name = None,
+        features = [],
+        minimum_os_version = "14.0"):
     """Packages source files, creates swift library and tests for a swift PlayerUI plugin
 
     Args:
@@ -40,7 +42,9 @@ def ios_pipeline(
       test_host: The target where the tests should run (Demo app target)
       hasUITests: Whether or not to generate ios_ui_test tests
       needsXCTest: Set the 'testonly' attribute on swift_library
-      bundle_name: Pptionally override the name used for the resource bundle
+      bundle_name: Optionally override the name used for the resource bundle
+      features: List of features to pass to the swift_library target (e.g. ["swift.enable_testing"])
+      minimum_os_version: Minimum iOS version for test targets (default "14.0")
     """
 
     # if we are backed by a JS package, these attributes
@@ -85,6 +89,7 @@ def ios_pipeline(
         #       should likely have a better way to dynamically configure `-DSWIFT_PACKAGE`
         #       rather than applying it holistically to every `swift_library`
         defines = ["BAZEL_TARGET", "SWIFT_PACKAGE"],
+        features = features,
     )
 
     # Packages not specific to SwiftUI don't need ViewInspector
@@ -103,7 +108,7 @@ def ios_pipeline(
         )
         ios_unit_test(
             name = unit_test_name,
-            minimum_os_version = "14.0",
+            minimum_os_version = minimum_os_version,
             deps = [
                 unit_test_library_target,
             ] + deps + test_deps,
@@ -127,7 +132,7 @@ def ios_pipeline(
         )
         ios_ui_test(
             name = viewinspector_test_name,
-            minimum_os_version = "14.0",
+            minimum_os_version = minimum_os_version,
             deps = [viewinspector_test_library_target],
             visibility = ["//visibility:public"],
             test_host = test_host,
@@ -148,7 +153,7 @@ def ios_pipeline(
         )
         ios_ui_test(
             name = ui_test_name,
-            minimum_os_version = "14.0",
+            minimum_os_version = minimum_os_version,
             deps = [
                 ui_test_library_target,
             ] + deps + test_deps,
