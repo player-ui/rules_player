@@ -1,3 +1,15 @@
+# v2.5.0 (Wed Jun 03 2026)
+
+#### 🚀 Enhancement
+
+- Add `features` and `minimum_os_version` parameter to `ios_pipeline` [#110](https://github.com/player-ui/rules_player/pull/110) ([@KVSRoyal](https://github.com/KVSRoyal))
+
+#### Authors: 1
+
+- Koriann South ([@KVSRoyal](https://github.com/KVSRoyal))
+
+---
+
 # v2.4.0 (Tue Jun 02 2026)
 
 ### Release Notes
