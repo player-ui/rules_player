@@ -39,6 +39,12 @@ def js_xlr_pipeline(name = None, xlr_mode = "plugin", xlr_input_dir = "src", src
         include_packaging_targets = [
             ":" + name + "_xlr",
         ],
+        # XLR's readonly output goes to `xlr_out/xlr/` instead of `dist` to prevent errors
+        # when tsup tries to clean `dist`. (Happens in non-sandboxed Xcode builds.) These
+        # replace_prefixes ensure the xlr still ends up in `dist` in the final npm package.
+        _extra_replace_prefixes = {
+            "xlr_out/xlr": "dist/xlr",
+        },
         create_package_json_args = {
             "additional_exports": {
                 "./dist/xlr/*": "./dist/xlr/*",

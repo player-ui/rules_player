@@ -19,6 +19,8 @@ invokes each in turn.
 """
 
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("@rules_java//java/common:java_info.bzl", "JavaInfo")
+load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
 load("//internal:defs.bzl", "RUN_ALL_OF_KIND", "scope_name")
 
 # Sentinel marking "use the default api_file path" — distinct from `None`
@@ -300,7 +302,7 @@ def abi_update_all(name, tags = None):
         name: name of the runnable launcher target.
         tags: optional tags forwarded to the generated `sh_binary`.
     """
-    native.sh_binary(
+    sh_binary(
         name = name,
         srcs = [RUN_ALL_OF_KIND],
         args = [

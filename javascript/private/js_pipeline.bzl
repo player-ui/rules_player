@@ -36,7 +36,8 @@ def js_pipeline(
         test_deps = ["//:vitest_config"],
         lint_deps = ["//:eslint_config"],
         build_deps = ["//:tsup_config", "//:typings"],
-        benchmark_envs = {}):
+        benchmark_envs = {},
+        _extra_replace_prefixes = {}):
     """
     The main entry point for any JS/TS project. `js_pipeline` should be the only thing you need in your BUILD file.
 
@@ -62,6 +63,7 @@ def js_pipeline(
       lint_deps: The lint dependencies for the package.
       build_deps: The build dependencies for the package.
       benchmark_envs: env args for benchmark runs
+      _extra_replace_prefixes: INTERNAL. Additional `replace_prefixes` entries for the assembled `npm_package`. Used by `js_xlr_pipeline` to relocate XLR outputs from their isolated build-time directory back into the published `dist/xlr/` layout. Do not pass this from BUILD files.
     """
 
     tslib_ref = "{}/tslib".format(node_modules)
@@ -186,6 +188,8 @@ def js_pipeline(
     replacements = {}
     replacements[package_json_name] = "package"
     replacements[ts_types + "/src"] = "types"
+    for src, dst in _extra_replace_prefixes.items():
+        replacements[src] = dst
 
     readme_files = native.glob(["README.md"], allow_empty = True)
 

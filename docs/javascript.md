@@ -68,7 +68,8 @@ load("@rules_player//javascript:defs.bzl", "js_pipeline")
 
 js_pipeline(<a href="#js_pipeline-package_name">package_name</a>, <a href="#js_pipeline-name">name</a>, <a href="#js_pipeline-srcs">srcs</a>, <a href="#js_pipeline-package_json">package_json</a>, <a href="#js_pipeline-root_package_json">root_package_json</a>, <a href="#js_pipeline-vitest_config">vitest_config</a>, <a href="#js_pipeline-tsup_config">tsup_config</a>,
             <a href="#js_pipeline-tsconfig">tsconfig</a>, <a href="#js_pipeline-node_modules">node_modules</a>, <a href="#js_pipeline-deps">deps</a>, <a href="#js_pipeline-native_bundle">native_bundle</a>, <a href="#js_pipeline-private">private</a>, <a href="#js_pipeline-peer_deps">peer_deps</a>, <a href="#js_pipeline-create_package_json_args">create_package_json_args</a>,
-            <a href="#js_pipeline-include_packaging_targets">include_packaging_targets</a>, <a href="#js_pipeline-test_deps">test_deps</a>, <a href="#js_pipeline-lint_deps">lint_deps</a>, <a href="#js_pipeline-build_deps">build_deps</a>, <a href="#js_pipeline-benchmark_envs">benchmark_envs</a>)
+            <a href="#js_pipeline-include_packaging_targets">include_packaging_targets</a>, <a href="#js_pipeline-test_deps">test_deps</a>, <a href="#js_pipeline-lint_deps">lint_deps</a>, <a href="#js_pipeline-build_deps">build_deps</a>, <a href="#js_pipeline-benchmark_envs">benchmark_envs</a>,
+            <a href="#js_pipeline-_extra_replace_prefixes">_extra_replace_prefixes</a>)
 </pre>
 
 The main entry point for any JS/TS project. `js_pipeline` should be the only thing you need in your BUILD file.
@@ -100,6 +101,7 @@ Creates a js_library, npm_package, and test targets for a given package.
 | <a id="js_pipeline-lint_deps"></a>lint_deps |  The lint dependencies for the package.   |  `["//:eslint_config"]` |
 | <a id="js_pipeline-build_deps"></a>build_deps |  The build dependencies for the package.   |  `["//:tsup_config", "//:typings"]` |
 | <a id="js_pipeline-benchmark_envs"></a>benchmark_envs |  env args for benchmark runs   |  `{}` |
+| <a id="js_pipeline-_extra_replace_prefixes"></a>_extra_replace_prefixes |  INTERNAL. Additional `replace_prefixes` entries for the assembled `npm_package`. Used by `js_xlr_pipeline` to relocate XLR outputs from their isolated build-time directory back into the published `dist/xlr/` layout. Do not pass this from BUILD files.   |  `{}` |
 
 
 <a id="oclif_pipeline"></a>

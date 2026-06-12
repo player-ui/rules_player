@@ -6,6 +6,7 @@ load("@build_bazel_rules_apple//apple:ios.bzl", "ios_ui_test", "ios_unit_test")
 load("@build_bazel_rules_apple//apple:resources.bzl", "apple_resource_bundle")
 load("@build_bazel_rules_swift//swift:swift.bzl", "swift_library")
 load("@rules_pkg//:mappings.bzl", "pkg_files", "strip_prefix")
+load("@rules_shell//shell:sh_test.bzl", "sh_test")
 
 def ios_bundle_module_shim(name):
     native.genrule(
@@ -162,7 +163,7 @@ def ios_pipeline(
         )
 
     # Runs SwiftLint as a test calling the genrule target which outputs the result of linting
-    native.sh_test(
+    sh_test(
         name = name + "SwiftLint",
         srcs = [":" + name + "_Lint"],
         visibility = ["//visibility:public"],

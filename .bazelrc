@@ -1,6 +1,12 @@
 common --enable_bzlmod
 common --experimental_google_legacy_api
 
+# In Bazel 9, bazel does not allow loading the modules shipped with it by default. This flag allows us to access those.
+# The intention is that none of these modules will ship with Bazel in future versions, but this is the only way to 
+# access these specific modules for now.
+# https://blog.jetbrains.com/clion/2025/11/bazelcon-2025/#rules-moving-out-of-the-binary-autoloads-off-in-bazel-9
+common --incompatible_autoload_externally=+@rules_cc,+@rules_shell
+
 common --bes_results_url=https://app.buildbuddy.io/invocation/
 common --bes_backend=grpcs://remote.buildbuddy.io
 common --remote_cache=grpcs://remote.buildbuddy.io

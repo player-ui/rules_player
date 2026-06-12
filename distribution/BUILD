@@ -1,6 +1,7 @@
 load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
 load("@cgrindel_bazel_starlib//bzlformat:defs.bzl", "bzlformat_missing_pkgs", "bzlformat_pkg")
 load("@rules_kotlin//kotlin:jvm.bzl", "kt_jvm_binary")
+load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
 load("//private:maven.bzl", "artifact")
 
 # TODO: We should probably build this for the archive

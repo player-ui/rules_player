@@ -54,6 +54,8 @@ def xlr_compile(
         entry_point = ":{}".format(player_cli_entrypoint),
     )
 
+    # XLR's readonly output goes to `xlr_out/xlr/` instead of `dist` to prevent errors
+    # when tsup tries to clean `dist`. (Happens in non-sandboxed Xcode builds.)
     js_run_binary(
         name = name,
         tool = js_bin_name,
@@ -63,7 +65,7 @@ def xlr_compile(
             "xlr",
             "compile",
             "-o",
-            paths.join(native.package_name(), "dist"),
+            paths.join(native.package_name(), "xlr_out"),
             "-i",
             paths.join(native.package_name(), input_dir),
             "-c",
@@ -71,6 +73,6 @@ def xlr_compile(
             "-m",
             mode,
         ],
-        out_dirs = [paths.join("dist", "xlr")],
+        out_dirs = [paths.join("xlr_out", "xlr")],
         **kwargs
     )

@@ -1,4 +1,8 @@
 common --enable_bzlmod
+
+# Bazel 9: external modules still using bare native symbols. Auto-inject loads.
+common --incompatible_autoload_externally=+@rules_cc,+@rules_shell
+
 build:release --stamp --workspace_status_command=$(pwd)/workspace_status.sh
 
 build --@aspect_rules_ts//ts:skipLibCheck=always
