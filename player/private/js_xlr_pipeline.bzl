@@ -6,13 +6,13 @@ load("//javascript:defs.bzl", "js_pipeline")
 load("xlr.bzl", "xlr_compile")
 
 def js_xlr_pipeline(
-    name = None, 
-    xlr_mode = "plugin", 
-    xlr_input_dir = "src", 
-    xlr_output_dir = "xlr_out", 
-    srcs = None, c
-    li = "@player-tools/cli", 
-    **kwargs):
+        name = None,
+        xlr_mode = "plugin",
+        xlr_input_dir = "src",
+        xlr_output_dir = "xlr_out",
+        srcs = None,
+        cli = "@player-tools/cli",
+        **kwargs):
     """A rule for compiling player flows with xlr mode.
 
     Args:
