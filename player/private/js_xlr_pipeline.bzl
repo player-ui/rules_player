@@ -52,7 +52,7 @@ def js_xlr_pipeline(
         # when tsup tries to clean `dist`. (Happens in non-sandboxed Xcode builds.) These
         # replace_prefixes ensure the xlr still ends up in `dist` in the final npm package.
         _extra_replace_prefixes = {
-            "{xlr_output_dir}/xlr": "dist/xlr",
+            "{}/xlr".format(xlr_output_dir): "dist/xlr",
         },
         create_package_json_args = {
             "additional_exports": {
