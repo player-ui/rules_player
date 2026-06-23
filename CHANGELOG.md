@@ -1,3 +1,15 @@
+# v2.6.1 (Tue Jun 23 2026)
+
+#### 🐛 Bug Fix
+
+- For Bazel 9: fix string literal xlr_output_dir [#113](https://github.com/player-ui/rules_player/pull/113) ([@KVSRoyal](https://github.com/KVSRoyal))
+
+#### Authors: 1
+
+- Koriann South ([@KVSRoyal](https://github.com/KVSRoyal))
+
+---
+
 # v2.6.0 (Tue Jun 23 2026)
 
 #### 🚀 Enhancement
