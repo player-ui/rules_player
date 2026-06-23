@@ -14,6 +14,7 @@ def xlr_compile(
         data = [],
         config = None,
         input_dir = "src",
+        output_dir = "xlr_out",
         mode = "plugin",
         cli = "@player-tools/cli",
         **kwargs):
@@ -27,6 +28,7 @@ def xlr_compile(
         data: Additional data to use during compilation
         config: An optional config file to pass to the Player CLI
         input_dir: The root input directory to compile
+        output_dir: The output directory to write XLR to. DO NOT use "dist".
         mode: The XLR mode to use when compiling
         **kwargs: Additional arguments to use for running the binary
         cli: the Player cli package to use
@@ -54,6 +56,8 @@ def xlr_compile(
         entry_point = ":{}".format(player_cli_entrypoint),
     )
 
+    # XLR's readonly output goes to `${output_dir}/xlr/` instead of `dist/xlr` to prevent errors
+    # when tsup tries to clean `dist`. (Happens in non-sandboxed Xcode builds.)
     js_run_binary(
         name = name,
         tool = js_bin_name,
@@ -63,7 +67,7 @@ def xlr_compile(
             "xlr",
             "compile",
             "-o",
-            paths.join(native.package_name(), "dist"),
+            paths.join(native.package_name(), output_dir),
             "-i",
             paths.join(native.package_name(), input_dir),
             "-c",
@@ -71,6 +75,6 @@ def xlr_compile(
             "-m",
             mode,
         ],
-        out_dirs = [paths.join("dist", "xlr")],
+        out_dirs = [paths.join(output_dir, "xlr")],
         **kwargs
     )

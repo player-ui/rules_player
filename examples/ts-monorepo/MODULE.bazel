@@ -17,7 +17,9 @@ rules_ts_ext = use_extension(
     "ext",
     dev_dependency = True,
 )
-rules_ts_ext.deps()
+rules_ts_ext.deps(
+    ts_version = "4.5.5",
+)
 use_repo(rules_ts_ext, "npm_typescript")
 
 node = use_extension("@rules_nodejs//nodejs:extensions.bzl", "node")

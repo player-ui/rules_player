@@ -1,1 +1,4 @@
 common --enable_bzlmod
+
+# Bazel 9: external modules still using bare native symbols. Auto-inject loads.
+common --incompatible_autoload_externally=+@rules_cc,+@rules_shell

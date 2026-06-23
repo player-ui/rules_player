@@ -22,6 +22,7 @@ bzl_library(
         "@rules_pkg//:mappings.bzl",
         "@rules_pkg//:pkg.bzl",
         "@rules_pkg//pkg:bzl_srcs",
+        "@rules_shell//shell:rules_bzl",
     ],
 )
 

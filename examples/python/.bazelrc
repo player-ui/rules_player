@@ -1,2 +1,5 @@
 common --enable_bzlmod
 startup --host_jvm_args=-DBAZEL_TRACK_SOURCE_DIRECTORIES=1
+
+# Bazel 9: external modules still using bare native symbols. Auto-inject loads.
+common --incompatible_autoload_externally=+@rules_cc,+@rules_shell
