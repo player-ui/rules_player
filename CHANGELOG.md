@@ -1,3 +1,15 @@
+# v2.6.0 (Tue Jun 23 2026)
+
+#### 🚀 Enhancement
+
+- Migrate to Bazel 9.1.1 [#111](https://github.com/player-ui/rules_player/pull/111) ([@KVSRoyal](https://github.com/KVSRoyal))
+
+#### Authors: 1
+
+- Koriann South ([@KVSRoyal](https://github.com/KVSRoyal))
+
+---
+
 # v2.5.0 (Wed Jun 03 2026)
 
 #### 🚀 Enhancement
