@@ -9,8 +9,8 @@ Public API for Common iOS utils
 <pre>
 load("@rules_player//ios:defs.bzl", "ios_publish")
 
-ios_publish(<a href="#ios_publish-name">name</a>, <a href="#ios_publish-executable">executable</a>, <a href="#ios_publish-globalFlags">globalFlags</a>, <a href="#ios_publish-podspec">podspec</a>, <a href="#ios_publish-pushFlags">pushFlags</a>, <a href="#ios_publish-repository">repository</a>, <a href="#ios_publish-specsRepository">specsRepository</a>, <a href="#ios_publish-stamp">stamp</a>,
-            <a href="#ios_publish-target_branch">target_branch</a>, <a href="#ios_publish-zip">zip</a>)
+ios_publish(<a href="#ios_publish-name">name</a>, <a href="#ios_publish-executable">executable</a>, <a href="#ios_publish-globalFlags">globalFlags</a>, <a href="#ios_publish-podspec">podspec</a>, <a href="#ios_publish-pushFlags">pushFlags</a>, <a href="#ios_publish-repository">repository</a>, <a href="#ios_publish-source_repo">source_repo</a>,
+            <a href="#ios_publish-specsRepository">specsRepository</a>, <a href="#ios_publish-stamp">stamp</a>, <a href="#ios_publish-target_branch">target_branch</a>, <a href="#ios_publish-zip">zip</a>)
 </pre>
 
 
@@ -26,6 +26,7 @@ ios_publish(<a href="#ios_publish-name">name</a>, <a href="#ios_publish-executab
 | <a id="ios_publish-podspec"></a>podspec |  The podspec to push to a specs repo   | <a href="https://bazel.build/concepts/labels">Label</a> | required |  |
 | <a id="ios_publish-pushFlags"></a>pushFlags |  Flags to append to the push command   | List of strings | optional |  `[]`  |
 | <a id="ios_publish-repository"></a>repository |  The git repository to publish zip contents to   | String | optional |  `""`  |
+| <a id="ios_publish-source_repo"></a>source_repo |  Optional GitHub repository as "host/owner/name" (e.g. "github.com/owner/name", including enterprise hosts) this release is generated from. When set, a GitHub Release is created for stable versions, copying the notes from the matching release in the source repo. Leave empty to skip GitHub Release creation.   | String | optional |  `""`  |
 | <a id="ios_publish-specsRepository"></a>specsRepository |  A private specs repository to push to. Otherwise pushes to trunk   | String | optional |  `""`  |
 | <a id="ios_publish-stamp"></a>stamp |  Whether to encode build information into the output. Possible values:<br><br>- `stamp = 1`: Always stamp the build information into the output, even in     [--nostamp](https://docs.bazel.build/versions/main/user-manual.html#flag--stamp) builds.     This setting should be avoided, since it is non-deterministic.     It potentially causes remote cache misses for the target and     any downstream actions that depend on the result. - `stamp = 0`: Never stamp, instead replace build information by constant values.     This gives good build result caching. - `stamp = -1`: Embedding of build information is controlled by the     [--[no]stamp](https://docs.bazel.build/versions/main/user-manual.html#flag--stamp) flag.     Stamped targets are not rebuilt unless their dependencies change.   | Integer | optional |  `-1`  |
 | <a id="ios_publish-target_branch"></a>target_branch |  The branch to use for stable releases   | String | optional |  `"main"`  |
@@ -39,7 +40,7 @@ ios_publish(<a href="#ios_publish-name">name</a>, <a href="#ios_publish-executab
 <pre>
 load("@rules_player//ios:defs.bzl", "spm_publish")
 
-spm_publish(<a href="#spm_publish-name">name</a>, <a href="#spm_publish-repository">repository</a>, <a href="#spm_publish-stamp">stamp</a>, <a href="#spm_publish-target_branch">target_branch</a>, <a href="#spm_publish-zip">zip</a>)
+spm_publish(<a href="#spm_publish-name">name</a>, <a href="#spm_publish-repository">repository</a>, <a href="#spm_publish-source_repo">source_repo</a>, <a href="#spm_publish-stamp">stamp</a>, <a href="#spm_publish-target_branch">target_branch</a>, <a href="#spm_publish-zip">zip</a>)
 </pre>
 
 Publishes an iOS Swift Package Manager release package.
@@ -54,6 +55,7 @@ Use the assemble_package macro from zip.bzl to create the zip first.
 | :------------- | :------------- | :------------- | :------------- | :------------- |
 | <a id="spm_publish-name"></a>name |  A unique name for this target.   | <a href="https://bazel.build/concepts/labels#target-names">Name</a> | required |  |
 | <a id="spm_publish-repository"></a>repository |  The git repository to publish spm zip contents to   | String | optional |  `""`  |
+| <a id="spm_publish-source_repo"></a>source_repo |  Optional GitHub repository as "host/owner/name" (e.g. "github.com/owner/name", including enterprise hosts) this release is generated from. When set, a GitHub Release is created for stable versions, copying the notes from the matching release in the source repo. Leave empty to skip GitHub Release creation.   | String | optional |  `""`  |
 | <a id="spm_publish-stamp"></a>stamp |  Whether to encode build information into the output. Possible values:<br><br>- `stamp = 1`: Always stamp the build information into the output, even in     [--nostamp](https://docs.bazel.build/versions/main/user-manual.html#flag--stamp) builds.     This setting should be avoided, since it is non-deterministic.     It potentially causes remote cache misses for the target and     any downstream actions that depend on the result. - `stamp = 0`: Never stamp, instead replace build information by constant values.     This gives good build result caching. - `stamp = -1`: Embedding of build information is controlled by the     [--[no]stamp](https://docs.bazel.build/versions/main/user-manual.html#flag--stamp) flag.     Stamped targets are not rebuilt unless their dependencies change.   | Integer | optional |  `-1`  |
 | <a id="spm_publish-target_branch"></a>target_branch |  The branch to push the zipped files to   | String | optional |  `"main"`  |
 | <a id="spm_publish-zip"></a>zip |  The zip file to publish (created by assemble_package)   | <a href="https://bazel.build/concepts/labels">Label</a> | required |  |
