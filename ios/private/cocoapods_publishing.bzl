@@ -29,6 +29,7 @@ def _ios_publish_impl(ctx):
         is_executable = True,
         substitutions = {
             "{REPOSITORY}": ctx.attr.repository,
+            "{SOURCE_REPO}": ctx.attr.source_repo,
             "{TARGET_BRANCH}": ctx.attr.target_branch,
             "{ZIP}": ctx.file.zip.basename,
         },
@@ -88,6 +89,12 @@ ios_publish = rule(
         ),
         "repository": attr.string(
             doc = "The git repository to publish zip contents to",
+        ),
+        "source_repo": attr.string(
+            default = "",
+            doc = """
+            Optional GitHub repository as "host/owner/name" (e.g. "github.com/owner/name", including enterprise hosts) this release is generated from. When set, a GitHub Release is created for stable versions, copying the notes from the matching release in the source repo. Leave empty to skip GitHub Release creation.
+            """,
         ),
         "specsRepository": attr.string(
             doc = "A private specs repository to push to. Otherwise pushes to trunk",
