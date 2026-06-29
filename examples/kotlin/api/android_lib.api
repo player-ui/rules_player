@@ -1,0 +1,7 @@
+public final class com/intuit/bazel/kotlin/android/AndroidLib {
+	public fun <init> ()V
+	public final fun add (II)I
+	public final fun getGreeting ()Ljava/lang/String;
+	public final fun greet (Ljava/lang/String;)Ljava/lang/String;
+}
+
