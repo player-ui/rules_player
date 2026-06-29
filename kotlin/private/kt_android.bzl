@@ -168,7 +168,7 @@ def kt_android(
 
     maven_coordinates = "%s:%s:aar:%s" % (group, name, version if version else "{pom_version}") if should_publish else None
 
-    kt_android_library_and_test(
+    base_target = kt_android_library_and_test(
         name = name,
         manifest = manifest,
         tags = ["maven_coordinates=%s" % (maven_coordinates)] if maven_coordinates else None,
@@ -209,7 +209,7 @@ def kt_android(
     if api_file != None:
         abi(
             name = name,
-            target = ":" + name,
+            target = base_target,
             api_file = None if api_file == ABI_FILE_DEFAULT else api_file,
             public_packages = abi_public_packages,
             public_classes = abi_public_classes,

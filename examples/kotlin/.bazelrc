@@ -2,3 +2,9 @@ common --enable_bzlmod
 
 # Bazel 9: external modules still using bare native symbols. Auto-inject loads.
 common --incompatible_autoload_externally=+@rules_cc,+@rules_shell
+
+# The rules_android builder tools require a JDK 17 toolchain.
+common --java_language_version=17
+common --java_runtime_version=17
+common --tool_java_language_version=17
+common --tool_java_runtime_version=17

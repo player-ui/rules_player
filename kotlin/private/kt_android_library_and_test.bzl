@@ -133,3 +133,5 @@ def kt_android_library_and_test(
             test_class = test_class,
             deps = instrumented_test_deps,
         )
+
+    return ":" + base_name
