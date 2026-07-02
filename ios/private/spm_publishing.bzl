@@ -26,6 +26,7 @@ def _spm_publish_impl(ctx):
         is_executable = True,
         substitutions = {
             "{REPOSITORY}": ctx.attr.repository,
+            "{SOURCE_REPO}": ctx.attr.source_repo,
             "{TARGET_BRANCH}": ctx.attr.target_branch,
             "{ZIP}": ctx.file.zip.basename,
         },
@@ -48,6 +49,12 @@ spm_publish = rule(
     attrs = dict({
         "repository": attr.string(
             doc = "The git repository to publish spm zip contents to",
+        ),
+        "source_repo": attr.string(
+            default = "",
+            doc = """
+            Optional GitHub repository as "host/owner/name" (e.g. "github.com/owner/name", including enterprise hosts) this release is generated from. When set, a GitHub Release is created for stable versions, copying the notes from the matching release in the source repo. Leave empty to skip GitHub Release creation.
+            """,
         ),
         "target_branch": attr.string(
             default = "main",
