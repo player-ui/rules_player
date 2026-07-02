@@ -1,3 +1,15 @@
+# v2.6.2 (Thu Jul 02 2026)
+
+#### 🐛 Bug Fix
+
+- `ios_publish` and `spm_publish` with release notes [#114](https://github.com/player-ui/rules_player/pull/114) ([@KVSRoyal](https://github.com/KVSRoyal))
+
+#### Authors: 1
+
+- Koriann South ([@KVSRoyal](https://github.com/KVSRoyal))
+
+---
+
 # v2.6.1 (Tue Jun 23 2026)
 
 #### 🐛 Bug Fix
