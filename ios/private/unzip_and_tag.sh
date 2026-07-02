@@ -69,5 +69,8 @@ if [ -n "$SOURCE_REPO" ] && ! [[ $VERSION_NUMBER =~ "-" ]]; then
     fi
 
     echo "Creating GitHub Release $VERSION_NUMBER with notes from $SOURCE_REPO"
-    gh release create "$VERSION_NUMBER" --title "$VERSION_NUMBER" --notes-file .release-notes.md
+    # Create the release, or update its notes if it already exists (e.g. on a re-run).
+    gh release create "$VERSION_NUMBER" --title "$VERSION_NUMBER" --notes-file .release-notes.md \
+        || gh release edit "$VERSION_NUMBER" --notes-file .release-notes.md \
+        || echo "GitHub Release $VERSION_NUMBER could not be created or updated; skipping."
 fi
