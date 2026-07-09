@@ -1,3 +1,15 @@
+# v2.6.3 (Thu Jul 09 2026)
+
+#### 🐛 Bug Fix
+
+- js_pipeline automatically precompile hbc [#116](https://github.com/player-ui/rules_player/pull/116) ([@brocollie08](https://github.com/brocollie08))
+
+#### Authors: 1
+
+- [@brocollie08](https://github.com/brocollie08)
+
+---
+
 # v2.6.2 (Thu Jul 02 2026)
 
 #### 🐛 Bug Fix
