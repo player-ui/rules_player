@@ -37,6 +37,7 @@ bzl_library(
     ],
     deps = [
         ":eslint",
+        ":hermesc",
         ":package_json",
         ":tsup",
         ":utils",
@@ -45,6 +46,15 @@ bzl_library(
         "@aspect_rules_js//npm:defs",
         "@aspect_rules_ts//ts:defs",
         "@bazel_skylib//rules:expand_template",
+    ],
+)
+
+bzl_library(
+    name = "hermesc",
+    srcs = ["hermesc.bzl"],
+    visibility = [
+        "//docs:__subpackages__",
+        "//javascript:__subpackages__",
     ],
 )
 

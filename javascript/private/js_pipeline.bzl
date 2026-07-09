@@ -7,6 +7,7 @@ load("@aspect_rules_js//npm:defs.bzl", "npm_package")
 load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
 load("@bazel_skylib//rules:expand_template.bzl", "expand_template")
 load(":eslint.bzl", "eslint_test")
+load(":hermesc.bzl", "hermes_bundle")
 load(":package_json.bzl", "create_package_json")
 load(":tsup.bzl", "tsup_build", "tsup_native_build")
 load(":utils.bzl", "filter_empty", "without_tests")
@@ -29,6 +30,7 @@ def js_pipeline(
         node_modules = "//:node_modules",
         deps = [],
         native_bundle = None,
+        emit_hbc = False,
         private = False,
         peer_deps = [],
         create_package_json_args = {},
@@ -55,6 +57,8 @@ def js_pipeline(
       node_modules: The base node_modules to pull dependencies from (defaults to //:node_modules).
       deps: The dependencies for the package.
       native_bundle: The name for the native bundle global if defined.
+      emit_hbc: When True (with native_bundle set), also compile the native bundle to
+        Hermes bytecode, exposed as `:hbc`. Used for cross-platform Android plugins.
       private: Whether or not the package should be private (skipping an npm release).
       create_package_json_args: Additional arguments to pass to the package_json creation
       include_packaging_targets: Additional dependencies to add to the package target
@@ -104,6 +108,14 @@ def js_pipeline(
             data = deps + build_deps + peer_deps + [package_json],
             node_modules = node_modules,
         )
+
+        if emit_hbc:
+            hermes_bundle(
+                name = name + "_hbc",
+                native_bundle = native_bundle_target,
+                bundle_name = native_bundle,
+                visibility = ["//visibility:public"],
+            )
 
     if tsconfig == None:
         tsconfig_name = "{}_tsconfig".format(name)

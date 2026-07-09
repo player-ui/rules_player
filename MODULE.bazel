@@ -26,6 +26,10 @@ rules_ts_ext.deps(
 
 use_repo(rules_ts_ext, "npm_typescript")
 
+# Prebuilt host hermesc, referenced by the hermes_compile rule default.
+hermes_ext = use_extension("//javascript:extensions.bzl", "hermes")
+use_repo(hermes_ext, "rn_hermesc")
+
 bazel_dep(name = "rules_kotlin", version = "2.1.8")
 bazel_dep(name = "rules_java", version = "7.2.0")
 bazel_dep(name = "rules_jvm_external", version = "6.8")
