@@ -67,7 +67,7 @@ A test target that runs eslint on the given sources.
 load("@rules_player//javascript:defs.bzl", "js_pipeline")
 
 js_pipeline(<a href="#js_pipeline-package_name">package_name</a>, <a href="#js_pipeline-name">name</a>, <a href="#js_pipeline-srcs">srcs</a>, <a href="#js_pipeline-package_json">package_json</a>, <a href="#js_pipeline-root_package_json">root_package_json</a>, <a href="#js_pipeline-vitest_config">vitest_config</a>, <a href="#js_pipeline-tsup_config">tsup_config</a>,
-            <a href="#js_pipeline-tsconfig">tsconfig</a>, <a href="#js_pipeline-node_modules">node_modules</a>, <a href="#js_pipeline-deps">deps</a>, <a href="#js_pipeline-native_bundle">native_bundle</a>, <a href="#js_pipeline-emit_hbc">emit_hbc</a>, <a href="#js_pipeline-private">private</a>, <a href="#js_pipeline-peer_deps">peer_deps</a>,
+            <a href="#js_pipeline-tsconfig">tsconfig</a>, <a href="#js_pipeline-node_modules">node_modules</a>, <a href="#js_pipeline-deps">deps</a>, <a href="#js_pipeline-native_bundle">native_bundle</a>, <a href="#js_pipeline-skip_hbc">skip_hbc</a>, <a href="#js_pipeline-private">private</a>, <a href="#js_pipeline-peer_deps">peer_deps</a>,
             <a href="#js_pipeline-create_package_json_args">create_package_json_args</a>, <a href="#js_pipeline-include_packaging_targets">include_packaging_targets</a>, <a href="#js_pipeline-test_deps">test_deps</a>, <a href="#js_pipeline-lint_deps">lint_deps</a>, <a href="#js_pipeline-build_deps">build_deps</a>,
             <a href="#js_pipeline-benchmark_envs">benchmark_envs</a>, <a href="#js_pipeline-_extra_replace_prefixes">_extra_replace_prefixes</a>)
 </pre>
@@ -92,8 +92,8 @@ Creates a js_library, npm_package, and test targets for a given package.
 | <a id="js_pipeline-tsconfig"></a>tsconfig |  Custom tsconfig target to use (defaults to None, which generates one from template).   |  `None` |
 | <a id="js_pipeline-node_modules"></a>node_modules |  The base node_modules to pull dependencies from (defaults to //:node_modules).   |  `"//:node_modules"` |
 | <a id="js_pipeline-deps"></a>deps |  The dependencies for the package.   |  `[]` |
-| <a id="js_pipeline-native_bundle"></a>native_bundle |  The name for the native bundle global if defined.   |  `None` |
-| <a id="js_pipeline-emit_hbc"></a>emit_hbc |  When True (with native_bundle set), also compile the native bundle to Hermes bytecode, exposed as `:hbc`. Used for cross-platform Android plugins.   |  `False` |
+| <a id="js_pipeline-native_bundle"></a>native_bundle |  The name for the native bundle global if defined. By default enables Hermes Byte Code compilation exposed as `:hbc`. Used for cross-platform Android plugins.   |  `None` |
+| <a id="js_pipeline-skip_hbc"></a>skip_hbc |  Whether the HBC compilation should be skipped. Defaults to False   |  `False` |
 | <a id="js_pipeline-private"></a>private |  Whether or not the package should be private (skipping an npm release).   |  `False` |
 | <a id="js_pipeline-peer_deps"></a>peer_deps |  The peer dependencies for the package.   |  `[]` |
 | <a id="js_pipeline-create_package_json_args"></a>create_package_json_args |  Additional arguments to pass to the package_json creation   |  `{}` |

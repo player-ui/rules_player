@@ -30,7 +30,7 @@ def js_pipeline(
         node_modules = "//:node_modules",
         deps = [],
         native_bundle = None,
-        emit_hbc = False,
+        skip_hbc = False,
         private = False,
         peer_deps = [],
         create_package_json_args = {},
@@ -56,9 +56,8 @@ def js_pipeline(
       tsconfig: Custom tsconfig target to use (defaults to None, which generates one from template).
       node_modules: The base node_modules to pull dependencies from (defaults to //:node_modules).
       deps: The dependencies for the package.
-      native_bundle: The name for the native bundle global if defined.
-      emit_hbc: When True (with native_bundle set), also compile the native bundle to
-        Hermes bytecode, exposed as `:hbc`. Used for cross-platform Android plugins.
+      native_bundle: The name for the native bundle global if defined. By default enables Hermes Byte Code compilation exposed as `:hbc`. Used for cross-platform Android plugins.
+      skip_hbc: Whether the HBC compilation should be skipped. Defaults to False
       private: Whether or not the package should be private (skipping an npm release).
       create_package_json_args: Additional arguments to pass to the package_json creation
       include_packaging_targets: Additional dependencies to add to the package target
@@ -109,7 +108,7 @@ def js_pipeline(
             node_modules = node_modules,
         )
 
-        if emit_hbc:
+        if not skip_hbc:
             hermes_bundle(
                 name = name + "_hbc",
                 native_bundle = native_bundle_target,
