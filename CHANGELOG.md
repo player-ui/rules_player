@@ -1,3 +1,23 @@
+# v2.6.4 (Fri Jul 10 2026)
+
+### Release Notes
+
+#### Enable HBC Compilation by Default ([#117](https://github.com/player-ui/rules_player/pull/117))
+
+Enable Hermes Byte Code compilation in `js_pipeline` by default. Disable with `skip_hbc` flag.
+
+---
+
+#### 🐛 Bug Fix
+
+- Enable HBC Compilation by Default [#117](https://github.com/player-ui/rules_player/pull/117) ([@KetanReddy](https://github.com/KetanReddy))
+
+#### Authors: 1
+
+- Ketan Reddy ([@KetanReddy](https://github.com/KetanReddy))
+
+---
+
 # v2.6.3 (Thu Jul 09 2026)
 
 #### 🐛 Bug Fix
