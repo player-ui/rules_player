@@ -33,7 +33,10 @@ cd publishRepo
 git fetch --all
 
 # Switches to the target branch
-git checkout -b $BRANCH
+git checkout -b $BRANCH 
+
+# Delete everything except the LICENSE and .git
+find . -mindepth 1 -maxdepth 1 ! -name LICENSE ! -name .git -exec rm -rf {} +
 
 # Unzip contents and overwrite files in the target repository
 unzip -o ../{ZIP} -d .
