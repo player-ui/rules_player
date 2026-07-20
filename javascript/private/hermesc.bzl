@@ -41,12 +41,12 @@ def _hermes_compile_impl(context):
 hermes_compile = rule(
     implementation = _hermes_compile_impl,
     attrs = {
+        "bundle_name": attr.string(
+            doc = "The `native_bundle` string passed to js_pipeline (e.g. \"Player\").",
+        ),
         "native_bundle": attr.label(
             allow_files = True,
             doc = "The `:<name>_native_bundle` target from js_pipeline.",
-        ),
-        "bundle_name": attr.string(
-            doc = "The `native_bundle` string passed to js_pipeline (e.g. \"Player\").",
         ),
         "_hermesc": attr.label(
             default = Label("@rn_hermesc//:hermesc"),
