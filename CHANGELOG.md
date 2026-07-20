@@ -1,3 +1,15 @@
+# v2.6.5 (Mon Jul 20 2026)
+
+#### 🐛 Bug Fix
+
+- Use prebuilt native.js [#119](https://github.com/player-ui/rules_player/pull/119) ([@brocollie08](https://github.com/brocollie08))
+
+#### Authors: 1
+
+- [@brocollie08](https://github.com/brocollie08)
+
+---
+
 # v2.6.4 (Fri Jul 10 2026)
 
 ### Release Notes
