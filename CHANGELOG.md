@@ -1,3 +1,15 @@
+# v2.6.6 (Mon Jul 20 2026)
+
+#### 🐛 Bug Fix
+
+- When making the ios release, strip the branch down before unzip [#118](https://github.com/player-ui/rules_player/pull/118) ([@KVSRoyal](https://github.com/KVSRoyal))
+
+#### Authors: 1
+
+- Koriann South ([@KVSRoyal](https://github.com/KVSRoyal))
+
+---
+
 # v2.6.5 (Mon Jul 20 2026)
 
 #### 🐛 Bug Fix
