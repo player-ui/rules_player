@@ -1,3 +1,23 @@
+# v2.6.7 (Mon Jul 27 2026)
+
+### Release Notes
+
+#### Fix kt_android emitting an empty ABI .api dump (#112) ([#115](https://github.com/player-ui/rules_player/pull/115))
+
+Fix `kt_android` emitting an empty `.api` ABI dump. `kt_android` libraries that track binary compatibility (`api_file`) now dump the compiled public surface instead of an empty file; generated `-abi-dump` / `-abi-check` / `-abi-update` target names and the `api/{name}.api` path are unchanged, so no consumer action is required.
+
+---
+
+#### 🐛 Bug Fix
+
+- Fix kt_android emitting an empty ABI .api dump (#112) [#115](https://github.com/player-ui/rules_player/pull/115) ([@sugarmanz](https://github.com/sugarmanz))
+
+#### Authors: 1
+
+- Jeremiah Zucker ([@sugarmanz](https://github.com/sugarmanz))
+
+---
+
 # v2.6.6 (Mon Jul 20 2026)
 
 #### 🐛 Bug Fix
