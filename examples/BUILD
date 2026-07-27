@@ -17,6 +17,10 @@ bazel_integration_test(
 
 bazel_integration_test(
     name = "kotlin-test",
+    # Forward $ANDROID_HOME into the sandbox so rules_android's
+    # android_sdk_repository can locate the SDK (aapt2, etc.) for the
+    # kt_android example.
+    additional_env_inherit = ["ANDROID_HOME"],
     bazel_binaries = bazel_binaries,
     bazel_version = bazel_binaries.versions.current,
     test_runner = ":simple_test_runner",

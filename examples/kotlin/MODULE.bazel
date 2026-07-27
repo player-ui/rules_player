@@ -9,9 +9,8 @@ local_path_override(
 )
 
 bazel_dep(name = "rules_kotlin", version = "2.1.8")
-bazel_dep(name = "rules_java", version = "7.2.0")
-bazel_dep(name = "rules_jvm_external", version = "6.9")
-bazel_dep(name = "rules_android", version = "0.7.2")
+bazel_dep(name = "rules_jvm_external", version = "6.8")
+bazel_dep(name = "rules_android", version = "0.7.3")
 
 # Android tooling + SDK so the kt_android example below can build.
 # The SDK is autodetected from $ANDROID_HOME by android_sdk_repository_extension.
