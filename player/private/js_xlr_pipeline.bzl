@@ -40,6 +40,7 @@ def js_xlr_pipeline(
         output_dir = xlr_output_dir,
         data = [
         ] + kwargs.get("deps", []) + kwargs.get("peer_deps", []),
+        npm_package_name = kwargs.get("package_name"),
         cli = cli,
     )
 

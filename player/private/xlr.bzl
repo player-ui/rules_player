@@ -16,6 +16,7 @@ def xlr_compile(
         input_dir = "src",
         output_dir = "xlr_out",
         mode = "plugin",
+        npm_package_name = None,
         cli = "@player-tools/cli",
         **kwargs):
     """
@@ -30,6 +31,8 @@ def xlr_compile(
         input_dir: The root input directory to compile
         output_dir: The output directory to write XLR to. DO NOT use "dist".
         mode: The XLR mode to use when compiling
+        npm_package_name: The npm name of the package being compiled. Bazel only knows the
+          package path, which the npm name cannot be derived from.
         **kwargs: Additional arguments to use for running the binary
         cli: the Player cli package to use
     """
@@ -62,6 +65,8 @@ def xlr_compile(
         name = name,
         tool = js_bin_name,
         srcs = data + srcs + [config],
+        stamp = -1,
+        env = {"XLR_PACKAGE_NAME": npm_package_name} if npm_package_name else {},
         visibility = ["//:__subpackages__"],
         args = [
             "xlr",
