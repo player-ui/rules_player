@@ -62,9 +62,9 @@ def xlr_compile(
     )
 
     platform_env_vars = {
-        "react": "XLR_PACKAGE_NAME",
-        "ios": "XLR_IOS_PACKAGE_NAME",
         "android": "XLR_ANDROID_PACKAGE_NAME",
+        "ios": "XLR_IOS_PACKAGE_NAME",
+        "react": "XLR_PACKAGE_NAME",
     }
     for platform in (package_names or {}).keys():
         if platform not in platform_env_vars:

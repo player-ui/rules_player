@@ -46,9 +46,9 @@ def js_xlr_pipeline(
         data = [
         ] + kwargs.get("deps", []) + kwargs.get("peer_deps", []),
         package_names = {
-            "react": kwargs.get("package_name"),
-            "ios": ios_package_name,
             "android": android_package_name,
+            "ios": ios_package_name,
+            "react": kwargs.get("package_name"),
         },
         cli = cli,
     )
