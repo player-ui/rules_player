@@ -1,3 +1,15 @@
+# v2.7.0 (Wed Sep 09 2026)
+
+#### 🚀 Enhancement
+
+- Pass the package name and stamped version to xlr compile [#120](https://github.com/player-ui/rules_player/pull/120) ([@cehan-Chloe](https://github.com/cehan-Chloe))
+
+#### Authors: 1
+
+- Chloe ([@cehan-Chloe](https://github.com/cehan-Chloe))
+
+---
+
 # v2.6.7 (Mon Jul 27 2026)
 
 ### Release Notes
