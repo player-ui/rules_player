@@ -16,7 +16,7 @@ def xlr_compile(
         input_dir = "src",
         output_dir = "xlr_out",
         mode = "plugin",
-        npm_package_name = None,
+        package_names = None,
         cli = "@player-tools/cli",
         **kwargs):
     """
@@ -31,8 +31,10 @@ def xlr_compile(
         input_dir: The root input directory to compile
         output_dir: The output directory to write XLR to. DO NOT use "dist".
         mode: The XLR mode to use when compiling
-        npm_package_name: The npm name of the package being compiled. Bazel only knows the
-          package path, which the npm name cannot be derived from.
+        package_names: A dict of this package's name on each platform, to stamp into the XLR
+          manifest, e.g. {"react": "@player-ui/foo", "ios": "PlayerUIFoo", "android": "group:foo"}.
+          Bazel only knows the package path, which these names cannot be derived from. Any key
+          may be omitted.
         **kwargs: Additional arguments to use for running the binary
         cli: the Player cli package to use
     """
@@ -59,6 +61,20 @@ def xlr_compile(
         entry_point = ":{}".format(player_cli_entrypoint),
     )
 
+    platform_env_vars = {
+        "android": "XLR_ANDROID_PACKAGE_NAME",
+        "ios": "XLR_IOS_PACKAGE_NAME",
+        "react": "XLR_PACKAGE_NAME",
+    }
+    for platform in (package_names or {}).keys():
+        if platform not in platform_env_vars:
+            fail("package_names has unrecognized platform key %r; must be one of %s" % (platform, sorted(platform_env_vars.keys())))
+    env = {
+        env_var: package_names[platform]
+        for platform, env_var in platform_env_vars.items()
+        if package_names and package_names.get(platform)
+    }
+
     # XLR's readonly output goes to `${output_dir}/xlr/` instead of `dist/xlr` to prevent errors
     # when tsup tries to clean `dist`. (Happens in non-sandboxed Xcode builds.)
     js_run_binary(
@@ -66,7 +82,7 @@ def xlr_compile(
         tool = js_bin_name,
         srcs = data + srcs + [config],
         stamp = -1,
-        env = {"XLR_PACKAGE_NAME": npm_package_name} if npm_package_name else {},
+        env = env,
         visibility = ["//:__subpackages__"],
         args = [
             "xlr",

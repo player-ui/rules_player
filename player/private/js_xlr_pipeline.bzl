@@ -12,6 +12,8 @@ def js_xlr_pipeline(
         xlr_output_dir = "xlr_out",
         srcs = None,
         cli = "@player-tools/cli",
+        ios_package_name = None,
+        android_package_name = None,
         **kwargs):
     """A rule for compiling player flows with xlr mode.
 
@@ -22,6 +24,9 @@ def js_xlr_pipeline(
         xlr_output_dir: The output directory to write XLR to. DO NOT use "dist".
         srcs: An optional list of src files (Defaults to src/**)
         cli: Player CLI to use, defaults to "@player-tools/cli"
+        ios_package_name: The iOS (SPM product) name to stamp into the XLR manifest.
+        android_package_name: The Android (Maven `group:artifact`) name to stamp into the
+          XLR manifest.
         **kwargs: Additional args to pass to the js_pipeline macro
     """
 
@@ -40,7 +45,11 @@ def js_xlr_pipeline(
         output_dir = xlr_output_dir,
         data = [
         ] + kwargs.get("deps", []) + kwargs.get("peer_deps", []),
-        npm_package_name = kwargs.get("package_name"),
+        package_names = {
+            "android": android_package_name,
+            "ios": ios_package_name,
+            "react": kwargs.get("package_name"),
+        },
         cli = cli,
     )
 
