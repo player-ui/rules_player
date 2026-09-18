@@ -8,10 +8,12 @@ load("//player/private:js_xlr_pipeline.bzl", _js_xlr_pipeline = "js_xlr_pipeline
 load("//player/private:kt_player_plugin_wrapper.bzl", _kt_player_plugin_wrapper = "kt_player_plugin_wrapper")
 load("//player/private:mocks.bzl", _compile_mocks = "compile_mocks", _generate_mocks_manifest = "generate_mocks_manifest")
 load("//player/private:xlr.bzl", _xlr_compile = "xlr_compile")
+load("//player/private:xlr_bundle.bzl", _xlr_bundle = "xlr_bundle")
 
 compile = _compile
 dsl_compile = _compile
 xlr_compile = _xlr_compile
+xlr_bundle = _xlr_bundle
 create_base_config = _create_base_config
 js_xlr_pipeline = _js_xlr_pipeline
 compile_mocks = _compile_mocks
