@@ -13,9 +13,7 @@ def xlr_bundle(
         output_dir = "xlr_bundle_out",
         cli = "@player-tools/cli",
         **kwargs):
-    """
-        Collates several `xlr_compile` (or `js_xlr_pipeline`)-produced manifests into one
-        manifest, keyed by type name
+    """Collates several `xlr_compile` (or `js_xlr_pipeline`)-produced manifests into one manifest, keyed by type name.
 
     Args:
         name: The name of the output target.
