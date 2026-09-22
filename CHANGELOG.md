@@ -1,3 +1,15 @@
+# v2.8.0 (Tue Sep 15 2026)
+
+#### 🚀 Enhancement
+
+- Add mobile package name to js_xlr_pipeline [#121](https://github.com/player-ui/rules_player/pull/121) ([@cehan-Chloe](https://github.com/cehan-Chloe))
+
+#### Authors: 1
+
+- Chloe ([@cehan-Chloe](https://github.com/cehan-Chloe))
+
+---
+
 # v2.7.0 (Wed Sep 09 2026)
 
 #### 🚀 Enhancement
