@@ -1,5 +1,5 @@
 """
-A rule for collating several compiled XLR manifests into one, keyed by flow-facing type name.
+A rule for collating several compiled XLR manifests into one, keyed by type name.
 """
 
 load("@aspect_bazel_lib//lib:directory_path.bzl", "directory_path")
@@ -18,12 +18,13 @@ def xlr_bundle(
     Args:
         name: The name of the output target.
         sources: An ordered list of `xlr_compile`/`js_xlr_pipeline`-produced target labels to
-          collate. Each such target's default output is its `<xlr output_dir>/xlr` directory,
-          containing that source's own `manifest.json` directly (not nested under `dist/xlr`, the
-          way an installed npm package would be). Order matters for collision handling downstream
-          (a topic's own choice among duplicate types may depend on which source is
-          considered first), so this is passed explicitly rather than derived from a `deps` list
-          — a Bazel depset's flattened order is not guaranteed stable across builds.
+          collate — order matters for collision handling downstream (a consumer's own choice
+          among duplicate types may depend on which source is considered first), so this isn't
+          derived from a `deps` list (a Bazel depset's flattened order isn't guaranteed stable
+          across builds). Each label's target output is its `<xlr output_dir>/xlr` directory,
+          `manifest.json` directly inside it (not nested under `dist/xlr`, the way an installed
+          npm package would be). A source's `metaData`, if it set any, rides along inside its own
+          manifest — see `xlr_compile`'s `meta_data`; nothing is passed for it here.
         node_modules: A pointer to the node_modules root.
         output_dir: The output directory to write the collated manifest to. DO NOT use "dist".
         cli: the Player cli package to use
