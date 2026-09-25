@@ -39,6 +39,7 @@ def js_pipeline(
         lint_deps = ["//:eslint_config"],
         build_deps = ["//:tsup_config", "//:typings"],
         benchmark_envs = {},
+        xlr_bundle_target = None,
         _extra_replace_prefixes = {}):
     """
     The main entry point for any JS/TS project. `js_pipeline` should be the only thing you need in your BUILD file.
@@ -66,6 +67,7 @@ def js_pipeline(
       lint_deps: The lint dependencies for the package.
       build_deps: The build dependencies for the package.
       benchmark_envs: env args for benchmark runs
+      xlr_bundle_target: Optional label of an `xlr_bundle` target (see `player/private/xlr_bundle.bzl`) whose collated manifest should be added to this package and relocated into the published `dist/xlr/` layout. Assumes `xlr_bundle`'s default `output_dir` ("xlr_bundle_out").
       _extra_replace_prefixes: INTERNAL. Additional `replace_prefixes` entries for the assembled `npm_package`. Used by `js_xlr_pipeline` to relocate XLR outputs from their isolated build-time directory back into the published `dist/xlr/` layout. Do not pass this from BUILD files.
     """
 
@@ -199,16 +201,20 @@ def js_pipeline(
     replacements = {}
     replacements[package_json_name] = "package"
     replacements[ts_types + "/src"] = "types"
+    if xlr_bundle_target:
+        replacements["xlr_bundle_out/xlr"] = "dist/xlr"
     for src, dst in _extra_replace_prefixes.items():
         replacements[src] = dst
 
     readme_files = native.glob(["README.md"], allow_empty = True)
 
+    xlr_bundle_target_dep = [xlr_bundle_target] if xlr_bundle_target else []
+
     npm_package(
         name = name,
         visibility = ["//visibility:public"],
         package = package_name,
-        srcs = [js_library_target, tsup_build_target] + readme_files + include_packaging_targets,
+        srcs = [js_library_target, tsup_build_target] + readme_files + include_packaging_targets + xlr_bundle_target_dep,
         tags = filter_empty([
             "do-not-publish" if private else None,
         ]),

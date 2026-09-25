@@ -17,6 +17,7 @@ def xlr_compile(
         output_dir = "xlr_out",
         mode = "plugin",
         package_names = None,
+        meta_data = None,
         cli = "@player-tools/cli",
         **kwargs):
     """
@@ -35,6 +36,10 @@ def xlr_compile(
           manifest, e.g. {"react": "@player-ui/foo", "ios": "PlayerUIFoo", "android": "group:foo"}.
           Bazel only knows the package path, which these names cannot be derived from. Any key
           may be omitted.
+        meta_data: A dict stamped into the XLR manifest, e.g. {"kind": "reference"}. Carried
+          through by `xlr bundle` onto every entry this package contributes, where it is what
+          tells them apart from another package's entries under the same type name. The Bazel
+          equivalent of `config.xlr.metaData`, which a Bazel build has no config file to read.
         **kwargs: Additional arguments to use for running the binary
         cli: the Player cli package to use
     """
@@ -74,6 +79,11 @@ def xlr_compile(
         for platform, env_var in platform_env_vars.items()
         if package_names and package_names.get(platform)
     }
+
+    if meta_data:
+        if type(meta_data) != "dict":
+            fail("meta_data must be a dict, got %s" % type(meta_data))
+        env["XLR_META_DATA"] = json.encode(meta_data)
 
     # XLR's readonly output goes to `${output_dir}/xlr/` instead of `dist/xlr` to prevent errors
     # when tsup tries to clean `dist`. (Happens in non-sandboxed Xcode builds.)
