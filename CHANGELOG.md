@@ -1,3 +1,15 @@
+# v2.9.0 (Fri Sep 25 2026)
+
+#### 🚀 Enhancement
+
+- Add xlr_bundle rule [#122](https://github.com/player-ui/rules_player/pull/122) ([@cehan-Chloe](https://github.com/cehan-Chloe))
+
+#### Authors: 1
+
+- Chloe ([@cehan-Chloe](https://github.com/cehan-Chloe))
+
+---
+
 # v2.8.0 (Tue Sep 15 2026)
 
 #### 🚀 Enhancement
